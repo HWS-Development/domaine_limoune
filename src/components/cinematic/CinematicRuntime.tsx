@@ -3,11 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Sparkles, X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { defaultLocale, heroVideos, locales, type Locale } from "@/lib/content";
-
-const OFFER_STORAGE_KEY = "limoune-offer-dismissed";
 
 type OfferCopy = {
   ariaLabel: string;
@@ -96,6 +94,11 @@ function getPathLocale(pathname: string | null): Locale {
   return locales.find((locale) => locale === segment) ?? defaultLocale;
 }
 
+function isHomepage(pathname: string | null) {
+  const segments = pathname?.split("/").filter(Boolean) ?? [];
+  return segments.length === 0 || (segments.length === 1 && locales.some((locale) => locale === segments[0]));
+}
+
 function localizedHref(locale: Locale, href: string) {
   return `/${locale}${href.startsWith("/") ? href : `/${href}`}`;
 }
@@ -108,21 +111,24 @@ export function CinematicRuntime() {
   const spotlightRef = useRef<HTMLDivElement>(null);
   const locale = getPathLocale(pathname);
   const offer = offerCopy[locale];
-  const offerEntrance = reduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 34, scale: 0.94, filter: "blur(14px)" };
-  const offerAnimate = reduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" };
-  const offerExit = reduceMotion ? { opacity: 0 } : { opacity: 0, y: 18, scale: 0.98, filter: "blur(8px)" };
+  const isHome = isHomepage(pathname);
+  const offerEntrance = reduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 58, scale: 0.9, rotateX: -10, filter: "blur(18px)" };
+  const offerAnimate = reduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 1, y: 0, scale: 1, rotateX: 0, filter: "blur(0px)" };
+  const offerExit = reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96, rotateX: 8, filter: "blur(10px)" };
 
   useEffect(() => {
     document.body.classList.add("is-cinematic-ready");
 
+    if (!isHome) {
+      return;
+    }
+
     const timer = window.setTimeout(() => {
-      if (window.localStorage.getItem(OFFER_STORAGE_KEY) !== "true") {
-        setOfferOpen(true);
-      }
-    }, 1800);
+      setOfferOpen(true);
+    }, 1250);
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [isHome, pathname]);
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -151,18 +157,6 @@ export function CinematicRuntime() {
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, [reduceMotion]);
-
-  useEffect(() => {
-    if (!offerOpen) return;
-
-    const closeOnScroll = () => {
-      if (window.scrollY > window.innerHeight * 0.75) setOfferOpen(false);
-    };
-
-    closeOnScroll();
-    window.addEventListener("scroll", closeOnScroll, { passive: true });
-    return () => window.removeEventListener("scroll", closeOnScroll);
-  }, [offerOpen]);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -259,7 +253,6 @@ export function CinematicRuntime() {
   }, [reduceMotion]);
 
   const closeOffer = () => {
-    window.localStorage.setItem(OFFER_STORAGE_KEY, "true");
     setOfferOpen(false);
   };
 
@@ -295,8 +288,9 @@ export function CinematicRuntime() {
             </motion.div>
           </motion.div>
         ) : null}
-        {offerOpen ? (
+        {isHome && offerOpen ? (
           <motion.aside
+            role="dialog"
             aria-live="polite"
             aria-label={offer.ariaLabel}
             className={`offer-popover${locale === "ar" ? " is-rtl" : ""}`}
@@ -315,14 +309,6 @@ export function CinematicRuntime() {
               <span className="offer-popover-live"><i aria-hidden="true" />{offer.badge}</span>
             </div>
             <div className="offer-popover-hero">
-              <motion.span
-                className="offer-popover-seal"
-                aria-hidden="true"
-                animate={reduceMotion ? undefined : { rotate: [0, 4, -3, 0], scale: [1, 1.04, 1] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Sparkles className="size-5" />
-              </motion.span>
               <div>
                 <h2>{offer.title}</h2>
                 <p>{offer.lead}</p>
