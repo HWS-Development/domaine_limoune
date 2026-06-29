@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checklist Homepage - Domaine Limoune</title>
+  <style>
+    @page { size: A4; margin: 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #fbf5ea;
+      color: #2f2017;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+    }
+    .document { width: 100%; }
+    .cover {
+      min-height: 246mm;
+      display: grid;
+      align-content: space-between;
+      border: 1px solid rgba(47, 32, 23, 0.16);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.72), transparent 28%),
+        linear-gradient(135deg, #fffefa 0%, #eadcc6 54%, #c96834 100%);
+      padding: 32px;
+      page-break-after: always;
+    }
+    .eyebrow {
+      color: #a95428;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 {
+      margin: 0;
+      color: #24160f;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+    h1 {
+      max-width: 760px;
+      margin-top: 16px;
+      font-size: 43px;
+      line-height: 0.98;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      max-width: 700px;
+      margin-top: 20px;
+      color: #50382a;
+      font-size: 18px;
+    }
+    .meta {
+      display: grid;
+      gap: 7px;
+      color: #5f4534;
+      font-size: 12px;
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 1px solid rgba(47, 32, 23, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 254, 250, 0.58);
+      padding: 0 12px;
+      color: #3a261a;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    section { page-break-inside: avoid; margin-bottom: 18px; }
+    h2 {
+      margin: 0 0 10px;
+      border-top: 1px solid rgba(47, 32, 23, 0.18);
+      padding-top: 16px;
+      font-size: 25px;
+      letter-spacing: 0.025em;
+    }
+    h3 { margin: 0 0 6px; font-size: 16px; }
+    p { margin: 0 0 9px; }
+    .intro {
+      border: 1px solid rgba(47, 32, 23, 0.14);
+      background: rgba(255, 254, 250, 0.72);
+      padding: 14px;
+      color: #4c3628;
+      font-size: 13px;
+    }
+    .check-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      font-size: 11px;
+    }
+    .check-table th,
+    .check-table td {
+      vertical-align: top;
+      border: 1px solid rgba(47, 32, 23, 0.14);
+      padding: 8px 8px;
+    }
+    .check-table th {
+      background: #302017;
+      color: #fff8ee;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-align: left;
+      text-transform: uppercase;
+    }
+    .check-table td:first-child { width: 30%; font-weight: 700; }
+    .check-table td:nth-child(2) { width: 15%; }
+    .status {
+      display: inline-flex;
+      min-height: 22px;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0 8px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .done { background: #eaf4df; color: #31541d; }
+    .partial { background: #fff0d6; color: #835018; }
+    .need { background: #f7dfd4; color: #803719; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card {
+      break-inside: avoid;
+      border: 1px solid rgba(47, 32, 23, 0.14);
+      background: rgba(255, 254, 250, 0.72);
+      padding: 12px;
+      font-size: 11px;
+    }
+    .card strong { display: block; margin-bottom: 4px; color: #24160f; font-size: 12px; }
+    ul { margin: 0; padding-left: 17px; }
+    li { margin: 4px 0; }
+    .note {
+      border-left: 3px solid #c96834;
+      background: #fffefa;
+      padding: 10px 12px;
+      color: #553d2f;
+      font-size: 11px;
+    }
+    .footer-note {
+      margin-top: 14px;
+      color: #755945;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+  <main class="document">
+    <section class="cover">
+      <div>
+        <div class="eyebrow">Domaine Limoune - Checklist homepage</div>
+        <h1>Page d'accueil réalisée selon le cahier des charges</h1>
+        <p class="subtitle">Synthèse client centrée uniquement sur la homepage : conformité aux blocs demandés, éléments déjà intégrés, et contenus nécessaires pour enrichir la version finale avec les médias et informations officielles.</p>
+        <div class="badge-row">
+          <span class="badge">Homepage immersive</span>
+          <span class="badge">Navigation par univers</span>
+          <span class="badge">CTA segmentés</span>
+          <span class="badge">Responsive</span>
+          <span class="badge">Version front-end</span>
+        </div>
+      </div>
+      <div class="meta">
+        <span>Référence : Cahier des charges du nouveau site web Domaine Limoune</span>
+        <span>Périmètre : page d'accueil uniquement</span>
+        <span>Statut : version front-end prête à être enrichie par contenus officiels</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>1. Synthèse exécutive</h2>
+      <div class="intro">
+        La homepage a été construite comme une page d'accueil premium, immersive et orientée conversion. Elle présente le Domaine Limoune comme une destination complète, avec un hero vidéo plein écran, un titre principal premium, une citation d'image, des blocs par univers, des offres, un agenda, une zone presse/distinctions, des parcours de contact et un footer complet.
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Checklist de conformité homepage</h2>
+      <table class="check-table">
+        <thead>
+          <tr>
+            <th>Exigence du cahier</th>
+            <th>Statut</th>
+            <th>Réalisation sur la homepage</th>
+            <th>À fournir pour version finale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hero plein écran avec vidéo ou image forte</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Hero full screen avec vidéo, image de secours, ombrages cinematic, bouton vidéo et CTA de séjour.</td>
+            <td>Vidéo officielle courte du Domaine, format desktop et mobile, plus image poster officielle.</td>
+          </tr>
+          <tr>
+            <td>Titre principal court et premium</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>H1 unique : « Domaine Limoune », animé en fadeInUp cinematic.</td>
+            <td>Validation finale du wording par le client si besoin.</td>
+          </tr>
+          <tr>
+            <td>Sous-titre de positionnement</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Citation premium sous le titre : « Là où les orangers respirent, chaque séjour devient un rituel de lumière. »</td>
+            <td>Validation ton de marque ou proposition d'une signature officielle.</td>
+          </tr>
+          <tr>
+            <td>Bouton « Réserver votre séjour »</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>CTA visible dans le hero et parcours de réservation dans la homepage.</td>
+            <td>Lien moteur de réservation officiel ou URL externe validée.</td>
+          </tr>
+          <tr>
+            <td>Introduction du Domaine</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Bloc éditorial présentant le Domaine comme une destination de séjour, nature, table, spa et célébrations.</td>
+            <td>Texte institutionnel final, histoire officielle, localisation exacte et éléments d'ADN de marque.</td>
+          </tr>
+          <tr>
+            <td>Bloc « Une destination, plusieurs expériences »</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Cartes univers : Séjours, Réserve Africaine, Parc Animalier, Restaurants, Canopy Spa, Expériences, Mariages, Événements d'entreprise.</td>
+            <td>Photos réelles par univers et textes validés par département.</td>
+          </tr>
+          <tr>
+            <td>Bloc Séjours</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Switcher de séjours interactif avec changement automatique toutes les 4 secondes et CTAs de découverte/disponibilités.</td>
+            <td>Photos réelles de chaque suite/lodge, noms officiels, capacités, surfaces et avantages inclus.</td>
+          </tr>
+          <tr>
+            <td>Bloc Réserve Africaine</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Présence dans les univers avec message différenciant : expérience liée à l'hébergement, observation et respect animalier.</td>
+            <td>Photos/vidéos officielles de la réserve, règles d'accès validées et espèces réellement visibles.</td>
+          </tr>
+          <tr>
+            <td>Bloc Parc Animalier</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Présence dans les univers et dans les expériences journée avec CTA de préparation de visite.</td>
+            <td>Liste officielle des espèces, tarifs, horaires, conditions de visite, consignes bien-être animal.</td>
+          </tr>
+          <tr>
+            <td>Bloc Restaurants</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Présentation des restaurants : Massa, Aman sous les Orangers, Monkey Beach et Limoune Club, avec CTA table.</td>
+            <td>Photos réelles, menus PDF, horaires, cuisines, capacités, options privatisation et réservations.</td>
+          </tr>
+          <tr>
+            <td>Bloc Canopy Spa</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Présence dans les univers et dans « À vivre maintenant », avec CTA réserver un soin.</td>
+            <td>Photos officielles, carte spa, horaires validés, soins, hammams, cabines, rituels, conditions d'accès.</td>
+          </tr>
+          <tr>
+            <td>Bloc Événements</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Mariages et événements d'entreprise sont visibles avec CTAs de devis et parcours segmentés.</td>
+            <td>Brochures mariage/corporate, photos événements réels, capacités, espaces, offres groupes et contacts dédiés.</td>
+          </tr>
+          <tr>
+            <td>Bloc Offres du moment</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Section Offres avec cartes premium et popup saisonnier animé en français.</td>
+            <td>Offres réelles, périodes de validité, inclusions, conditions, visuels et liens de réservation/contact.</td>
+          </tr>
+          <tr>
+            <td>Bloc Agenda / événements saisonniers</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Agenda du Domaine avec programmation, filtres visuels et CTAs programmation/réservation.</td>
+            <td>Calendrier réel, dates, horaires, prix, conditions, images et priorités commerciales par événement.</td>
+          </tr>
+          <tr>
+            <td>Avis, presse ou distinctions</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Bloc « Presse & distinctions » pour renforcer la confiance et l'image destination.</td>
+            <td>Articles, récompenses, citations presse, avis clients validés, logos médias et dossier presse officiel.</td>
+          </tr>
+          <tr>
+            <td>Bloc contact rapide</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Hub contact par service : Séjours, Restaurants, Canopy Spa, Mariages, Entreprises, Parc et activités, WhatsApp Business.</td>
+            <td>Numéros, emails, WhatsApp Business, contacts départementaux et règles de routage internes.</td>
+          </tr>
+          <tr>
+            <td>Footer complet</td>
+            <td><span class="status done">Réalisé</span></td>
+            <td>Footer avec logo, coordonnées, univers, services directs, documents, newsletter et liens institutionnels.</td>
+            <td>Coordonnées officielles, réseaux sociaux, documents PDF finaux et mentions légales validées.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>3. Points transverses réalisés</h2>
+      <div class="grid">
+        <div class="card"><strong>Navigation par univers</strong>Header structuré autour des grands univers : Domaine, Séjours, Réserve Africaine, Parc Animalier, Restaurants, Spa, Expériences, Mariages, Événements, Offres, Agenda, Contact, Réserver.</div>
+        <div class="card"><strong>Responsive</strong>Home vérifiée sur mobile, tablette, desktop et grands écrans, avec burger réservé aux petits écrans.</div>
+        <div class="card"><strong>Direction artistique</strong>Palette ivoire, sable, beige chaud, terracotta, brun profond ; ambiance nature premium et hospitalité contemporaine.</div>
+        <div class="card"><strong>Typographies</strong>Fonts locales premium : Goudy pour titres/sous-titres, Calibre pour textes, boutons et navigation.</div>
+        <div class="card"><strong>Animations</strong>FadeInUp cinematic, reveals, popup offre animé, interactions cartes et switch automatique des séjours.</div>
+        <div class="card"><strong>Conversion</strong>CTAs segmentés : séjour, table, soin, devis événement, offres, expériences, contact et WhatsApp Business.</div>
+        <div class="card"><strong>Multilingue technique</strong>Structure de routes prête pour FR, EN, AR, ES, DE. La home actuelle est priorisée en français.</div>
+        <div class="card"><strong>SEO technique</strong>Meta title, meta description, sitemap, robots, alternates et structure de pages en place.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Contenus nécessaires pour enrichir la homepage</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>Photos réelles prioritaires</strong>
+          <ul>
+            <li>Hero homepage en très haute qualité.</li>
+            <li>Jardins, orangers, entrée, lieux de vie.</li>
+            <li>Suites, lodges, réserve, parc animalier.</li>
+            <li>Restaurants, spa, piscine, activités.</li>
+            <li>Mariages, corporate, familles, couples, détails matière.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Vidéos nécessaires</strong>
+          <ul>
+            <li>Vidéo hero courte desktop.</li>
+            <li>Vidéo hero courte mobile verticale ou recadrée.</li>
+            <li>Plan réserve / animaux / lodges.</li>
+            <li>Plan restaurants / spa / piscine / événements.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Textes officiels</strong>
+          <ul>
+            <li>Présentation institutionnelle courte du Domaine.</li>
+            <li>Phrase de positionnement officielle.</li>
+            <li>Descriptions validées par univers.</li>
+            <li>Paragraphes pour offres, agenda et contact par service.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Informations commerciales</strong>
+          <ul>
+            <li>Offres du moment, inclusions, périodes, conditions.</li>
+            <li>Agenda réel, dates, horaires, tarifs éventuels.</li>
+            <li>Liens de réservation séjour, restaurants, spa.</li>
+            <li>Contact WhatsApp et emails par département.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Hébergement</strong>
+          <ul>
+            <li>Noms officiels des catégories.</li>
+            <li>Capacités, surfaces, vues, lits, services inclus.</li>
+            <li>Photos par suite/lodge et ordre de mise en avant.</li>
+            <li>Conditions enfants et informations check-in/check-out.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Restaurants et spa</strong>
+          <ul>
+            <li>Menus PDF ou liens de menus.</li>
+            <li>Horaires exacts et jours d'ouverture.</li>
+            <li>Photos officielles par restaurant.</li>
+            <li>Carte spa, rituels, soins, hammam, piscine chauffée, jacuzzis.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Événements</strong>
+          <ul>
+            <li>Brochure mariage et brochure corporate.</li>
+            <li>Photos d'événements réels.</li>
+            <li>Capacités, espaces, formats, services inclus.</li>
+            <li>Contact dédié et processus de demande devis.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Réassurance</strong>
+          <ul>
+            <li>Avis clients validés.</li>
+            <li>Articles presse et distinctions.</li>
+            <li>Logos médias ou partenaires autorisés.</li>
+            <li>Documents officiels : factsheet, plan, dossier presse.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. Notes importantes</h2>
+      <div class="note">
+        La homepage est réalisée en version front-end premium avec médias temporaires lorsque les visuels officiels ne sont pas encore fournis. Pour atteindre une version finale pleinement fidèle au Domaine Limoune, il est essentiel de remplacer ces visuels par des photos/vidéos réelles, de valider les textes officiels, les offres, les informations pratiques et les contacts par service.
+      </div>
+      <p class="footer-note">Ce document est centré uniquement sur la page d'accueil et ne remplace pas les checklists détaillées des pages internes.</p>
+    </section>
+  </main>
+</body>
+</html>

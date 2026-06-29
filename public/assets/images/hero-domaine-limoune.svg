@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Domaine Limoune cinematic landscape</title>
+  <desc id="desc">Warm premium landscape with orangers, lodges, water and safari silhouettes.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4df"/><stop offset="0.45" stop-color="#dba064"/><stop offset="1" stop-color="#3d2518"/></linearGradient>
+    <radialGradient id="sun" cx="35%" cy="25%" r="35%"><stop stop-color="#fff8ee"/><stop offset="0.42" stop-color="#f4bf75" stop-opacity="0.8"/><stop offset="1" stop-color="#f4bf75" stop-opacity="0"/></radialGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0.13"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="1800" height="1100" fill="url(#sky)"/>
+  <rect width="1800" height="1100" fill="url(#sun)"/>
+  <path d="M0 650C260 570 420 600 630 545C900 475 1100 520 1320 455C1500 400 1660 430 1800 350V1100H0Z" fill="#6f5237" opacity="0.55"/>
+  <path d="M0 740C270 665 520 705 760 625C980 550 1190 615 1420 545C1585 495 1700 520 1800 480V1100H0Z" fill="#3d2518" opacity="0.72"/>
+  <path d="M0 840C330 760 620 805 900 735C1160 670 1450 710 1800 620V1100H0Z" fill="#20140e" opacity="0.75"/>
+  <ellipse cx="900" cy="865" rx="430" ry="92" fill="#fff8ee" opacity="0.25"/>
+  <path d="M520 710h280l48 110H470Z" fill="#b66c43"/><path d="M575 655h180l85 75H492Z" fill="#fff0d6" opacity="0.85"/>
+  <path d="M1110 690h250l42 96h-338Z" fill="#af643f"/><path d="M1150 640h170l80 66h-330Z" fill="#fff0d6" opacity="0.8"/>
+  <g fill="#2a1a12" opacity="0.86"><path d="M1260 810c55-6 82 11 105 35-35 9-87 6-122-5-32-10-44-24 17-30Z"/><path d="M1343 790h15l19 55h-16Z"/><path d="M1295 790h15l-18 54h-16Z"/><circle cx="1384" cy="833" r="10"/></g>
+  <g fill="#d8763e" opacity="0.9"><circle cx="250" cy="650" r="18"/><circle cx="315" cy="675" r="12"/><circle cx="1530" cy="620" r="16"/><circle cx="1600" cy="650" r="11"/></g>
+  <g stroke="#fff8ee" stroke-opacity="0.2" stroke-width="1"><path d="M0 920h1800"/><path d="M0 970h1800"/><path d="M0 1020h1800"/></g>
+  <rect width="1800" height="1100" filter="url(#grain)" opacity="0.5"/>
+</svg>
