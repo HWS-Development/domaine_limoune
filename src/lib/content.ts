@@ -111,20 +111,20 @@ export const localeLabels: Record<Locale, string> = {
 };
 
 export const images = {
-  hero: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2600&q=90",
-  domain: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=90",
-  stays: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=2200&q=90",
-  reserve: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=2200&q=90",
-  park: "https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?auto=format&fit=crop&w=2200&q=90",
-  restaurants: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2200&q=90",
-  spa: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=2200&q=90",
-  summer: "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2200&q=90",
-  pool: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2200&q=90",
-  experiences: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=2200&q=90",
-  weddings: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2200&q=90",
-  corporate: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=2200&q=90",
-  offers: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2200&q=90",
-  agenda: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=2200&q=90",
+  hero: "https://capellahotels.com/assets/img/site_images/ubud/ubud-home01.jpg",
+  domain: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Top-01.jpg",
+  stays: "https://capellahotels.com/assets/img/site_images/ubud/Capella_Ubud_One_Bedroom_Keliki_Valley_Tent1.jpg",
+  reserve: "https://capellahotels.com/assets/img/site_images/ubud/ubud-accommodation-tent-river-exterior.jpg",
+  park: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-06.jpg",
+  restaurants: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Dining-Brasserie-1930-01a.jpg",
+  spa: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Wellness-A-01.jpg",
+  summer: "https://capellahotels.com/assets/img/site_images/bangkok/Capella-Bangkok-Homepage-Gallery-04.jpg",
+  pool: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-06.jpg",
+  experiences: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-01.jpg",
+  weddings: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Private-Dining.jpg",
+  corporate: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Gallery-01a.jpg_.jpg",
+  offers: "https://capellahotels.com/assets/img/site_images/sydney/Sydney_Escape_Web_Exclusive-01.jpg",
+  agenda: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-03.jpg",
 };
 
 export const heroVideos = {
@@ -132,7 +132,7 @@ export const heroVideos = {
   capellaMobile: "https://capellahotels.com/assets/img/site_images/sydney/cpsyd-winter-rituals-2-Mobile.mp4",
   desktop: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
   mobile: "https://videos.pexels.com/video-files/3773486/3773486-hd_1920_1080_30fps.mp4",
-  poster: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-mh-04.jpg",
+  poster: images.hero,
 };
 
 export const navItems = [
@@ -178,7 +178,7 @@ export const navItems = [
   },
   {
     label: "Événements d’entreprise",
-    href: "/corporate-events",
+    href: "/evenements-entreprise",
     description: "Séminaires, activités d’équipe, réunions et privatisations.",
   },
   {
@@ -308,7 +308,7 @@ export const universeCards: Card[] = [
   },
   {
     title: "Événements d’entreprise",
-    href: "/corporate-events",
+    href: "/evenements-entreprise",
     eyebrow: "Séminaires nature",
     text: "Séminaires, activités d’équipe, privatisations, restauration et activités de groupe.",
     image: images.corporate,
@@ -326,6 +326,20 @@ export const universeCards: Card[] = [
   },
 ];
 
+const roomImages = {
+  deluxe: "https://capellahotels.com/assets/img/site_images/sydney/Deluxe_King_Room-01_1.jpg",
+  premier: "https://capellahotels.com/assets/img/site_images/sydney/PREMIER_ROOM_HOMEPAGE_240124.jpg",
+  tower: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Accommodation-Tower-Room-01.jpg",
+  skyline: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Accommodation-Skyline-Room-01a.jpg",
+  accessible: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Accommodation-Premier-Accessible-Room-01.jpg",
+  deluxeSuite: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Accommodation-Deluxe-Suite-01.jpg",
+  skylineSuite: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Accommodation-Skyline-Suite-01.jpg",
+  capellaSuite: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Capella-Suite-07.jpg",
+  farrerSuite: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Farrer-Suite-01.jpg",
+  libertySuite: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Liberty-Suite-01.jpg",
+  macquarieSuite: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Macquarie-Suite-01.jpg",
+};
+
 export const accommodations = [
   {
     slug: "suites",
@@ -333,15 +347,15 @@ export const accommodations = [
     category: "Suites",
     position: "Des suites ouvertes sur les jardins, pensées pour ralentir, se retrouver et vivre le Domaine avec élégance.",
     emotionalText: "Une respiration douce entre matières naturelles, lumière chaude et confort discret, idéale pour une escapade près d’Agadir.",
-    image: images.stays,
-    gallery: [images.stays, images.domain, images.restaurants, images.spa],
+    image: roomImages.deluxeSuite,
+    gallery: [roomImages.deluxeSuite, roomImages.premier, roomImages.skylineSuite, roomImages.capellaSuite],
     capacity: "2 personnes, selon configuration",
     surface: "Surface selon suite et disponibilité",
     bed: "Lit king ou lits jumeaux selon demande",
     view: "Jardins, Domaine ou espaces paysagers",
     meta: ["Suite", "Couple", "Jardins", "Confort"],
     amenities: ["Salle de bain équipée", "Climatisation", "Wi-Fi", "Salon ou coin détente selon unité", "Rangements", "Produits d’accueil"],
-    servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance conciergerie", "Parking selon disponibilité"],
+    servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance conciergerie", "Stationnement selon disponibilité"],
     childConditions: "Enfant accepté selon configuration de la suite, lit bébé ou couchage additionnel sur demande et selon disponibilité.",
     checkIn: "À partir de 15h00, selon politique opérationnelle",
     checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
@@ -352,15 +366,15 @@ export const accommodations = [
     category: "Lodges Safari avec mezzanine",
     position: "Dormir face à la réserve africaine, dans un lodge pensé pour les familles et les séjours immersifs.",
     emotionalText: "Le réveil se fait dans le calme de la réserve, avec une sensation de bout du monde et le confort d’un lodge familial.",
-    image: images.reserve,
-    gallery: [images.reserve, images.park, images.pool, images.domain],
+    image: roomImages.tower,
+    gallery: [roomImages.tower, roomImages.skyline, roomImages.capellaSuite, roomImages.libertySuite],
     capacity: "Jusqu'à 4 personnes",
     surface: "Surface selon configuration",
     bed: "Lit double et couchages mezzanine",
     view: "Vue réserve africaine",
     meta: ["Famille", "Réserve", "Petit-déjeuner", "Piscine"],
     amenities: ["Mezzanine", "Salle de bain équipée", "Climatisation", "Terrasse ou extérieur selon lodge", "Wi-Fi", "Rangements famille"],
-    servicesIncluded: ["Petit-déjeuner inclus selon offre", "Accès piscine selon horaires", "Accès parc animalier selon conditions", "Assistance conciergerie", "Parking selon disponibilité"],
+    servicesIncluded: ["Petit-déjeuner inclus selon offre", "Accès piscine selon horaires", "Accès parc animalier selon conditions", "Assistance conciergerie", "Stationnement selon disponibilité"],
     childConditions: "Adapté aux familles. Surveillance parentale requise sur mezzanine, lit bébé sur demande et activités enfants selon calendrier.",
     checkIn: "À partir de 15h00, selon politique opérationnelle",
     checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
@@ -371,15 +385,15 @@ export const accommodations = [
     category: "Lodges côté piscine ou jardin",
     position: "Des lodges lumineux pour prolonger le séjour autour de la piscine, des jardins et des espaces de détente du Domaine.",
     emotionalText: "Une adresse simple à vivre, proche des lieux de journée, pour alterner baignade, repos et moments sous les orangers.",
-    image: images.pool,
-    gallery: [images.pool, images.stays, images.domain, images.restaurants],
+    image: roomImages.premier,
+    gallery: [roomImages.premier, roomImages.deluxe, roomImages.skyline, roomImages.macquarieSuite],
     capacity: "2 à 3 personnes",
     surface: "Surface selon lodge et disponibilité",
     bed: "Lit double ou lits jumeaux, couchage additionnel selon configuration",
     view: "Piscine ou jardins",
     meta: ["Piscine", "Jardin", "Couple", "Journée"],
     amenities: ["Terrasse ou accès extérieur", "Salle de bain équipée", "Climatisation", "Wi-Fi", "Coin détente", "Produits d’accueil"],
-    servicesIncluded: ["Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance réservation restaurants", "Parking selon disponibilité", "Service conciergerie"],
+    servicesIncluded: ["Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance réservation restaurants", "Stationnement selon disponibilité", "Service conciergerie"],
     childConditions: "Un enfant peut être accueilli selon configuration. Couchage additionnel et équipements bébé sur demande.",
     checkIn: "À partir de 15h00, selon politique opérationnelle",
     checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
@@ -390,13 +404,13 @@ export const accommodations = [
     category: "Suites Junior",
     position: "Une suite élégante pour les courts séjours, les couples et les escapades près d'Agadir.",
     emotionalText: "Le bon format pour une pause raffinée : une chambre généreuse, une atmosphère calme et un accès fluide aux univers du Domaine.",
-    image: images.stays,
-    gallery: [images.stays, images.spa, images.restaurants, images.domain],
+    image: roomImages.deluxe,
+    gallery: [roomImages.deluxe, roomImages.premier, roomImages.accessible, roomImages.deluxeSuite],
     capacity: "2 personnes",
     surface: "Surface selon unité",
     bed: "Lit king ou lits jumeaux",
     view: "Domaine ou jardins",
-    meta: ["Couple", "Confort", "Week-end"],
+    meta: ["Couple", "Confort", "Court séjour"],
     amenities: ["Salon ou coin lecture", "Salle de bain équipée", "Wi-Fi", "Climatisation", "Minibar selon offre", "Produits d’accueil"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance conciergerie", "Réservation prioritaire selon disponibilité"],
     childConditions: "Pensée principalement pour deux personnes. Lit bébé possible sur demande selon disponibilité.",
@@ -405,17 +419,17 @@ export const accommodations = [
   },
   {
     slug: "suite-executive",
-    name: "Suite Executive",
-    category: "Suites Executive",
+    name: "Suite Exécutive",
+    category: "Suites exécutives",
     position: "Un espace plus généreux pour les séjours premium, les voyageurs d’affaires et les longues pauses.",
     emotionalText: "Une suite plus ample, pensée pour travailler, recevoir ou prolonger le séjour sans perdre le calme du Domaine.",
-    image: images.corporate,
-    gallery: [images.corporate, images.stays, images.restaurants, images.domain],
+    image: roomImages.skyline,
+    gallery: [roomImages.skyline, roomImages.tower, roomImages.farrerSuite, roomImages.macquarieSuite],
     capacity: "2 à 3 personnes",
     surface: "Surface selon unité",
     bed: "Lit king, couchage additionnel selon configuration",
     view: "Jardins ou Domaine",
-    meta: ["Executive", "Premium", "Long séjour", "Affaires"],
+    meta: ["Exécutive", "Prestige", "Long séjour", "Affaires"],
     amenities: ["Coin salon", "Bureau", "Wi-Fi", "Climatisation", "Salle de bain équipée", "Rangements", "Minibar selon offre"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Assistance conciergerie", "Accès piscine selon horaires", "Aide organisation réunion ou table selon disponibilité"],
     childConditions: "Enfant accueilli selon configuration. Couchage additionnel sur demande et selon disponibilité.",
@@ -428,8 +442,8 @@ export const accommodations = [
     category: "Suites Familiales",
     position: "Une configuration confortable pour les familles qui veulent vivre le Domaine sans compromis.",
     emotionalText: "Chacun trouve son rythme : les enfants explorent, les parents respirent, et la suite devient le point d’ancrage du séjour.",
-    image: images.park,
-    gallery: [images.park, images.stays, images.pool, images.experiences],
+    image: roomImages.skylineSuite,
+    gallery: [roomImages.skylineSuite, roomImages.deluxeSuite, roomImages.premier, roomImages.capellaSuite],
     capacity: "Jusqu'à 5 personnes",
     surface: "Surface selon unité",
     bed: "Lit double et couchages enfants",
@@ -447,13 +461,13 @@ export const accommodations = [
     category: "Suites Signature",
     position: "La suite de référence pour une expérience plus exclusive, sensorielle et généreuse.",
     emotionalText: "Une adresse plus intime, pensée comme une parenthèse rare avec service attentif, matières chaleureuses et accès privilégié aux rituels du Domaine.",
-    image: images.spa,
-    gallery: [images.spa, images.stays, images.domain, images.restaurants],
+    image: roomImages.capellaSuite,
+    gallery: [roomImages.capellaSuite, roomImages.libertySuite, roomImages.farrerSuite, roomImages.macquarieSuite],
     capacity: "2 personnes",
     surface: "Grande suite selon disponibilité",
     bed: "Lit king",
     view: "Domaine, jardins ou horizon",
-    meta: ["Signature", "Couple", "Spa", "Premium"],
+    meta: ["Signature", "Couple", "Spa", "Prestige"],
     amenities: ["Salon", "Terrasse selon unité", "Salle de bain équipée", "Climatisation", "Wi-Fi", "Produits d’accueil premium", "Rangements"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Assistance conciergerie", "Accès spa selon offre", "Réservation prioritaire selon disponibilité"],
     childConditions: "Format recommandé pour adultes ou couple. Accueil enfant uniquement selon configuration et validation de l’équipe réservation.",
@@ -466,27 +480,27 @@ export const accommodations = [
     category: "Lodges communicants",
     position: "Une solution pratique et premium pour les familles nombreuses, groupes ou séjours multi-générationnels.",
     emotionalText: "Deux espaces proches, une même expérience : chacun garde son intimité tout en partageant les moments forts du Domaine.",
-    image: images.weddings,
-    gallery: [images.weddings, images.stays, images.park, images.pool],
+    image: roomImages.farrerSuite,
+    gallery: [roomImages.farrerSuite, roomImages.skylineSuite, roomImages.deluxeSuite, roomImages.premier],
     capacity: "Selon combinaison de lodges",
     surface: "Selon configuration",
     bed: "Plusieurs couchages selon combinaison",
     view: "Jardins, piscine ou réserve selon disponibilité",
     meta: ["Communicant", "Famille", "Groupes", "Flexible"],
     amenities: ["Configurations flexibles", "Salles de bain équipées", "Climatisation", "Wi-Fi", "Espaces extérieurs selon lodges", "Rangements"],
-    servicesIncluded: ["Assistance réservation groupe", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Coordination activités", "Parking selon disponibilité"],
+    servicesIncluded: ["Assistance réservation groupe", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Coordination activités", "Stationnement selon disponibilité"],
     childConditions: "Adapté aux familles nombreuses. Répartition des enfants selon âge, capacité et validation de l’équipe réservation.",
     checkIn: "À partir de 15h00, selon politique opérationnelle",
     checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
   },
   {
     slug: "suite-lodge-premium",
-    name: "Suite ou Lodge Premium",
+    name: "Suite ou lodge premium",
     category: "Suites ou lodges premium",
     position: "Une sélection premium pour les voyageurs qui recherchent plus d’espace, de calme et de personnalisation.",
     emotionalText: "Le séjour devient plus fluide, plus généreux, avec un niveau d’attention adapté aux occasions spéciales et aux longues pauses.",
-    image: images.offers,
-    gallery: [images.offers, images.reserve, images.spa, images.restaurants],
+    image: roomImages.libertySuite,
+    gallery: [roomImages.libertySuite, roomImages.capellaSuite, roomImages.macquarieSuite, roomImages.skyline],
     capacity: "2 à 4 personnes selon unité",
     surface: "Grande surface selon suite ou lodge attribué",
     bed: "Lit king, lits jumeaux ou couchages additionnels selon configuration",
@@ -661,7 +675,7 @@ const basePages: SitePage[] = [
         body:
           "Les informations d'accès réunissent les distances depuis Agadir, l'aéroport et Taroudant, le plan du Domaine, les contacts par service et les repères pratiques essentiels.",
         facts: [
-          { label: "Accès", value: "Agadir, aéroport et Taroudant à préciser selon données validées" },
+          { label: "Accès", value: "Région Agadir - Taroudant, repères transmis à la réservation" },
           { label: "Univers", value: "Hébergement, restauration, spa, parc, réserve, événements" },
           { label: "Positionnement", value: "Nature premium et hospitalité marocaine contemporaine" },
         ],
@@ -670,7 +684,7 @@ const basePages: SitePage[] = [
         eyebrow: "Pôles",
         title: "Une destination, plusieurs expériences",
         body:
-          "Chaque univers dispose de son propre parcours, de ses appels à l'action, de ses contenus pratiques et de son formulaire ou contact spécifique.",
+          "Chaque univers possède son rythme : séjourner face à la nature, déjeuner sous les orangers, se ressourcer au spa, explorer le parc ou réunir ses invités.",
         cards: universeCards.slice(0, 6),
       },
     ],
@@ -685,8 +699,8 @@ const basePages: SitePage[] = [
     eyebrow: "Suites et lodges",
     summary:
       "Des chambres, suites et lodges pensés pour les couples, familles, séjours premium et expériences safari face à la nature.",
-    heroImage: images.stays,
-    heroAlt: "Lodges et suites du Domaine Limoune",
+    heroImage: roomImages.capellaSuite,
+    heroAlt: "Suite élégante avec matières chaudes et lumière naturelle",
     seoTitle: "Séjours au Domaine Limoune | Suites et lodges safari près d'Agadir",
     seoDescription:
       "Réservez suites, lodges safari avec mezzanine, lodges jardin, suites familiales et hébergements premium au Domaine Limoune près d'Agadir.",
@@ -695,18 +709,29 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Brochure hébergement", href: downloads.accommodation.href, variant: "secondary" },
     sections: [
       {
-        title: "Choisir le séjour juste",
+        eyebrow: "Choisir",
+        title: "Trouver le rythme juste",
         body:
-          "Les filtres éditoriaux doivent orienter rapidement : famille, couple, réserve, piscine, suites, lodges premium ou configurations communicantes.",
-        bullets: ["Suites Junior, Executive, Familiales et Signature", "Lodges Safari avec mezzanine", "Lodges côté piscine, jardin ou communicants"],
+          "Suite dans les jardins, lodge côté piscine, séjour familial ou nuit plus immersive face à la réserve : chaque catégorie répond à une manière différente de vivre le Domaine.",
+        bullets: ["Suites Junior, Exécutives, Familiales et Signature", "Lodges Safari avec mezzanine", "Lodges côté piscine, jardin ou communicants"],
       },
       {
-        title: "Services inclus et conditions",
+        eyebrow: "Avant le séjour",
+        title: "Services, vues et conditions claires",
         body:
-          "Chaque fiche précise capacité, vue, couchage, équipements, services inclus, conditions enfants, check-in, check-out et expériences accessibles pendant le séjour.",
+          "Capacité, couchage, vue, équipements, horaires d’arrivée, services inclus et accueil des enfants sont indiqués pour comparer sans hésitation.",
+        bullets: ["Petit-déjeuner selon offre réservée", "Accès piscine selon horaires", "Restaurants, spa et activités sur demande", "Assistance réservation avant l’arrivée"],
+      },
+      {
+        eyebrow: "Familles et groupes",
+        title: "Des configurations pensées pour partager",
+        body:
+          "Les suites familiales, lodges communicants et hébergements premium permettent de réunir plusieurs générations tout en gardant le calme de chaque espace.",
+        cta: { label: "Demander conseil", href: "/contact?type=sejour", variant: "secondary" },
       },
     ],
     downloads: ["accommodation"],
+    gallery: [roomImages.capellaSuite, roomImages.deluxeSuite, roomImages.skylineSuite, roomImages.premier, roomImages.tower, roomImages.libertySuite],
     faqs: sharedFaqs,
   },
   {
@@ -734,7 +759,7 @@ const basePages: SitePage[] = [
         title: "Règles de respect animalier",
         body:
           "L'expérience repose sur des règles simples : garder les distances, ne pas nourrir les animaux, préserver le calme et suivre les consignes de l'équipe.",
-        bullets: ["Non-nourrissage des animaux", "Observation silencieuse", "Respect des zones et horaires", "Encadrement selon politique opérationnelle"],
+        bullets: ["Non-nourrissage des animaux", "Observation silencieuse", "Respect des zones et horaires", "Accompagnement selon les consignes de l’équipe"],
       },
       {
         title: "Lodges concernés",
@@ -742,6 +767,7 @@ const basePages: SitePage[] = [
         cards: accommodations.slice(0, 2).map(accommodationToCard),
       },
     ],
+    gallery: [images.reserve, images.stays, images.park, images.domain],
     faqs: [sharedFaqs[2], sharedFaqs[0]],
   },
   {
@@ -771,11 +797,18 @@ const basePages: SitePage[] = [
           "Les informations pratiques présentent les tarifs adultes et enfants, horaires, conditions d'accès, formats de visite et offres famille selon la saison.",
         facts: [
           { label: "Tarifs", value: "Adultes et enfants selon saison" },
-          { label: "Accès", value: "Selon calendrier, capacité et politique opérationnelle" },
+          { label: "Accès", value: "Selon calendrier, capacité et conditions du jour" },
           { label: "Règle clé", value: "Ne pas nourrir les animaux" },
         ],
       },
+      {
+        title: "Une visite douce pour les familles",
+        body:
+          "Le parcours privilégie la découverte, les pauses, les explications simples et les règles de calme pour que petits et grands profitent du vivant avec attention.",
+        bullets: ["Parcours famille", "Temps de visite selon saison", "Offres brunch ou journée selon programmation", "Contact conseillé avant déplacement"],
+      },
     ],
+    gallery: [images.park, images.domain, images.experiences, images.restaurants],
     faqs: sharedFaqs,
   },
   {
@@ -796,17 +829,21 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Télécharger les menus", href: downloads.restaurants.href, variant: "secondary" },
     sections: [
       {
-        title: "Chaque restaurant, sa page dédiée",
+        title: "Quatre adresses, quatre moments",
         body:
-          "Chaque restaurant présente son ambiance, sa cuisine, ses horaires, son menu, sa galerie, ses réservations, ses privatisations possibles et ses offres liées.",
+          "Massa Restaurant, Aman sous les Orangers, Monkey Beach et Limoune Club composent une restauration de séjour, de journée et d’événement.",
+        bullets: ["Table signature", "Brunchs et banquets sous les orangers", "Journée piscine et snacking premium", "Soirées, sport et privatisations"],
       },
       {
-        title: "F&B événementiel",
+        title: "Réservations, groupes et privatisations",
         body:
-          "Les restaurants doivent aussi servir les parcours de privatisation, banquets, brunchs, dîners privés, événements d’entreprise et moments saisonniers.",
+          "Les tables du Domaine peuvent accueillir un déjeuner à deux, un brunch familial, un dîner privé, un banquet, une soirée ou un événement d’entreprise selon disponibilité.",
+        cta: { label: "Réserver une table", href: "/contact?type=restaurant" },
+        secondaryCta: { label: "Voir les expériences", href: "/experiences", variant: "secondary" },
       },
     ],
     downloads: ["restaurants"],
+    gallery: [images.restaurants, images.domain, images.pool, images.agenda],
   },
   {
     slug: "canopy-spa",
@@ -826,13 +863,34 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Télécharger la carte spa", href: downloads.spa.href, variant: "secondary" },
     sections: [
       {
+        eyebrow: "Installations",
         title: "Installations et rituels",
         body:
           "Hammams, cabines, cabine duo, piscine chauffée, jacuzzis, salle de sport, manucure, pédicure, coiffure homme et femme, tisanerie et rituels signature composent le parcours.",
-        bullets: ["Horaires soins : 10h - 19h ou horaires validés", "Rituels mariage", "Journée Canopy Spa", "Carte spa téléchargeable"],
+        bullets: ["Horaires soins : 10h - 19h selon calendrier", "Rituels mariage", "Journée Canopy Spa", "Carte spa téléchargeable"],
+      },
+      {
+        eyebrow: "Parcours",
+        title: "Une pause seule, en duo ou avant une célébration",
+        body:
+          "Un soin court, un rituel complet, une cabine duo ou une préparation mariage permettent d’intégrer le spa dans un séjour, une journée ou un événement.",
+        facts: [
+          { label: "Formats", value: "Soin, hammam, rituel, duo" },
+          { label: "Ambiance", value: "Calme, lumière, tisanerie" },
+          { label: "Réservation", value: "Créneau conseillé à l’avance" },
+        ],
+      },
+      {
+        eyebrow: "Invitation",
+        title: "Prolonger le soin par une table ou une nuit",
+        body:
+          "Canopy Spa dialogue naturellement avec les suites, les restaurants et les offres saisonnières pour composer une parenthèse complète.",
+        cta: { label: "Réserver un soin", href: "#lead-form" },
+        secondaryCta: { label: "Voir les offres spa", href: "/offres", variant: "secondary" },
       },
     ],
     downloads: ["spa"],
+    gallery: [images.spa, images.domain, images.pool, images.weddings],
   },
   {
     slug: "experiences",
@@ -841,7 +899,7 @@ const basePages: SitePage[] = [
     title: "Expériences",
     eyebrow: "Signature Limoune",
     summary:
-      "Les expériences deviennent des produits à part entière : elles inspirent, expliquent, rassurent et convertissent.",
+      "Des moments à composer selon l’âge, la saison et l’envie : plein air, famille, gastronomie, sport, calme ou soirée sous les étoiles.",
     heroImage: images.experiences,
     heroAlt: "Activités de plein air et expériences signature au Domaine Limoune",
     seoTitle: "Activités famille Agadir | Expériences Domaine Limoune",
@@ -852,11 +910,22 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Voir l'agenda", href: "/agenda", variant: "secondary" },
     sections: [
       {
+        eyebrow: "Composer",
         title: "Des formats pour chaque public",
         body:
-          "Chaque expérience réunit une description claire, une durée indicative, un public conseillé, les conditions, la réservation et les moments associés.",
+          "Familles, couples, groupes et entreprises peuvent choisir une expérience douce, sportive, gourmande ou nocturne selon la saison et les disponibilités.",
+        bullets: ["Safari Limoune et parc animalier", "Cheval au coucher du soleil, quad, padel et tennis", "Club enfants, chasse au trésor et cinéma familial", "Pique-nique, barbecue, dîner sous les étoiles, atelier cuisine et mixologie"],
+      },
+      {
+        eyebrow: "Conseil",
+        title: "Réserver le bon moment",
+        body:
+          "Certaines expériences dépendent de la météo, de l’âge des participants, de l’encadrement et du calendrier. L’équipe confirme le meilleur créneau avant votre venue.",
+        cta: { label: "Réserver une expérience", href: "/contact?type=activites" },
+        secondaryCta: { label: "Voir l'agenda", href: "/agenda", variant: "secondary" },
       },
     ],
+    gallery: [images.experiences, images.park, images.pool, images.agenda],
   },
   {
     slug: "mariages",
@@ -876,16 +945,37 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Télécharger la brochure", href: downloads.wedding.href, variant: "secondary" },
     sections: [
       {
+        eyebrow: "Célébration",
         title: "Un parcours complet pour les futurs mariés",
         body:
-          "La page structure les lieux, la cérémonie, le dîner, la soirée, le brunch du lendemain, les rituels mariage, l'hébergement invités et la coordination prestataires.",
+          "Cérémonie, dîner, soirée, brunch du lendemain, rituels mariage et hébergement des invités se composent autour de votre nombre d’invités et de l’atmosphère souhaitée.",
         bullets: ["Choix date souhaitée et alternative", "Nombre d'invités", "Budget indicatif", "Document d'inspiration ou plan d'intention"],
+      },
+      {
+        eyebrow: "Moments",
+        title: "Des lieux pour chaque temps fort",
+        body:
+          "Les jardins, les orangers, les restaurants, les espaces de soirée et les hébergements permettent de construire une célébration fluide, de l’arrivée des invités au lendemain.",
+        facts: [
+          { label: "Cérémonie", value: "Jardins et espaces extérieurs" },
+          { label: "Réception", value: "Dîner, soirée, brunch" },
+          { label: "Invités", value: "Hébergement selon disponibilité" },
+        ],
+      },
+      {
+        eyebrow: "Bien-être",
+        title: "Rituels mariage et préparation",
+        body:
+          "Canopy Spa accompagne la préparation des mariés et des proches avec soins, coiffure, manucure, cabine duo et rituels dédiés.",
+        cta: { label: "Demander un devis mariage", href: "#lead-form" },
+        secondaryCta: { label: "Voir Canopy Spa", href: "/canopy-spa", variant: "secondary" },
       },
     ],
     downloads: ["wedding"],
+    gallery: [images.weddings, images.domain, images.restaurants, images.spa],
   },
   {
-    slug: "corporate-events",
+    slug: "evenements-entreprise",
     template: "lead",
     form: "corporate",
     title: "Événements d’entreprise",
@@ -902,24 +992,34 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Brochure entreprise", href: downloads.corporate.href, variant: "secondary" },
     sections: [
       {
-        title: "Espaces, capacités et activités",
+        eyebrow: "Formats",
+        title: "Une journée de travail qui respire",
         body:
-          "Chaque espace peut intégrer surface, capacité théâtre, banquet, cocktail, réunion, équipements techniques, photos, plan, restauration et activités associées.",
+          "Réunion, séminaire, déjeuner, dîner, activité d’équipe ou privatisation peuvent s’organiser dans un cadre naturel qui alterne concentration, respiration et partage.",
         facts: [
           { label: "Formats", value: "Séminaire, réunion, banquet, cocktail, activité d’équipe" },
           { label: "Besoins", value: "Technique, restauration, hébergement, activités" },
-          { label: "Conversion", value: "Formulaire entreprise dédié" },
+          { label: "Demande", value: "Accompagnement par l’équipe événements" },
         ],
+      },
+      {
+        eyebrow: "Équipe",
+        title: "Activités, table et hébergement au même endroit",
+        body:
+          "Après une session de travail, les équipes peuvent prolonger la journée avec un déjeuner, une activité de plein air, une visite, un dîner ou une nuit sur place.",
+        bullets: ["Activités d’équipe et plein air", "Restaurants et pauses gourmandes", "Hébergement selon disponibilité", "Privatisation sur demande"],
+        cta: { label: "Demander un devis entreprise", href: "#lead-form" },
       },
     ],
     downloads: ["corporate"],
+    gallery: [images.corporate, images.domain, images.restaurants, images.experiences],
   },
   {
     slug: "offres",
     template: "collection",
     collection: "offers",
     title: "Offres",
-    eyebrow: "Commercial premium",
+    eyebrow: "Saisons et rituels",
     summary:
       "Des offres saisonnières claires, désirables et segmentées, sans logique de discount agressif.",
     heroImage: images.offers,
@@ -932,11 +1032,21 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Contacter l'équipe", href: "/contact", variant: "secondary" },
     sections: [
       {
-        title: "Filtres commerciaux",
+        eyebrow: "Choisir",
+        title: "Séjour, journée ou rituel de saison",
         body:
-          "La page est prête pour les filtres : toutes les offres, séjours, famille, spa, restaurants, journée, événements et saison.",
+          "Chaque offre met en avant un moment précis : dormir au Domaine, venir en famille, profiter du spa, déjeuner sous les orangers ou vivre une journée piscine.",
+      },
+      {
+        eyebrow: "Conditions",
+        title: "Une proposition claire avant de réserver",
+        body:
+          "Les dates, services inclus, conditions enfants, modalités de réservation et possibilités de prolonger l’expérience sont indiqués pour choisir sereinement.",
+        cta: { label: "Découvrir les offres", href: "#collection" },
+        secondaryCta: { label: "Demander conseil", href: "/contact", variant: "secondary" },
       },
     ],
+    gallery: [images.offers, images.pool, images.stays, images.spa],
   },
   {
     slug: "agenda",
@@ -956,11 +1066,15 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Voir les offres", href: "/offres", variant: "secondary" },
     sections: [
       {
-        title: "Filtres et pages détail",
+        eyebrow: "Rendez-vous",
+        title: "Choisir une date par univers",
         body:
-          "La structure prévoit filtre par date, filtre par univers, page détail événement, bouton réserver et ajout calendrier si l'outil choisi le permet.",
+          "L’agenda rassemble les temps forts par saison et par ambiance : brunchs, soirées, enfants, sport, dîners thématiques et activations spéciales.",
+        bullets: ["Brunchs et déjeuners sous les orangers", "Soirées et dîners thématiques", "Événements enfants et vacances", "Diffusions sportives et rendez-vous saisonniers"],
+        cta: { label: "Réserver un événement", href: "/contact?type=agenda" },
       },
     ],
+    gallery: [images.agenda, images.restaurants, images.pool, images.domain],
   },
   {
     slug: "contact",
@@ -980,13 +1094,26 @@ const basePages: SitePage[] = [
     secondaryCta: { label: "Télécharger la fiche Domaine", href: downloads.factsheet.href, variant: "secondary" },
     sections: [
       {
-        title: "Contacts segmentés",
+        eyebrow: "Orientation",
+        title: "Choisir le bon interlocuteur",
         body:
-          "Le formulaire adapte les champs selon la demande : séjour, restaurant, spa, mariage, entreprise, activités, parc animalier, presse ou autre.",
+          "Séjour, restaurant, spa, mariage, entreprise, activités, parc animalier, presse ou informations générales : votre demande arrive directement à l’équipe concernée.",
         bullets: departments,
+      },
+      {
+        eyebrow: "Avant d’écrire",
+        title: "Les informations utiles à transmettre",
+        body:
+          "Une date, le nombre de personnes, le type de moment souhaité et vos coordonnées permettent à l’équipe de répondre plus vite et plus précisément.",
+        facts: [
+          { label: "Séjour", value: "Dates, adultes, enfants, catégorie souhaitée" },
+          { label: "Table ou spa", value: "Date, horaire, nombre de personnes" },
+          { label: "Événement", value: "Format, invités, budget indicatif" },
+        ],
       },
     ],
     downloads: ["factsheet", "map"],
+    gallery: [images.domain, images.stays, images.restaurants, images.spa],
   },
   {
     slug: "journal",
@@ -1016,7 +1143,7 @@ const basePages: SitePage[] = [
     title: "Espace Presse",
     eyebrow: "Médias et relations presse",
     summary:
-      "Une page pour présenter le Domaine, regrouper communiqués, photos officielles, dossier presse, logos, contacts presse, articles parus et distinctions.",
+      "Un espace pour présenter le Domaine, ses communiqués, photos officielles, dossier presse, logos, contacts médias, articles parus et distinctions.",
     heroImage: images.corporate,
     heroAlt: "Espace presse Domaine Limoune",
     seoTitle: "Presse Domaine Limoune | Dossier presse et contacts médias",
@@ -1049,7 +1176,7 @@ const legalPages: SitePage[] = [
   title,
   eyebrow: "Institutionnel",
   summary:
-    "Cette page réunit les informations légales et institutionnelles du Domaine Limoune.",
+    "Retrouvez les informations légales et institutionnelles du Domaine Limoune.",
   heroImage: images.domain,
   heroAlt: `${title} Domaine Limoune`,
   seoTitle: `${title} | Domaine Limoune`,
@@ -1060,7 +1187,7 @@ const legalPages: SitePage[] = [
     {
       title: "Informations institutionnelles",
       body:
-        "Les informations officielles, documents, coordonnées et dates de mise à jour sont regroupés ici pour une consultation claire.",
+        "Les informations officielles, documents, coordonnées et dates de mise à jour sont présentés pour une consultation claire.",
     },
   ],
 }));
@@ -1105,7 +1232,7 @@ function tupleToCard(
     image,
     alt: `${item[0]} au Domaine Limoune`,
     cta: "Contacter l'équipe",
-    meta: [`Durée à préciser`, `Réservation conseillée`, `Ref. ${index + 1}`],
+    meta: [`Durée selon saison`, `Réservation conseillée`, `Moment ${index + 1}`],
   };
 }
 
@@ -1312,6 +1439,10 @@ export function getBreadcrumbs(locale: Locale, page: SitePage) {
   return items;
 }
 
+function absoluteImageUrl(src: string) {
+  return src.startsWith("http") ? src : `${baseUrl}${src}`;
+}
+
 export function buildStructuredData(locale: Locale, page: SitePage) {
   const pageUrl = getPageUrl(locale, page);
   const breadcrumbs = getBreadcrumbs(locale, page);
@@ -1322,7 +1453,7 @@ export function buildStructuredData(locale: Locale, page: SitePage) {
       "@id": `${baseUrl}/#hotel`,
       name: "Domaine Limoune",
       url: `${baseUrl}/${locale}`,
-      image: `${baseUrl}${images.hero}`,
+      image: absoluteImageUrl(images.hero),
       description:
         "Domaine hôtelier expérientiel près d'Agadir réunissant hébergement, réserve africaine, parc animalier, restaurants, Canopy Spa, mariages, événements et activités.",
       amenityFeature: [

@@ -134,11 +134,11 @@ export function LeadForm({ type }: LeadFormProps) {
     <section id="lead-form" className="rounded-[2rem] border border-[var(--limoune-brown)]/10 bg-white/70 p-5 shadow-[0_24px_70px_rgba(61,37,24,0.1)] backdrop-blur md:p-8">
       <div className="grid gap-3 md:grid-cols-[0.9fr_1.1fr] md:items-end">
         <div>
-          <p className="text-sm font-bold tracking-[0.24em] text-[var(--limoune-orange)] uppercase">Conversion qualifiée</p>
-          <h2 className="mt-3 font-serif text-4xl text-[var(--limoune-brown)] md:text-5xl">Formulaire dédié</h2>
+          <p className="text-sm font-bold tracking-[0.24em] text-[var(--limoune-orange)] uppercase">Demande personnalisée</p>
+          <h2 className="mt-3 font-serif text-4xl text-[var(--limoune-brown)] md:text-5xl">Écrire au bon service</h2>
         </div>
         <p className="text-base leading-7 text-[var(--limoune-muted)]">
-          {"Les champs s'adaptent au service choisi afin de transmettre une demande claire à la bonne équipe."}
+          {"Précisez votre besoin, la date souhaitée et les informations utiles : l’équipe concernée vous répondra avec les bonnes indications."}
         </p>
       </div>
 

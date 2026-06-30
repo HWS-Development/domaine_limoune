@@ -13,13 +13,14 @@ import { Header } from "@/components/layout/Header";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { AccommodationSwitcher } from "./AccommodationSwitcher";
 import {
+  accommodations,
   downloads,
   getCollectionCards,
   heroVideos,
   images,
   localizedHref,
+  type Accommodation,
   type Card,
   type ContentSection,
   type DetailFact,
@@ -148,7 +149,7 @@ const homeStories: StorySection[] = [
     text: "Séminaires, réunions, déjeuners, dîners d’entreprise, privatisations et activités d’équipe associent espaces, restauration, hébergement et activités.",
     image: images.corporate,
     alt: "Séminaire et événement d’entreprise au Domaine Limoune",
-    href: "/corporate-events",
+    href: "/evenements-entreprise",
     cta: "Demander un devis",
     facts: [
       { label: "Formats", value: "Réunion, banquet, cocktail" },
@@ -181,11 +182,21 @@ function Hero({ page, locale }: PageRendererProps) {
     return <HomeMasthead page={page} locale={locale} />;
   }
 
+  const stayItem = getStayItemFromPage(page);
+
+  if (page.slug === "sejours") {
+    return <StayListingHero page={page} locale={locale} />;
+  }
+
+  if (stayItem) {
+    return <StayDetailHero page={page} locale={locale} item={stayItem} />;
+  }
+
   return (
-    <section className="bleed-hero cinematic-hero relative isolate grid min-h-[62dvh] overflow-hidden bg-[var(--limoune-black)] pt-24 text-[var(--limoune-ivory)]">
+    <section className="bleed-hero inner-hero cinematic-hero relative isolate grid min-h-[68dvh] overflow-hidden bg-[var(--limoune-black)] pt-24 text-[var(--limoune-ivory)]">
       <EditorialMedia src={page.heroImage} alt={page.heroAlt} variant="hero" className="cinematic-hero-media absolute inset-0 rounded-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,16,13,0.78),rgba(18,16,13,0.38)_45%,rgba(18,16,13,0.08)_80%)]" />
-      <div className="absolute inset-x-0 bottom-0 h-72 bg-[linear-gradient(0deg,var(--limoune-bg),transparent)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,16,13,0.6),rgba(18,16,13,0.26)_48%,rgba(18,16,13,0.04)_86%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(0deg,var(--limoune-bg),transparent)]" />
       <span className="cinematic-orbit cinematic-orbit-one" aria-hidden="true" />
       <span className="cinematic-orbit cinematic-orbit-two" aria-hidden="true" />
       <div className="relative z-10 mx-auto grid w-full max-w-[1240px] content-end gap-8 px-4 pb-9 md:px-6 md:pb-12 lg:grid-cols-[1fr_380px] lg:items-end">
@@ -202,7 +213,7 @@ function Hero({ page, locale }: PageRendererProps) {
         </Reveal>
 
         <Reveal delay={0.12}>
-          <aside className="border border-white/16 bg-white/[0.07] p-5 backdrop-blur-2xl lg:p-6">
+          <aside className="inner-hero-card border border-white/16 bg-white/[0.07] p-5 backdrop-blur-2xl lg:p-6">
             <button className="group flex min-h-12 items-center gap-3 text-left text-white" type="button" aria-label="Voir la vidéo du Domaine" data-video-trigger>
               <span className="grid size-12 place-items-center rounded-full border border-white/25 bg-white/10 transition group-hover:bg-white group-hover:text-[var(--limoune-brown)]">
                 <Play aria-hidden="true" className="size-4 fill-current" />
@@ -396,9 +407,29 @@ function CapellaCloneAccommodation({ locale }: { locale: Locale }) {
           </Reveal>
         </div>
 
-        <Reveal delay={0.08}>
-          <AccommodationSwitcher cards={cards} locale={locale} />
-        </Reveal>
+        <div className="home-stay-card-grid">
+          {cards.map((card, index) => (
+            <Reveal key={`${card.title}-${index}`} delay={Math.min(index * 0.04, 0.12)}>
+              <Link href={localizedHref(locale, card.href)} className="home-stay-card group">
+                <EditorialMedia src={card.image} alt={card.alt} className="home-stay-card-image" />
+                <span className="home-stay-card-body">
+                  <span className="home-stay-card-kicker">{card.eyebrow}</span>
+                  <span className="home-stay-card-title">{card.title}</span>
+                  <span className="home-stay-card-text">{card.text}</span>
+                  {card.meta?.length ? (
+                    <span className="home-stay-card-meta">
+                      {card.meta.slice(0, 3).map((meta) => <small key={meta}>{meta}</small>)}
+                    </span>
+                  ) : null}
+                  <span className="home-stay-card-cta">
+                    Découvrir
+                    <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
+                  </span>
+                </span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -548,7 +579,7 @@ function CapellaCloneBookBanner({ locale }: { locale: Locale }) {
     { title: "Séjour", text: "Suites, lodges safari, familles et escapades près d’Agadir.", href: "/sejours#booking", cta: "Vérifier" },
     { title: "Table", text: "Massa, Aman sous les Orangers, Monkey Beach et Limoune Club.", href: "/restaurants", cta: "Réserver" },
     { title: "Spa", text: "Soins Canopy, hammam, rituels duo et mariage.", href: "/canopy-spa", cta: "Choisir" },
-    { title: "Événements", text: "Mariages, séminaires, privatisations et activités d’équipe.", href: "/corporate-events", cta: "Demander" },
+    { title: "Événements", text: "Mariages, séminaires, privatisations et activités d’équipe.", href: "/evenements-entreprise", cta: "Demander" },
   ];
 
   return (
@@ -679,7 +710,7 @@ function CapellaClonePrefooter({ locale }: { locale: Locale }) {
     { title: "Restaurants", text: "Table, groupe, brunch ou dîner privé.", href: "/restaurants", cta: "Réserver une table" },
     { title: "Canopy Spa", text: "Soin, hammam, rituel duo ou mariage.", href: "/canopy-spa", cta: "Réserver un soin" },
     { title: "Mariages", text: "Cérémonie, dîner, brunch et hébergement invités.", href: "/mariages", cta: "Demander un devis" },
-    { title: "Entreprises", text: "Séminaire, demande entreprise, activité d’équipe et privatisation.", href: "/corporate-events", cta: "Demander un devis" },
+    { title: "Entreprises", text: "Séminaire, demande entreprise, activité d’équipe et privatisation.", href: "/evenements-entreprise", cta: "Demander un devis" },
     { title: "Parc et activités", text: "Parc animalier, enfants, plein air et journées famille.", href: "/experiences", cta: "Préparer la visite" },
   ];
 
@@ -741,179 +772,424 @@ function CapellaClonePrefooter({ locale }: { locale: Locale }) {
   );
 }
 
-function StoryPanel({ story, locale, reverse = false }: { story: StorySection; locale: Locale; reverse?: boolean }) {
-  return (
-    <section className="px-4 py-14 md:px-6 lg:py-20">
-      <div className={`mx-auto grid max-w-[1240px] gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center ${reverse ? "lg:[&>*:first-child]:order-2" : ""}`}>
-        <Reveal>
-          <EditorialMedia src={story.image} alt={story.alt} className="min-h-[380px] lg:min-h-[520px]" />
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="max-w-xl">
-            <p className="section-kicker">{story.eyebrow}</p>
-            <h2 className="mt-4 font-serif text-[clamp(2.45rem,5vw,5.2rem)] font-medium leading-[0.9] tracking-[-0.055em] text-[var(--limoune-brown)]">
-              {story.title}
-            </h2>
-            <p className="mt-5 text-base leading-8 text-[var(--limoune-muted)]">{story.text}</p>
-            {story.facts ? <div className="mt-8"><FactGrid facts={story.facts} /></div> : null}
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink cta={{ label: story.cta, href: story.href }} locale={locale} />
-              <ButtonLink cta={{ label: "Découvrir", href: story.href, variant: "ghost" }} locale={locale} />
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 function InnerPage({ page, locale }: PageRendererProps) {
   const collectionCards = page.collection ? getCollectionCards(page.collection) : [];
-  const sections = getVisitorSections(page);
-  const contentSections = page.slug.startsWith("sejours/") ? page.sections : [];
+  const collectionIntro = getCollectionIntro(page);
+  const contentSections = page.sections;
+  const hasServiceBlock = Boolean(page.downloads?.length || page.form || page.faqs?.length);
+  const showCollectionFirst = page.template === "collection";
+
+  if (page.slug === "sejours") {
+    return <StayLandingPage page={page} locale={locale} />;
+  }
+
+  const stayItem = getStayItemFromPage(page);
+
+  if (stayItem) {
+    return <StayRoomDetailPage page={page} locale={locale} item={stayItem} />;
+  }
 
   return (
     <>
-      {page.slug === "sejours" ? <BookingWidget locale={locale} /> : null}
-      <section className="section-titlesypnosis capella-stop-section">
-        <div className="capella-template-wrapper">
-          <div className="inner-wrapper clear-end">
-            <Reveal>
-              <div className="section-title srv">
-                <p className="section-kicker">{page.eyebrow}</p>
-                <h2>{page.title}</h2>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="section-synopsis srv indent">
-                <p>{page.summary}</p>
-                {page.details ? <div className="mt-8"><FactGrid facts={page.details} /></div> : null}
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <ButtonLink cta={page.primaryCta} locale={locale} />
-                  {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      <InnerEditorialIntro page={page} locale={locale} />
 
-      {page.gallery?.length ? <PageGallery title={page.title} imagesList={page.gallery} /> : null}
-
-      {contentSections.length > 0 ? <ContentSections sections={contentSections} locale={locale} /> : null}
-
-      {sections.length > 0 ? <VisitorSections sections={sections} locale={locale} /> : null}
-
-      {collectionCards.length > 0 ? (
-        <section id="collection" className="bg-[var(--limoune-ivory)] px-4 py-16 md:px-6 lg:py-24">
-          <div className="mx-auto max-w-[1240px]">
-            <Reveal>
-              <div className="grid gap-5 md:grid-cols-[0.74fr_1fr] md:items-end">
-                <div>
-                  <p className="section-kicker">Collection</p>
-                  <h2 className="section-title">Choisir son expérience</h2>
-                </div>
-                <p className="max-w-2xl text-base leading-8 text-[var(--limoune-muted)]">
-                  {"Des fiches claires pour comparer, comprendre les conditions et réserver le bon service."}
-                </p>
-              </div>
-            </Reveal>
-            <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-              {collectionCards.map((card, index) => (
-                <Reveal key={`${card.title}-${index}`} delay={Math.min(index * 0.035, 0.18)}>
-                  <PremiumCard card={card} locale={locale} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+      {showCollectionFirst && collectionCards.length > 0 ? (
+        <CollectionSection intro={collectionIntro} page={page} cards={collectionCards} locale={locale} />
       ) : null}
 
-       <div className="mx-auto grid max-w-[1240px] gap-10 px-4 py-14 md:px-6 lg:py-20">
-        {page.downloads ? <DownloadBlock keysList={page.downloads} /> : null}
-        {page.form ? <LeadForm type={page.form} /> : null}
-        {page.faqs ? <FaqBlock faqs={page.faqs} /> : null}
-      </div>
+      {contentSections.length > 0 ? <ContentSections page={page} sections={contentSections} locale={locale} /> : null}
+
+      {!showCollectionFirst && collectionCards.length > 0 ? (
+        <CollectionSection intro={collectionIntro} page={page} cards={collectionCards} locale={locale} />
+      ) : null}
+
+      {page.gallery?.length ? <PageGallery title={`${page.title} en images`} imagesList={page.gallery} /> : null}
+
+      {hasServiceBlock ? <InnerServiceBlock page={page} /> : null}
 
       <AwardsAndContact locale={locale} page={page} />
     </>
   );
 }
 
-function PageGallery({ title, imagesList }: { title: string; imagesList: string[] }) {
-  const [main, ...rest] = imagesList;
+type StayCategory = {
+  id: string;
+  nav: string;
+  title: string;
+  subtitle: string;
+  copy: string;
+  items: Accommodation[];
+};
 
-  if (!main) return null;
-
+function StayListingHero({ page, locale }: PageRendererProps) {
   return (
-    <section className="accommodation-detail-gallery bg-[var(--limoune-ivory)] px-4 py-14 md:px-6 lg:py-20">
-      <div className="mx-auto max-w-[1240px]">
+    <section className="stay-capella-hero stay-capella-hero-listing capella-stop-section">
+      <div className="capella-template-wrapper stay-capella-hero-inner">
         <Reveal>
-          <div className="mb-10 grid gap-5 md:grid-cols-[0.72fr_1fr] md:items-end">
+          <div className="stay-capella-hero-copy stay-capella-hero-copy-grid">
             <div>
-              <p className="section-kicker">Galerie immersive</p>
-              <h2 className="section-title">{title} en images</h2>
+              <h1>{page.title}</h1>
+              <p className="stay-capella-subtitle">Suites et lodges au cœur du Domaine Limoune</p>
+              <p>
+                Séjourner au Domaine Limoune, c’est choisir une adresse où nature, hospitalité marocaine contemporaine et expériences familiales se rencontrent à quelques minutes d’Agadir.
+              </p>
+              <p>
+                Suites dans les jardins, lodges côté piscine, hébergements familiaux ou nuit face à la réserve : chaque catégorie répond à une manière différente de vivre le Domaine.
+              </p>
             </div>
-            <p className="max-w-2xl text-base leading-8 text-[var(--limoune-muted)]">
-              Image principale et atmosphères associées pour comprendre la vue, la lumière, les matières et les expériences liées au séjour.
-            </p>
+            <EditorialMedia src={page.heroImage} alt={page.heroAlt} className="stay-capella-hero-image" />
           </div>
         </Reveal>
-        <div className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
-          <Reveal>
-            <EditorialMedia src={main} alt={`${title} image principale`} className="detail-gallery-main" />
-          </Reveal>
-          <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-1">
-            {rest.slice(0, 3).map((image, index) => (
-              <Reveal key={`${image}-${index}`} delay={0.06 + index * 0.035}>
-                <EditorialMedia src={image} alt={`${title} galerie ${index + 1}`} className="detail-gallery-thumb" />
-              </Reveal>
-            ))}
+        <Reveal delay={0.08}>
+          <nav className="stay-capella-breadcrumb" aria-label="Fil d'Ariane">
+            <Link href={localizedHref(locale, "/")}>Domaine Limoune</Link>
+            <span>{page.title}</span>
+          </nav>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function StayDetailHero({ page, locale, item }: { page: SitePage; locale: Locale; item: Accommodation }) {
+  return (
+    <section className="stay-capella-hero stay-capella-hero-detail capella-stop-section">
+      <div className="capella-template-wrapper stay-capella-hero-inner">
+        <Reveal>
+          <div className="stay-capella-hero-copy stay-capella-hero-copy-grid">
+            <div>
+              <h1>{page.title}</h1>
+              <p className="stay-capella-subtitle">{item.position}</p>
+              <p>{item.emotionalText}</p>
+              <p>
+                Cette fiche réunit la galerie, la description complète, les informations pratiques, les équipements, les services inclus et les expériences accessibles pendant le séjour.
+              </p>
+            </div>
+            <EditorialMedia src={item.image} alt={page.heroAlt} className="stay-capella-hero-image" />
           </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <nav className="stay-capella-breadcrumb" aria-label="Fil d'Ariane">
+            <Link href={localizedHref(locale, "/")}>Domaine Limoune</Link>
+            <Link href={localizedHref(locale, "/sejours")}>Séjours</Link>
+            <span>{item.name.toUpperCase()}</span>
+          </nav>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function StayLandingPage({ page, locale }: { page: SitePage; locale: Locale }) {
+  const categories = getStayCategories();
+
+  return (
+    <>
+      <StayEmotionalIntro />
+      <StayCategoryOverview categories={categories} />
+
+      <nav className="stay-category-nav" aria-label="Catégories d'hébergements">
+        <div className="capella-template-wrapper stay-category-nav-inner">
+          {categories.map((category) => (
+            <a key={category.id} href={`#${category.id}`}>
+              <span>{category.nav}</span>
+            </a>
+          ))}
+        </div>
+      </nav>
+
+      <StayAccommodationCollection categories={categories} locale={locale} />
+      <StayBookStayBand locale={locale} cta={page.primaryCta} />
+      <StayGuestServices />
+      <StayConditions />
+      <StayRelatedOffers locale={locale} />
+      <StayContactBlock locale={locale} />
+    </>
+  );
+}
+
+function StayEmotionalIntro() {
+  return (
+    <section className="stay-pdf-section stay-emotional-intro capella-stop-section">
+      <div className="capella-template-wrapper stay-pdf-two-col">
+        <Reveal>
+          <div>
+            <p className="section-kicker">Introduction émotionnelle</p>
+            <h2>Séjours au Domaine.</h2>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="stay-pdf-copy">
+            <p>Le Domaine Limoune réunit hébergement, réserve africaine, parc animalier, restaurants, spa, activités et lieux de vie dans une destination complète.</p>
+            <p>La page Séjours doit aider chaque visiteur à comprendre rapidement quelle catégorie correspond à son rythme : couple, famille, séjour piscine, lodge face à la réserve ou suite plus exclusive.</p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function StayCategoryOverview({ categories }: { categories: StayCategory[] }) {
+  return (
+    <section className="stay-pdf-section stay-category-overview capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="stay-pdf-head">
+            <p className="section-kicker">Présentation des grandes catégories</p>
+            <h2>Choisir par ambiance, besoin et moment du séjour.</h2>
+          </div>
+        </Reveal>
+        <div className="stay-category-overview-grid">
+          {categories.map((category, index) => (
+            <Reveal key={category.id} delay={Math.min(index * 0.04, 0.12)}>
+              <a href={`#${category.id}`} className="stay-category-overview-card group">
+                {category.items[0] ? <EditorialMedia src={category.items[0].image} alt={`${category.title} au Domaine Limoune`} className="stay-category-overview-image" /> : null}
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <strong>{category.title}</strong>
+                <span>{category.subtitle}</span>
+                <em>
+                  Découvrir
+                  <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
+                </em>
+              </a>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function ContentSections({ sections, locale }: { sections: ContentSection[]; locale: Locale }) {
+function StayAccommodationCollection({ categories, locale }: { categories: StayCategory[]; locale: Locale }) {
   return (
-    <section className="bg-[var(--limoune-bg)] px-4 py-14 md:px-6 lg:py-20">
-      <div className="mx-auto grid max-w-[1240px] gap-8">
-        {sections.map((section, index) => (
-          <Reveal key={`${section.title}-${index}`} delay={Math.min(index * 0.035, 0.16)}>
-            <article className="content-section-card cinematic-card border border-[var(--limoune-brown)]/12 bg-[var(--limoune-ivory)]/70 p-5 md:p-8">
-              {section.eyebrow ? <p className="section-kicker">{section.eyebrow}</p> : null}
-              <div className="grid gap-7 lg:grid-cols-[0.68fr_1fr]">
-                <div>
-                  <h2 className="section-title">{section.title}</h2>
-                </div>
-                <div>
-                  <p className="text-base leading-8 text-[var(--limoune-muted)]">{section.body}</p>
-                  {section.facts ? <div className="mt-7"><FactGrid facts={section.facts} /></div> : null}
-                  {section.bullets ? (
-                    <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-                      {section.bullets.map((bullet) => (
-                        <li key={bullet} className="border-t border-[var(--limoune-brown)]/12 pt-3 text-base leading-7 text-[var(--limoune-brown)]">
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  {section.cards ? (
-                    <div className="mt-8 grid gap-5 md:grid-cols-3">
-                      {section.cards.map((card) => <PremiumCard key={card.title} card={card} locale={locale} />)}
-                    </div>
-                  ) : null}
-                  {section.cta ? (
-                    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                      <ButtonLink cta={section.cta} locale={locale} />
-                      {section.secondaryCta ? <ButtonLink cta={section.secondaryCta} locale={locale} /> : null}
-                    </div>
-                  ) : null}
-                </div>
+    <div id="listing-sejours" className="stay-room-sections">
+      {categories.map((category) => (
+        <section key={category.id} id={category.id} className="stay-room-category stay-listing-category capella-stop-section">
+          <div className="capella-template-wrapper">
+            <Reveal>
+              <div className="stay-listing-category-head">
+                <h2>{category.title}</h2>
+                <p className="stay-listing-category-subtitle">{category.subtitle}</p>
+                <p>{category.copy}</p>
               </div>
-            </article>
+            </Reveal>
+
+            <div className="stay-listing-card-grid">
+              {category.items.map((item, index) => (
+                <Reveal key={item.slug} delay={Math.min(index * 0.04, 0.12)}>
+                  <StayListingRoomCard item={item} locale={locale} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+function StayListingRoomCard({ item, locale }: { item: Accommodation; locale: Locale }) {
+  return (
+    <Link href={localizedHref(locale, `/sejours/${item.slug}`)} className="stay-listing-card group">
+      <EditorialMedia src={item.image} alt={`${item.name} au Domaine Limoune`} className="stay-listing-card-image" />
+      <span className="stay-listing-card-body">
+        <span className="stay-listing-card-title">{item.name}</span>
+        <span className="stay-listing-card-copy">{item.position}</span>
+        <span className="stay-listing-card-link">
+          Voir cet hébergement
+          <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+function StayGuestServices() {
+  const services = [
+    "Wi-Fi haut débit dans les espaces prévus du Domaine",
+    "Accueil personnalisé selon la catégorie réservée",
+    "Petit-déjeuner selon l’offre confirmée à la réservation",
+    "Accès piscine selon horaires, saison et conditions opérationnelles",
+    "Assistance conciergerie avant et pendant le séjour",
+    "Réservation des restaurants, du Canopy Spa et des activités sur demande",
+    "Stationnement selon disponibilité",
+    "Lit bébé et équipements famille sur demande",
+    "Accès au parc animalier selon conditions et offre réservée",
+    "Accès à certaines expériences saisonnières selon disponibilité",
+    "Transferts privés disponibles sur demande",
+    "Accompagnement pour occasions spéciales, familles et longs séjours",
+  ];
+
+  return (
+    <section className="stay-guest-services capella-stop-section">
+      <div className="capella-template-wrapper stay-guest-services-inner">
+        <Reveal>
+          <h2>Services inclus</h2>
+        </Reveal>
+        <div className="stay-guest-services-list">
+          {services.map((service, index) => (
+            <Reveal key={service} delay={Math.min(index * 0.018, 0.12)}>
+              <p>{service}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StayConditions() {
+  const conditions = [
+    ["Arrivée et départ", "Check-in à partir de 15h00 et check-out jusqu’à 12h00, avec ajustements possibles selon disponibilité et politique opérationnelle."],
+    ["Capacités", "Les capacités indiquées dépendent de la configuration attribuée. Tout couchage additionnel doit être confirmé par l’équipe réservation."],
+    ["Enfants", "Lit bébé, couchage enfant et équipements famille sont proposés sur demande, selon âge, catégorie et disponibilité."],
+    ["Accès aux univers", "Piscine, parc animalier, réserve, spa, restaurants et activités peuvent être soumis à horaires, saison, conditions d’accès ou réservation préalable."],
+  ];
+
+  return (
+    <section className="stay-conditions-section capella-stop-section">
+      <div className="capella-template-wrapper stay-pdf-two-col">
+        <Reveal>
+          <div>
+            <p className="section-kicker">Conditions générales</p>
+            <h2>Des informations claires avant de confirmer.</h2>
+          </div>
+        </Reveal>
+        <div className="stay-conditions-list">
+          {conditions.map(([title, text], index) => (
+            <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
+              <article>
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StayRelatedOffers({ locale }: { locale: Locale }) {
+  const offers = [
+    ["Séjour Famille", "Une proposition pensée pour les familles, les couchages adaptés et les expériences enfants selon calendrier."],
+    ["Escapade Canopy Spa", "Un séjour ou une journée associant hébergement, calme, soin et rituels bien-être."],
+    ["Safari Lodge Experience", "Une invitation à choisir un lodge lié à la réserve pour une expérience plus immersive."],
+  ];
+
+  return (
+    <section className="stay-related-offers capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="stay-pdf-head">
+            <p className="section-kicker">Offres liées</p>
+            <h2>Des séjours à composer selon la saison.</h2>
+          </div>
+        </Reveal>
+        <div className="stay-related-offers-grid">
+          {offers.map(([title, text], index) => (
+            <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
+              <Link href={localizedHref(locale, "/offres")} className="stay-related-offer-card group">
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <strong>{title}</strong>
+                <span>{text}</span>
+                <em>
+                  Voir les offres
+                  <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
+                </em>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StayBookStayBand({ locale, cta }: { locale: Locale; cta: SitePage["primaryCta"] }) {
+  return (
+    <section id="booking" className="stay-book-band capella-stop-section">
+      <div className="capella-template-wrapper stay-book-band-inner">
+        <Reveal>
+          <div>
+            <h2>Réserver votre séjour</h2>
+            <p>Choisissez vos dates ou demandez conseil à l’équipe réservation pour confirmer la meilleure catégorie selon votre rythme, votre vue souhaitée et la composition du séjour.</p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <ButtonLink cta={cta} locale={locale} />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function StayContactBlock({ locale }: { locale: Locale }) {
+  return (
+    <section className="stay-capella-contact capella-stop-section">
+      <div className="capella-template-wrapper stay-capella-contact-grid">
+        <Reveal>
+          <div className="stay-capella-contact-address">
+            <p>Contact</p>
+            <h2>Domaine Limoune</h2>
+            <address>
+              Région Agadir - Taroudant<br />
+              Maroc
+            </address>
+            <a href={downloads.factsheet.href} data-track="download_factsheet">Voir la fiche Domaine</a>
+            <a href={downloads.accommodation.href} data-track="download_accommodation_pdf">Voir la brochure hébergement</a>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <div className="stay-capella-contact-list">
+            <h3>Nous contacter</h3>
+            {[
+              ["Informations générales", "Contact", "/contact"],
+              ["Réservations hébergement", "Séjour", "/contact?type=sejour"],
+              ["Restaurants", "Tables du Domaine", "/restaurants"],
+              ["Canopy Spa", "Soins et rituels", "/canopy-spa"],
+              ["Mariages et événements", "Demandes privées et corporate", "/contact?type=evenement"],
+              ["Presse", "Demandes médias", "/presse"],
+            ].map(([label, text, href]) => (
+              <Link key={label} href={localizedHref(locale, href)}>
+                <strong>{label}</strong>
+                <span>{text}</span>
+              </Link>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function StayRoomDetailPage({ page, locale, item }: { page: SitePage; locale: Locale; item: Accommodation }) {
+  return (
+    <>
+      <StayDetailGallery item={item} />
+      <StayDetailDescription item={item} />
+      <StayPracticalInfo item={item} />
+      <StayEquipment item={item} />
+      <StayIncludedServices item={item} />
+      <StayAccessibleExperiences item={item} locale={locale} />
+      <StayBookStayBand locale={locale} cta={page.primaryCta} />
+      <StayOtherSuggestions item={item} locale={locale} />
+      <StayContactBlock locale={locale} />
+    </>
+  );
+}
+
+function StayDetailGallery({ item }: { item: Accommodation }) {
+  const gallery = Array.from(new Set([item.image, ...item.gallery])).slice(0, 3);
+
+  return (
+    <section className="stay-detail-gallery capella-stop-section">
+      <div className="capella-template-wrapper stay-detail-gallery-grid">
+        {gallery.map((image, index) => (
+          <Reveal key={`${item.slug}-${image}`} delay={Math.min(index * 0.05, 0.12)}>
+            <EditorialMedia src={image} alt={`${item.name} visuel ${index + 1}`} className={`stay-detail-gallery-image stay-detail-gallery-image-${index + 1}`} />
           </Reveal>
         ))}
       </div>
@@ -921,162 +1197,536 @@ function ContentSections({ sections, locale }: { sections: ContentSection[]; loc
   );
 }
 
-function VisitorSections({ sections, locale }: { sections: StorySection[]; locale: Locale }) {
+function StayDetailDescription({ item }: { item: Accommodation }) {
   return (
-    <>
-      {sections.map((section, index) => (
-        <StoryPanel key={section.title} story={section} locale={locale} reverse={index % 2 === 1} />
-      ))}
-    </>
+    <section className="stay-detail-description capella-stop-section">
+      <div className="capella-template-wrapper stay-pdf-two-col">
+        <Reveal>
+          <div>
+            <p className="section-kicker">Description complète</p>
+            <h2>{item.name}</h2>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="stay-pdf-copy">
+            <p>{item.position}</p>
+            <p>{item.emotionalText}</p>
+            <p>{item.childConditions}</p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
-function getVisitorSections(page: SitePage): StorySection[] {
-  if (page.slug.startsWith("sejours/")) {
-    return [];
-  }
+function StayPracticalInfo({ item }: { item: Accommodation }) {
+  const facts = [
+    ["Capacité", item.capacity],
+    ["Surface", item.surface],
+    ["Type de lit", item.bed],
+    ["Vue", item.view],
+    ["Arrivée", item.checkIn],
+    ["Départ", item.checkOut],
+    ["Conditions enfants", item.childConditions],
+  ];
 
-  if (page.slug.startsWith("restaurants/")) {
+  return (
+    <section className="stay-detail-amenities stay-practical-info capella-stop-section">
+      <div className="capella-template-wrapper stay-detail-amenities-grid">
+        <Reveal>
+          <h2>Informations pratiques</h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="stay-detail-facts">
+            {facts.map(([label, value]) => (
+              <div key={label}>
+                <h3>{label}</h3>
+                <p>{value}</p>
+              </div>
+            ))}
+            <div>
+              <h3>Brochure</h3>
+              <a href={downloads.accommodation.href}>Voir la brochure hébergement</a>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <div className="stay-detail-practical-note">
+            <p>Les surfaces, couchages et vues peuvent varier selon l’unité attribuée et la disponibilité. L’équipe réservation confirme la configuration la plus adaptée avant votre arrivée.</p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function StayEquipment({ item }: { item: Accommodation }) {
+  return (
+    <section className="stay-detail-list-section capella-stop-section">
+      <div className="capella-template-wrapper stay-detail-list-grid">
+        <Reveal>
+          <h2>Équipements</h2>
+        </Reveal>
+        <div className="stay-detail-amenity-list">
+          {item.amenities.map((amenity, index) => (
+            <Reveal key={amenity} delay={Math.min(index * 0.012, 0.14)}>
+              <p>{amenity}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StayIncludedServices({ item }: { item: Accommodation }) {
+  return (
+    <section className="stay-detail-list-section stay-included-services capella-stop-section">
+      <div className="capella-template-wrapper stay-detail-list-grid">
+        <Reveal>
+          <h2>Services inclus</h2>
+        </Reveal>
+        <div className="stay-detail-amenity-list">
+          {item.servicesIncluded.map((service, index) => (
+            <Reveal key={service} delay={Math.min(index * 0.012, 0.14)}>
+              <p>{service}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StayAccessibleExperiences({ item, locale }: { item: Accommodation; locale: Locale }) {
+  const experiences = getStayExperiences(item);
+
+  return (
+    <section className="stay-detail-experiences capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="stay-pdf-head">
+            <p className="section-kicker">Expériences accessibles pendant le séjour</p>
+            <h2>Prolonger la chambre par les univers du Domaine.</h2>
+          </div>
+        </Reveal>
+        <div className="stay-detail-experience-grid">
+          {experiences.map(([title, text, href], index) => (
+            <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
+              <Link href={localizedHref(locale, href)} className="stay-detail-experience-card group">
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <strong>{title}</strong>
+                <span>{text}</span>
+                <em>
+                  Découvrir
+                  <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
+                </em>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StayOtherSuggestions({ item, locale }: { item: Accommodation; locale: Locale }) {
+  const suggestions = getStaySuggestions(item);
+
+  if (!suggestions.length) return null;
+
+  return (
+    <section className="stay-other-suggestions capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <h2>Hébergements similaires</h2>
+        </Reveal>
+        <div className="stay-other-suggestions-grid">
+          {suggestions.map((suggestion, index) => (
+            <Reveal key={suggestion.slug} delay={Math.min(index * 0.05, 0.1)}>
+              <Link href={localizedHref(locale, `/sejours/${suggestion.slug}`)} className="stay-suggestion-card group">
+                <strong>{suggestion.name}</strong>
+                <span>{suggestion.position}</span>
+                <em>
+                  Voir cet hébergement
+                  <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
+                </em>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function getStayItemFromPage(page: SitePage) {
+  if (!page.slug.startsWith("sejours/")) return null;
+
+  const slug = page.slug.replace("sejours/", "");
+  return accommodations.find((item) => item.slug === slug) ?? null;
+}
+
+function getStayCategories(): StayCategory[] {
+  return [
+    {
+      id: "rooms",
+      nav: "Chambres",
+      title: "Chambres et lodges jardin",
+      subtitle: "Un confort calme au cœur du Domaine Limoune",
+      copy: "Les suites junior, suites exécutives et lodges côté piscine ou jardin offrent un point d’ancrage élégant pour alterner repos, table, piscine et découverte du Domaine.",
+      items: getAccommodationsBySlug(["suite-junior", "suite-executive", "lodges-cote-piscine-ou-jardin"]),
+    },
+    {
+      id: "accessible-rooms",
+      nav: "Familles",
+      title: "Familles et lodges communicants",
+      subtitle: "Des configurations pensées pour partager sans perdre en confort",
+      copy: "Suites familiales et lodges communicants facilitent les séjours avec enfants, familles nombreuses ou groupes qui souhaitent garder de l’intimité.",
+      items: getAccommodationsBySlug(["suite-familiale", "lodges-communicants"]),
+    },
+    {
+      id: "suites",
+      nav: "Suites",
+      title: "Suites",
+      subtitle: "Des suites et lodges pour vivre le Domaine avec plus d’espace",
+      copy: "Les suites et le lodge safari avec mezzanine répondent aux séjours qui demandent plus de générosité, de calme ou une relation plus directe avec la réserve.",
+      items: getAccommodationsBySlug(["suites", "lodge-safari-mezzanine"]),
+    },
+    {
+      id: "prestige-suites",
+      nav: "Prestige",
+      title: "Séjours prestige",
+      subtitle: "Les hébergements les plus généreux pour les occasions spéciales",
+      copy: "Suites signature, suites ou lodges premium permettent de construire un séjour plus exclusif, plus spacieux et plus personnalisé.",
+      items: getAccommodationsBySlug(["suite-signature", "suite-lodge-premium"]),
+    },
+  ];
+}
+
+function getAccommodationsBySlug(slugs: string[]) {
+  return slugs
+    .map((slug) => accommodations.find((item) => item.slug === slug))
+    .filter((item): item is Accommodation => Boolean(item));
+}
+
+function getStaySuggestions(item: Accommodation) {
+  const sameCategory = accommodations.filter((candidate) => candidate.slug !== item.slug && candidate.category === item.category);
+  const fallback = accommodations.filter((candidate) => candidate.slug !== item.slug && candidate.category !== item.category);
+  return [...sameCategory, ...fallback].slice(0, 2);
+}
+
+function getStayExperiences(item: Accommodation): [string, string, string][] {
+  const base: [string, string, string][] = [
+    ["Restaurants du Domaine", "Massa, Aman sous les Orangers, Monkey Beach et Limoune Club prolongent le séjour par plusieurs atmosphères de table.", "/restaurants"],
+    ["Canopy Spa", "Soins, hammams, piscine chauffée, jacuzzis et rituels bien-être peuvent compléter la pause.", "/canopy-spa"],
+    ["Expériences en plein air", "Balade à cheval, quad, padel, tennis, pique-nique ou dîner sous les étoiles selon saison et disponibilité.", "/experiences"],
+  ];
+
+  if (item.meta.some((meta) => ["Réserve", "Famille", "Parc animalier"].includes(meta))) {
     return [
-      {
-        eyebrow: "Restaurant",
-        title: "Ambiance, cuisine et moments à partager",
-        text: "Découvrez l’esprit du lieu, les horaires, les menus, les expériences associées et les possibilités de privatisation pour un déjeuner, un dîner ou un événement privé.",
-        image: page.heroImage,
-        alt: page.heroAlt,
-        href: "#lead-form",
-        cta: "Réserver une table",
-        facts: page.details,
-      },
+      ["Réserve africaine", "Une expérience d’hébergement immersive autour de l’observation, du calme et du respect animalier.", "/reserve-africaine"],
+      ["Parc animalier", "Un parcours familial et pédagogique pour découvrir les animaux du Domaine selon conditions d’accès.", "/parc-animalier"],
+      ...base.slice(0, 2),
     ];
   }
 
-  const map: Record<string, StorySection[]> = {
-    "le-domaine": [
-      {
-        eyebrow: "Histoire",
-        title: "Un domaine vivant entre orangers, hospitalité et nature",
-        text: "Domaine Limoune rassemble des jardins, des hébergements, des lieux de restauration, un spa, une réserve, un parc animalier et des espaces d’événements dans un même parcours de destination.",
-        image: images.domain,
-        alt: "Jardins du Domaine Limoune",
-        href: "/sejours",
-        cta: "Découvrir les séjours",
-        facts: [
-          { label: "Situation", value: "Région Agadir - Taroudant" },
-          { label: "Univers", value: "Séjour, journée, événements" },
-          { label: "Ambiance", value: "Nature premium" },
-        ],
-      },
-      {
-        eyebrow: "Accès",
-        title: "Une adresse pensée pour recevoir",
-        text: "La page réunit les informations pratiques, le plan du Domaine, les distances depuis Agadir, l’aéroport et Taroudant, ainsi que les contacts par service.",
-        image: images.corporate,
-        alt: "Accès au Domaine Limoune",
-        href: downloads.map.href,
-        cta: "Télécharger le plan",
-      },
-    ],
-    sejours: [homeStories[0]],
-    "reserve-africaine": [homeStories[1]],
-    "parc-animalier": [homeStories[2]],
-    restaurants: [homeStories[3]],
-    "canopy-spa": [homeStories[4]],
-    experiences: [
-      {
-        eyebrow: "Expériences",
-        title: "Des moments signature à vivre sur place",
-        text: "Safari Limoune, balade à cheval au coucher du soleil, quad, padel, tennis, club enfants, chasse au trésor, pique-nique, barbecue, dîner sous les étoiles, pause thé, brunch familial, atelier cuisine et mixologie.",
-        image: images.experiences,
-        alt: "Expériences au Domaine Limoune",
-        href: "/contact?type=activites",
-        cta: "Réserver une expérience",
-        facts: [
-          { label: "Plein air", value: "Quad, cheval, sports" },
-          { label: "Famille", value: "Club enfants, chasse" },
-          { label: "Gastronomie", value: "Pique-nique, barbecue, atelier" },
-        ],
-      },
-    ],
-    mariages: [
-      {
-        eyebrow: "Mariages",
-        title: "Une célébration sous les orangers",
-        text: "Cérémonie, dîner, soirée, brunch du lendemain, rituels mariage, hébergement invités et coordination se construisent autour de votre rythme et de votre nombre d’invités.",
-        image: images.weddings,
-        alt: "Mariage au Domaine Limoune",
-        href: "#lead-form",
-        cta: "Demander un devis mariage",
-        facts: [
-          { label: "Moments", value: "Cérémonie, dîner, brunch" },
-          { label: "Bien-être", value: "Rituels mariage" },
-          { label: "Invités", value: "Hébergement possible" },
-        ],
-      },
-    ],
-    "corporate-events": [
-      {
-        eyebrow: "Événements d’entreprise",
-        title: "Réunir vos équipes dans un cadre naturel",
-        text: "Séminaires, réunions, activités d’équipe, déjeuners, dîners d’entreprise et privatisations peuvent associer espaces, restauration, hébergement et activités de groupe.",
-        image: images.corporate,
-        alt: "Événement d’entreprise au Domaine Limoune",
-        href: "#lead-form",
-        cta: "Demander un devis",
-        facts: [
-          { label: "Formats", value: "Réunion, banquet, cocktail" },
-          { label: "Activités", value: "Équipe" },
-          { label: "Support", value: "Brochure entreprise" },
-        ],
-      },
-    ],
-    offres: [
-      {
-        eyebrow: "Offres",
-        title: "Des invitations saisonnières à vivre le Domaine",
-        text: "Séjours, famille, spa, restaurants, journées piscine, parc animalier et expériences safari se déclinent en offres ponctuelles sans perdre l’esprit premium du lieu.",
-        image: images.offers,
-        alt: "Offres Domaine Limoune",
-        href: "/contact",
-        cta: "Contacter l’équipe",
-      },
-    ],
-    agenda: [
-      {
-        eyebrow: "Agenda",
-        title: "Brunchs, soirées et temps forts du Domaine",
-        text: "La programmation rassemble brunchs, soirées, diffusions sportives, activations été, événements enfants, Ramadan, Été Limoune et dîners thématiques.",
-        image: images.agenda,
-        alt: "Agenda Domaine Limoune",
-        href: "/contact?type=agenda",
-        cta: "Réserver un événement",
-      },
-    ],
-    contact: [
-      {
-        eyebrow: "Contact",
-        title: "Une demande, le bon service",
-        text: "Séjour, restaurant, spa, mariage, entreprise, activités, parc animalier, presse ou informations générales : chaque demande est orientée vers l’équipe concernée.",
-        image: images.domain,
-        alt: "Contact Domaine Limoune",
-        href: "#lead-form",
-        cta: "Choisir votre demande",
-      },
-    ],
+  return base;
+}
+
+function InnerEditorialIntro({ page, locale }: PageRendererProps) {
+  const gallery = page.gallery ?? [];
+  const sideImage = gallery[1] ?? gallery[0] ?? page.heroImage;
+  const intro = getInnerIntro(page);
+
+  return (
+    <section className="section-titlesypnosis inner-capella-intro capella-stop-section">
+      <div className="capella-template-wrapper">
+        <div className="inner-wrapper clear-end">
+          <Reveal>
+            <div className="section-title srv inner-intro-title">
+              <p className="section-kicker">{page.eyebrow}</p>
+              <h2>{intro.title}</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="section-synopsis srv indent inner-intro-copy">
+              <p>{intro.copy}</p>
+              {page.details ? <div className="inner-intro-facts"><FactGrid facts={page.details} /></div> : null}
+              <div className="luxury-actions">
+                <ButtonLink cta={page.primaryCta} locale={locale} />
+                {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+              </div>
+              <EditorialMedia src={sideImage} alt={`${page.title} - atmosphère Domaine Limoune`} className="synopsis-visual inner-intro-visual" />
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function getInnerIntro(page: SitePage) {
+  const map: Record<string, { title: string; copy: string }> = {
+    "le-domaine": {
+      title: "Une destination, plusieurs expériences.",
+      copy: "Le Domaine se découvre comme un lieu de vie complet : jardins, orangers, séjours, table, spa, parc animalier, réserve et événements réunis dans un parcours clair.",
+    },
+    "reserve-africaine": {
+      title: "Dormir face à la réserve.",
+      copy: "La Réserve Africaine n’est pas une visite isolée : elle appartient à l’expérience d’hébergement, dans un rapport calme à l’observation et au respect animalier.",
+    },
+    "parc-animalier": {
+      title: "Découvrir le vivant en famille.",
+      copy: "Le parc animalier est pensé comme une sortie douce et pédagogique, avec conditions d’accès, horaires, tarifs et règles de bien-être animal clairement présentés.",
+    },
+    restaurants: {
+      title: "Quatre tables, quatre atmosphères.",
+      copy: "Massa Restaurant, Aman sous les Orangers, Monkey Beach et Limoune Club répondent à des moments différents : séjour, brunch, piscine, soirée ou privatisation.",
+    },
+    "canopy-spa": {
+      title: "Un refuge de lumière et de calme.",
+      copy: "Canopy Spa prolonge l’expérience du Domaine avec soins, hammams, rituels, piscine chauffée, jacuzzis, tisanerie et formats dédiés aux mariages.",
+    },
+    experiences: {
+      title: "Composer un moment signature.",
+      copy: "Familles, couples, groupes et entreprises peuvent choisir une expérience outdoor, sportive, gourmande, nocturne ou bien-être selon la saison.",
+    },
+    mariages: {
+      title: "Célébrer sous les orangers.",
+      copy: "La page mariage doit guider les futurs mariés depuis la première intention jusqu’à la demande de devis : lieux, dîner, soirée, brunch, spa et hébergement invités.",
+    },
+    "evenements-entreprise": {
+      title: "Réunir vos équipes dans un domaine vivant.",
+      copy: "Séminaires, réunions, activités d’équipe, repas d’entreprise et privatisations peuvent associer espaces, restauration, hébergement et expériences de groupe.",
+    },
+    offres: {
+      title: "Des invitations saisonnières.",
+      copy: "Les offres valorisent des moments précis sans logique de discount agressif : séjour, famille, spa, brunch, piscine, réserve ou saison.",
+    },
+    agenda: {
+      title: "Les temps forts du Domaine.",
+      copy: "Brunchs, soirées, événements enfants, dîners thématiques, diffusions sportives et activations saisonnières donnent une raison de revenir au bon moment.",
+    },
+    contact: {
+      title: "Une demande, le bon service.",
+      copy: "Le contact n’est pas un formulaire générique : chaque demande doit être orientée vers l’équipe concernée pour accélérer la réponse.",
+    },
+    journal: {
+      title: "Carnets, saisons et inspirations.",
+      copy: "Le Journal sert le référencement et l’image de destination en racontant les saisons, les expériences famille, les animaux, les recettes, le spa et les événements.",
+    },
+    presse: {
+      title: "Raconter le Domaine avec précision.",
+      copy: "L’espace presse rassemble dossier, factsheet, contacts médias, éléments institutionnels et contenus officiels pour faciliter la prise de parole.",
+    },
   };
 
-  return map[page.slug] ?? [];
+  return map[page.slug] ?? { title: page.title, copy: page.summary };
+}
+
+function getCollectionIntro(page: SitePage) {
+  const fallback = {
+    kicker: "Collection",
+    title: "Choisir son expérience",
+    copy: "Des fiches claires pour comparer, comprendre les conditions et réserver le bon service.",
+  };
+
+  if (page.slug === "sejours") {
+    return {
+      kicker: "Hébergements",
+      title: "Suites, lodges et séjours signature",
+      copy: "Comparez les catégories, les ambiances, les vues et les configurations pour choisir le séjour adapté à votre rythme.",
+    };
+  }
+
+  if (page.slug === "restaurants") {
+    return {
+      kicker: "Tables du Domaine",
+      title: "Choisir son restaurant",
+      copy: "Chaque adresse possède son atmosphère, sa cuisine, ses horaires et son parcours de réservation ou de privatisation.",
+    };
+  }
+
+  if (page.slug === "experiences") {
+    return {
+      kicker: "Moments signature",
+      title: "Composer son expérience",
+      copy: "Famille, couple, groupe ou entreprise : chaque moment précise son esprit, son public et son mode de réservation.",
+    };
+  }
+
+  if (page.slug === "offres") {
+    return {
+      kicker: "Offres du moment",
+      title: "Séjours, journées et rituels",
+      copy: "Des invitations saisonnières qui valorisent l’expérience sans basculer dans une logique promotionnelle agressive.",
+    };
+  }
+
+  if (page.slug === "agenda") {
+    return {
+      kicker: "Programmation",
+      title: "Les prochains rendez-vous",
+      copy: "Brunchs, soirées, événements enfants, activations saisonnières et dîners thématiques pour revenir au Domaine au bon moment.",
+    };
+  }
+
+  return fallback;
+}
+
+function PageGallery({ title, imagesList }: { title: string; imagesList: string[] }) {
+  const [main, secondary, ...rest] = imagesList;
+
+  if (!main) return null;
+
+  return (
+    <section className="section-innergallery inner-page-gallery capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="section_title split-title inner-gallery-head">
+            <h2>{title}</h2>
+            <p>Image principale et atmosphères associées pour comprendre la lumière, les matières, la vue et les expériences liées au parcours.</p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <div className="innergallery-container inner-page-gallery-stage">
+            <EditorialMedia src={main} alt={`${title} image principale`} className="innergallery-panel active" />
+            {secondary ? <EditorialMedia src={secondary} alt={`${title} détail éditorial`} className="innergallery-secondary-image" /> : null}
+            <div className="innergallery-caption">Galerie immersive, éditoriale et pensée pour rassurer avant la réservation.</div>
+          </div>
+        </Reveal>
+
+        {rest.length ? (
+          <div className="inner-gallery-thumbs">
+            {rest.slice(0, 3).map((image, index) => (
+              <Reveal key={`${image}-${index}`} delay={0.08 + index * 0.04}>
+                <EditorialMedia src={image} alt={`${title} galerie ${index + 2}`} className="detail-gallery-thumb inner-gallery-thumb" />
+              </Reveal>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function ContentSections({ page, sections, locale }: { page: SitePage; sections: ContentSection[]; locale: Locale }) {
+  return (
+    <section className="limoune-inner-chapters capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="section_title split-title inner-chapters-head">
+            <h2>Parcours {page.title}</h2>
+            <p>Chaque chapitre précise l’expérience, les conditions, les moments associés et les prochains gestes pour préparer votre venue.</p>
+          </div>
+        </Reveal>
+
+        <div className="inner-chapter-list">
+          {sections.map((section, index) => (
+            <Reveal key={`${section.title}-${index}`} delay={Math.min(index * 0.035, 0.16)}>
+              <article className="inner-chapter-card cinematic-card">
+                <div className="inner-chapter-index">{String(index + 1).padStart(2, "0")}</div>
+                <div className="inner-chapter-title">
+                  <p className="section-kicker">{section.eyebrow ?? page.eyebrow}</p>
+                  <h2>{section.title}</h2>
+                </div>
+                <div className="inner-chapter-body">
+                  <p>{section.body}</p>
+                  {section.facts ? <div className="inner-chapter-facts"><FactGrid facts={section.facts} /></div> : null}
+                  {section.bullets ? (
+                    <ul className="inner-chapter-bullets">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  {section.cards ? (
+                    <div className="inner-chapter-cards scroll-grid-scroll">
+                      {section.cards.map((card, cardIndex) => <PremiumCard key={`${card.title}-${cardIndex}`} card={card} locale={locale} />)}
+                    </div>
+                  ) : null}
+                  {section.cta ? (
+                    <div className="luxury-actions">
+                      <ButtonLink cta={section.cta} locale={locale} />
+                      {section.secondaryCta ? <ButtonLink cta={section.secondaryCta} locale={locale} /> : null}
+                    </div>
+                  ) : null}
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CollectionSection({ intro, page, cards, locale }: { intro: ReturnType<typeof getCollectionIntro>; page: SitePage; cards: Card[]; locale: Locale }) {
+  return (
+    <section id="collection" className="section-scrollgrid inner-collection-section capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="section_title split-title">
+            <div>
+              <p className="section-kicker">{intro.kicker}</p>
+              <h2>{intro.title}</h2>
+            </div>
+            <p>{intro.copy}</p>
+          </div>
+        </Reveal>
+        <div className="scroll-grid">
+          <div className="scroll-grid-container">
+            <div className="scroll-grid-scroll inner-collection-grid">
+              {cards.map((card, index) => (
+                <Reveal key={`${page.slug}-${card.title}-${index}`} delay={Math.min(index * 0.035, 0.18)}>
+                  <PremiumCard card={card} locale={locale} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function InnerServiceBlock({ page }: { page: SitePage }) {
+  return (
+    <section className="limoune-inner-service capella-stop-section">
+      <div className="capella-template-wrapper inner-service-wrapper">
+        <Reveal>
+          <div className="inner-service-head">
+            <p className="luxury-kicker">Votre demande</p>
+            <h2>Réserver, télécharger, demander.</h2>
+            <p>Les documents, questions clés et demandes personnalisées sont réunis pour préparer votre séjour, votre table, votre soin ou votre événement.</p>
+          </div>
+        </Reveal>
+        <div className="inner-service-grid">
+          {page.downloads ? <DownloadBlock keysList={page.downloads} /> : null}
+          {page.form ? <LeadForm type={page.form} /> : null}
+          {page.faqs ? <FaqBlock faqs={page.faqs} /> : null}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function PremiumCard({ card, locale }: { card: Card; locale: Locale }) {
   return (
-    <Link href={localizedHref(locale, card.href)} className="cinematic-card group block h-full border border-[var(--limoune-brown)]/12 bg-white/58 transition duration-300 hover:-translate-y-1 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)]">
-      <EditorialMedia src={card.image} alt={card.alt} className="min-h-64 rounded-none" />
-      <span className="grid gap-4 p-5">
-        {card.eyebrow ? <span className="text-xs font-bold tracking-[0.24em] text-[var(--limoune-orange)] uppercase">{card.eyebrow}</span> : null}
-        <span className="font-serif text-3xl leading-none tracking-[-0.03em] text-[var(--limoune-brown)]">{card.title}</span>
-        <span className="text-sm leading-7 text-[var(--limoune-muted)]">{card.text}</span>
-        <span className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] text-[var(--limoune-brown)] uppercase">
+    <Link href={localizedHref(locale, card.href)} className="scroll-grid-panel active ani cinematic-card inner-premium-card group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)]">
+      <EditorialMedia src={card.image} alt={card.alt} className="section-grid-img" />
+      {card.eyebrow ? <span className="section-grid-kicker">{card.eyebrow}</span> : null}
+      <span className="section-grid-title"><h4>{card.title}</h4></span>
+      <span className="section-grid-synopsis"><p>{card.text}</p></span>
+      {card.meta?.length ? (
+        <span className="inner-card-meta">
+          {card.meta.slice(0, 3).map((item) => <small key={item}>{item}</small>)}
+        </span>
+      ) : null}
+      <span className="section-grid-link">
+        <span className="text-button">
           {card.cta ?? "Découvrir"}
           <ArrowRight aria-hidden="true" className="size-3 text-[var(--limoune-orange)] transition group-hover:translate-x-1" />
         </span>
@@ -1145,47 +1795,9 @@ function AwardsAndContact({ locale, page }: { locale: Locale; page?: SitePage })
   );
 }
 
-function BookingWidget({ locale }: { locale: Locale }) {
-  return (
-    <section id="booking" className="booking-section">
-      <div className="booking-card">
-        <div className="booking-card-head">
-          <div>
-            <p className="section-kicker">Réserver votre séjour</p>
-            <h2 className="booking-title">Réserver votre séjour</h2>
-          </div>
-          <Link href={localizedHref(locale, "/contact?type=modification")} className="booking-modify">
-            Modifier ma réservation
-          </Link>
-        </div>
-        <form className="booking-grid" action={localizedHref(locale, "/sejours")}>
-          <BookingField label="Arrivée" name="arrival" type="date" />
-          <BookingField label="Départ" name="departure" type="date" />
-          <BookingField label="Chambres" name="rooms" type="number" min="1" />
-          <BookingField label="Adultes" name="adults" type="number" min="1" />
-          <BookingField label="Enfants" name="children" type="number" min="0" />
-          <BookingField label="Code promo" name="promo" type="text" />
-          <button type="submit" data-track="availability_check" className="booking-submit">
-            Vérifier
-          </button>
-        </form>
-      </div>
-    </section>
-  );
-}
-
-function BookingField({ label, name, type, min }: { label: string; name: string; type: string; min?: string }) {
-  return (
-    <label className="booking-field">
-      {label}
-      <input name={name} type={type} min={min} />
-    </label>
-  );
-}
-
 function compactHeroSummary(summary: string) {
   const sentence = summary.split(/[.!?]/)[0]?.trim() || summary;
-  return sentence.length > 118 ? `${sentence.slice(0, 115).trim()}...` : sentence;
+  return sentence.length > 168 ? `${sentence.slice(0, 165).trim()}...` : sentence;
 }
 
 function FactGrid({ facts }: { facts?: DetailFact[] }) {
@@ -1210,7 +1822,7 @@ function DownloadBlock({ keysList }: { keysList: string[] }) {
 
   return (
     <Reveal>
-      <section className="border-t border-[var(--limoune-brown)]/16 pt-10">
+      <section className="inner-download-block border-t border-[var(--limoune-brown)]/16 pt-10">
         <div className="mb-6 flex items-center gap-3">
           <span className="grid size-10 place-items-center rounded-full bg-[var(--limoune-brown)] text-[var(--limoune-ivory)]">
             <Download aria-hidden="true" className="size-5" />
@@ -1239,7 +1851,7 @@ function DownloadBlock({ keysList }: { keysList: string[] }) {
 function FaqBlock({ faqs }: { faqs: { question: string; answer: string }[] }) {
   return (
     <Reveal>
-      <section className="grid gap-6 border-t border-[var(--limoune-brown)]/16 pt-10 lg:grid-cols-[0.75fr_1.25fr]">
+      <section className="inner-faq-block grid gap-6 border-t border-[var(--limoune-brown)]/16 pt-10 lg:grid-cols-[0.75fr_1.25fr]">
         <div>
           <p className="section-kicker">FAQ</p>
           <h2 className="font-serif text-5xl leading-none tracking-[-0.05em] text-[var(--limoune-brown)]">Questions clés</h2>
