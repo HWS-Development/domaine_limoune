@@ -12,6 +12,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { Reveal } from "@/components/motion/Reveal";
+import { StayCatalog } from "@/components/pages/StayCatalog";
+import { StayDetailGallery } from "@/components/pages/StayDetailGallery";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import {
   accommodations,
@@ -836,6 +838,10 @@ function StayListingHero({ page, locale }: PageRendererProps) {
               <p>
                 Suites dans les jardins, lodges côté piscine, hébergements familiaux ou nuit face à la réserve : chaque catégorie répond à une manière différente de vivre le Domaine.
               </p>
+              <div className="stay-hero-actions">
+                <ButtonLink cta={page.primaryCta} locale={locale} />
+                {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+              </div>
             </div>
             <EditorialMedia src={page.heroImage} alt={page.heroAlt} className="stay-capella-hero-image" />
           </div>
@@ -864,6 +870,10 @@ function StayDetailHero({ page, locale, item }: { page: SitePage; locale: Locale
               <p>
                 Cette fiche réunit la galerie, la description complète, les informations pratiques, les équipements, les services inclus et les expériences accessibles pendant le séjour.
               </p>
+              <div className="stay-hero-actions">
+                <ButtonLink cta={page.primaryCta} locale={locale} />
+                {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+              </div>
             </div>
             <EditorialMedia src={item.image} alt={page.heroAlt} className="stay-capella-hero-image" />
           </div>
@@ -887,19 +897,8 @@ function StayLandingPage({ page, locale }: { page: SitePage; locale: Locale }) {
     <>
       <StayEmotionalIntro />
       <StayCategoryOverview categories={categories} />
-
-      <nav className="stay-category-nav" aria-label="Catégories d'hébergements">
-        <div className="capella-template-wrapper stay-category-nav-inner">
-          {categories.map((category) => (
-            <a key={category.id} href={`#${category.id}`}>
-              <span>{category.nav}</span>
-            </a>
-          ))}
-        </div>
-      </nav>
-
-      <StayAccommodationCollection categories={categories} locale={locale} />
-      <StayBookStayBand locale={locale} cta={page.primaryCta} />
+      <StayCatalog categories={categories} locale={locale} />
+      <StayBookStayBand locale={locale} cta={page.primaryCta} secondaryCta={page.secondaryCta} />
       <StayGuestServices />
       <StayConditions />
       <StayRelatedOffers locale={locale} />
@@ -957,50 +956,6 @@ function StayCategoryOverview({ categories }: { categories: StayCategory[] }) {
         </div>
       </div>
     </section>
-  );
-}
-
-function StayAccommodationCollection({ categories, locale }: { categories: StayCategory[]; locale: Locale }) {
-  return (
-    <div id="listing-sejours" className="stay-room-sections">
-      {categories.map((category) => (
-        <section key={category.id} id={category.id} className="stay-room-category stay-listing-category capella-stop-section">
-          <div className="capella-template-wrapper">
-            <Reveal>
-              <div className="stay-listing-category-head">
-                <h2>{category.title}</h2>
-                <p className="stay-listing-category-subtitle">{category.subtitle}</p>
-                <p>{category.copy}</p>
-              </div>
-            </Reveal>
-
-            <div className="stay-listing-card-grid">
-              {category.items.map((item, index) => (
-                <Reveal key={item.slug} delay={Math.min(index * 0.04, 0.12)}>
-                  <StayListingRoomCard item={item} locale={locale} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      ))}
-    </div>
-  );
-}
-
-function StayListingRoomCard({ item, locale }: { item: Accommodation; locale: Locale }) {
-  return (
-    <Link href={localizedHref(locale, `/sejours/${item.slug}`)} className="stay-listing-card group">
-      <EditorialMedia src={item.image} alt={`${item.name} au Domaine Limoune`} className="stay-listing-card-image" />
-      <span className="stay-listing-card-body">
-        <span className="stay-listing-card-title">{item.name}</span>
-        <span className="stay-listing-card-copy">{item.position}</span>
-        <span className="stay-listing-card-link">
-          Voir cet hébergement
-          <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
-        </span>
-      </span>
-    </Link>
   );
 }
 
@@ -1107,7 +1062,7 @@ function StayRelatedOffers({ locale }: { locale: Locale }) {
   );
 }
 
-function StayBookStayBand({ locale, cta }: { locale: Locale; cta: SitePage["primaryCta"] }) {
+function StayBookStayBand({ locale, cta, secondaryCta }: { locale: Locale; cta: SitePage["primaryCta"]; secondaryCta?: SitePage["secondaryCta"] }) {
   return (
     <section id="booking" className="stay-book-band capella-stop-section">
       <div className="capella-template-wrapper stay-book-band-inner">
@@ -1118,10 +1073,49 @@ function StayBookStayBand({ locale, cta }: { locale: Locale; cta: SitePage["prim
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <ButtonLink cta={cta} locale={locale} />
+          <div className="stay-booking-panel">
+            <div className="booking-card stay-booking-card">
+              <div className="booking-card-head">
+                <div>
+                  <p className="section-kicker">Module de réservation hébergement</p>
+                  <h3 className="booking-title">Vérifier les disponibilités</h3>
+                </div>
+                <Link href={localizedHref(locale, "/contact?type=modification")} className="booking-modify">
+                  Modifier ma réservation
+                </Link>
+              </div>
+              <form className="booking-grid" action={localizedHref(locale, "/contact")} method="get">
+                <input type="hidden" name="type" value="sejour" />
+                <BookingField label="Date d’arrivée" name="arrival" type="date" />
+                <BookingField label="Date de départ" name="departure" type="date" />
+                <BookingField label="Chambres" name="rooms" type="number" min="1" />
+                <BookingField label="Adultes" name="adults" type="number" min="1" />
+                <BookingField label="Enfants" name="children" type="number" min="0" />
+                <BookingField label="Code promotionnel" name="promo" type="text" />
+                <button type="submit" data-track={cta.track} className="booking-submit">
+                  {cta.label}
+                </button>
+              </form>
+            </div>
+            <div className="stay-booking-secondary-actions">
+              {secondaryCta ? <ButtonLink cta={secondaryCta} locale={locale} /> : null}
+              {secondaryCta?.label.toLowerCase().includes("demander plus") ? null : (
+                <ButtonLink cta={{ label: "Demander plus d'informations", href: "/contact?type=sejour", variant: "secondary" }} locale={locale} />
+              )}
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function BookingField({ label, name, type, min }: { label: string; name: string; type: string; min?: string }) {
+  return (
+    <label className="booking-field">
+      {label}
+      <input name={name} type={type} min={min} />
+    </label>
   );
 }
 
@@ -1174,26 +1168,10 @@ function StayRoomDetailPage({ page, locale, item }: { page: SitePage; locale: Lo
       <StayEquipment item={item} />
       <StayIncludedServices item={item} />
       <StayAccessibleExperiences item={item} locale={locale} />
-      <StayBookStayBand locale={locale} cta={page.primaryCta} />
+      <StayBookStayBand locale={locale} cta={page.primaryCta} secondaryCta={page.secondaryCta} />
       <StayOtherSuggestions item={item} locale={locale} />
       <StayContactBlock locale={locale} />
     </>
-  );
-}
-
-function StayDetailGallery({ item }: { item: Accommodation }) {
-  const gallery = Array.from(new Set([item.image, ...item.gallery])).slice(0, 3);
-
-  return (
-    <section className="stay-detail-gallery capella-stop-section">
-      <div className="capella-template-wrapper stay-detail-gallery-grid">
-        {gallery.map((image, index) => (
-          <Reveal key={`${item.slug}-${image}`} delay={Math.min(index * 0.05, 0.12)}>
-            <EditorialMedia src={image} alt={`${item.name} visuel ${index + 1}`} className={`stay-detail-gallery-image stay-detail-gallery-image-${index + 1}`} />
-          </Reveal>
-        ))}
-      </div>
-    </section>
   );
 }
 
