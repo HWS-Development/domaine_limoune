@@ -3980,6 +3980,24 @@ html {
   width: 100%;
 }
 
+.booking-card.stay-booking-card .booking-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px 12px;
+}
+
+.booking-card.stay-booking-card .booking-submit {
+  display: grid;
+  grid-column: 1 / -1;
+  justify-self: end;
+  width: min(100%, 360px);
+  min-width: 0;
+  min-height: 52px;
+  place-items: center;
+  line-height: 1.12;
+  text-align: center;
+  white-space: nowrap;
+}
+
 .stay-booking-secondary-actions {
   display: flex;
   flex-wrap: wrap;
@@ -6014,7 +6032,16 @@ html {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .booking-card.stay-booking-card .booking-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .booking-submit {
+    grid-column: 1 / -1;
+  }
+
+  .booking-card.stay-booking-card .booking-submit {
+    min-width: 0;
     grid-column: 1 / -1;
   }
 }
@@ -6022,6 +6049,10 @@ html {
 @media (max-width: 900px) {
   .booking-card-head,
   .booking-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .booking-card.stay-booking-card .booking-grid {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -6062,6 +6093,10 @@ html {
 
   .booking-card-head,
   .booking-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-card.stay-booking-card .booking-grid {
     grid-template-columns: 1fr;
   }
 
