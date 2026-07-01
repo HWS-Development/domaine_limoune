@@ -184,6 +184,10 @@ function Hero({ page, locale }: PageRendererProps) {
     return <HomeMasthead page={page} locale={locale} />;
   }
 
+  if (["reserve-africaine", "parc-animalier"].includes(page.slug)) {
+    return <WildlifeImmersiveHero page={page} locale={locale} />;
+  }
+
   const stayItem = getStayItemFromPage(page);
 
   if (page.slug === "sejours") {
@@ -197,7 +201,7 @@ function Hero({ page, locale }: PageRendererProps) {
   return (
     <section className="bleed-hero inner-hero cinematic-hero relative isolate grid min-h-[68dvh] overflow-hidden bg-[var(--limoune-black)] pt-24 text-[var(--limoune-ivory)]">
       <EditorialMedia src={page.heroImage} alt={page.heroAlt} variant="hero" className="cinematic-hero-media absolute inset-0 rounded-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,16,13,0.6),rgba(18,16,13,0.26)_48%,rgba(18,16,13,0.04)_86%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(16,36,58,0.6),rgba(16,36,58,0.26)_48%,rgba(16,36,58,0.04)_86%)]" />
       <div className="absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(0deg,var(--limoune-bg),transparent)]" />
       <span className="cinematic-orbit cinematic-orbit-one" aria-hidden="true" />
       <span className="cinematic-orbit cinematic-orbit-two" aria-hidden="true" />
@@ -239,6 +243,43 @@ function Hero({ page, locale }: PageRendererProps) {
             </div>
           </aside>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function WildlifeImmersiveHero({ page, locale }: PageRendererProps) {
+  const isReserve = page.slug === "reserve-africaine";
+  const subtitle = isReserve
+    ? "Là où le silence des lodges laisse venir le vivant."
+    : "Un parcours doux pour apprendre à regarder le vivant.";
+  const copy = isReserve
+    ? "Une expérience d’hébergement immersive, lente et attentive, pensée autour de l’observation."
+    : "Une visite familiale, pédagogique et respectueuse, accessible selon conditions.";
+  const proofItems = isReserve
+    ? ["Hébergement immersif", "Lodges safari", "Observation silencieuse"]
+    : ["30+ espèces", "Parcours famille", "Non-nourrissage"];
+
+  return (
+    <section className={`wildlife-immersive-hero ${isReserve ? "is-reserve" : "is-park"} capella-stop-section`} aria-label={page.title}>
+      <EditorialMedia src={page.heroImage} alt={page.heroAlt} variant="hero" className="wildlife-immersive-hero-media" />
+      <div className="wildlife-immersive-hero-shade" aria-hidden="true" />
+      <div className="wildlife-immersive-hero-gradient" aria-hidden="true" />
+      <div className="capella-template-wrapper wildlife-immersive-hero-inner">
+        <div className="wildlife-immersive-copy">
+          <p className="wildlife-immersive-kicker fade-in-left">{page.eyebrow}</p>
+          <h1 className="wildlife-immersive-title fade-in-left">{page.title}</h1>
+          <p className="wildlife-immersive-subtitle fade-in-left">{subtitle}</p>
+          <span className="wildlife-hero-rule fade-in-left" aria-hidden="true" />
+          <p className="wildlife-immersive-text fade-in-left">{copy}</p>
+          <div className="wildlife-immersive-actions fade-in-left">
+            <ButtonLink cta={page.primaryCta} locale={locale} />
+            {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+          </div>
+        </div>
+        <div className="wildlife-immersive-proof" aria-label="Points clés">
+          {proofItems.map((item) => <span key={item}>{item}</span>)}
+        </div>
       </div>
     </section>
   );
@@ -791,6 +832,14 @@ function InnerPage({ page, locale }: PageRendererProps) {
     return <StayRoomDetailPage page={page} locale={locale} item={stayItem} />;
   }
 
+  if (page.slug === "reserve-africaine") {
+    return <ReserveAfricainePage page={page} locale={locale} />;
+  }
+
+  if (page.slug === "parc-animalier") {
+    return <ParcAnimalierPage page={page} locale={locale} />;
+  }
+
   return (
     <>
       <InnerEditorialIntro page={page} locale={locale} />
@@ -1116,6 +1165,498 @@ function BookingField({ label, name, type, min }: { label: string; name: string;
       {label}
       <input name={name} type={type} min={min} />
     </label>
+  );
+}
+
+function ReserveAfricainePage({ page, locale }: { page: SitePage; locale: Locale }) {
+  const lodgeCards = accommodations
+    .filter((item) => item.meta.some((meta) => ["Réserve", "Safari"].includes(meta)) || item.slug.includes("safari"))
+    .slice(0, 3);
+  const featuredLodge = lodgeCards[0];
+
+  return (
+    <>
+      <section className="wildlife-intro reserve-intro capella-stop-section">
+        <div className="capella-template-wrapper wildlife-intro-grid">
+          <Reveal>
+            <div>
+              <p className="section-kicker">Concept réserve</p>
+              <h2>Une nuit, pas une simple visite.</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="wildlife-intro-copy">
+              <p>La Réserve Africaine est un univers d’hébergement immersif. Elle s’adresse aux clients qui séjournent dans les lodges concernés et souhaitent vivre le Domaine dans un rapport plus lent, plus silencieux et plus attentif au vivant.</p>
+              <p>Le message est volontairement clair : le Parc Animalier se visite selon conditions ; la Réserve Africaine se vit depuis le séjour, face aux animaux, avec une logique d’observation et de respect.</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <WildlifeRequirementStrip
+        kicker="Clarification essentielle"
+        title="La réserve est liée à l’hébergement."
+        copy="Cette page doit lever toute ambiguïté : la Réserve Africaine n’est pas une visite indépendante. Elle appartient au séjour dans les lodges concernés."
+        items={[
+          ["Accès", "Clients séjournant dans les lodges safari ou hébergements validés par l’équipe."],
+          ["Expérience", "Observation calme depuis l’univers de séjour, sans nourrissage ni intervention."],
+          ["Conversion", "Le parcours naturel mène vers le lodge safari et la réservation hébergement."],
+        ]}
+      />
+
+      <WildlifeCinematicSection
+        variant="reserve"
+        title="Le safari se vit dans les détails."
+        kicker="Scène immersive"
+        quote="Le matin appartient au silence ; la réserve avance, et le séjour trouve son rythme."
+        copy="Images larges, matières naturelles, présence animale et lignes de fuite composent une page plus sensible, plus premium et plus désirable avant la réservation."
+        imagesList={[images.reserveLodge, images.reserveCanopy, images.reserveLandscape]}
+      />
+
+      <section className="ritual-editorial reserve-rituals capella-stop-section">
+        <div className="capella-template-wrapper ritual-editorial-grid">
+          <Reveal>
+            <EditorialMedia src={images.reserveCanopy} alt="Lodge safari enveloppé par la végétation" className="ritual-editorial-main-image" />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <article className="ritual-editorial-copy">
+              <p className="section-kicker">Séjour face aux animaux</p>
+              <h2>Observer sans presser le rythme.</h2>
+              <p>Depuis les lodges safari, la journée s’organise autour de la lumière, des mouvements de la réserve et des temps calmes. L’expérience privilégie la distance juste, le silence et les consignes de l’équipe.</p>
+              <blockquote>« Ici, l’animal n’est pas un décor. Il impose le rythme du séjour. »</blockquote>
+              <Link className="luxury-primary-link" href={localizedHref(locale, "/sejours/lodge-safari-mezzanine")}>Voir le lodge safari</Link>
+            </article>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="wildlife-moments capella-stop-section">
+        <div className="capella-template-wrapper">
+          <Reveal>
+            <div className="section_title split-title wildlife-section-head">
+              <h2>L’expérience réserve</h2>
+              <p>Une lecture simple du parcours demandé dans le cahier des charges : hébergement, observation, lodges concernés, images, règles et CTA vers le séjour safari.</p>
+            </div>
+          </Reveal>
+          <div className="wildlife-moment-grid">
+            {[
+              ["Hébergement", "Accès réservé aux clients des lodges concernés, avec une expérience pensée depuis la chambre et ses vues."],
+              ["Observation", "Moments calmes, distances respectées, consignes de l’équipe et rythme naturel des animaux."],
+              ["Immersion", "Un séjour plus rare, adapté aux familles ou couples qui souhaitent dormir au plus près de l’univers safari."],
+            ].map(([title, copy], index) => (
+              <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
+                <article className="wildlife-moment-card">
+                  <small>{String(index + 1).padStart(2, "0")}</small>
+                  <strong>{title}</strong>
+                  <p>{copy}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {featuredLodge ? <WildlifeLodgeFeature item={featuredLodge} locale={locale} /> : null}
+
+      <WildlifeMediaBlock
+        title="Photos et vidéos de la réserve"
+        copy="Un module média dédié réunit les visuels de séjour, les ambiances de réserve et une vidéo immersive en attendant l’intégration de films officiels du Domaine Limoune."
+        image={images.reserveLandscape}
+        alt="Paysage naturel de la réserve et atmosphère safari"
+      />
+
+      <WildlifeRules
+        kicker="Respect animalier"
+        title="Les règles font partie de l’expérience."
+        intro="La réserve repose sur une relation calme au vivant. Ces règles doivent être comprises avant le séjour et rappelées sur place."
+        rules={["Ne pas nourrir les animaux", "Garder les distances", "Préserver le silence", "Respecter zones, horaires et consignes", "Privilégier l’observation sans intervention"]}
+      />
+
+      <PageGallery title="Réserve Africaine en images" imagesList={page.gallery ?? []} />
+      <WildlifeCta page={page} locale={locale} title="Préparer votre séjour face à la réserve" copy="Choisissez le lodge adapté, confirmez les conditions d’accès et laissez l’équipe réservation orienter votre séjour selon les disponibilités." />
+      {page.faqs?.length ? <InnerServiceBlock page={page} /> : null}
+      <WildlifeContactBlock locale={locale} page={page} />
+    </>
+  );
+}
+
+function ParcAnimalierPage({ page, locale }: { page: SitePage; locale: Locale }) {
+  const species = ["Zèbres", "Autruches", "Antilopes", "Gazelles", "Flamants", "Maki catta", "Suricates", "Perroquets", "Lamas"];
+
+  return (
+    <>
+      <section className="wildlife-intro park-intro capella-stop-section">
+        <div className="capella-template-wrapper wildlife-intro-grid">
+          <Reveal>
+            <div>
+              <p className="section-kicker">Parcours famille</p>
+              <h2>Découvrir le vivant avec calme.</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="wildlife-intro-copy">
+              <p>Le Parc Animalier est l’expérience de visite accessible selon conditions. Il s’adresse aux familles, clients journée et visiteurs qui souhaitent découvrir les animaux dans un cadre pédagogique, lisible et respectueux.</p>
+              <p>La page doit rassurer : espèces présentes, parcours, horaires, tarifs, conditions d’accès, règles de bien-être animal et contact avant déplacement.</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <WildlifeCinematicSection
+        variant="park"
+        title="Une promenade qui garde le regard éveillé."
+        kicker="Parcours vivant"
+        quote="Chaque halte devient une petite leçon de calme, de curiosité et d’attention."
+        copy="La visite gagne en charme avec des cadrages généreux, des pauses visuelles et une narration moins administrative, plus proche d’un carnet de voyage familial."
+        imagesList={[images.parkScenic, images.parkWalk, images.domain]}
+      />
+
+      <section className="park-species capella-stop-section">
+        <div className="capella-template-wrapper park-species-grid">
+          <div className="park-species-showcase">
+            <Reveal>
+              <EditorialMedia src={images.park} alt="Parc animalier familial du Domaine Limoune" className="park-species-image" />
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="park-species-copy">
+                <p className="section-kicker">Plus de 30 espèces</p>
+                <h2>Une visite claire, familiale et pédagogique.</h2>
+                <div className="wildlife-poetic-quote compact">
+                  <blockquote>Regarder, ralentir, nommer les espèces : la visite devient un souvenir partagé.</blockquote>
+                </div>
+                <p>Le parcours permet de rencontrer plusieurs espèces selon la présence confirmée sur place et les conditions opérationnelles du jour.</p>
+                <div className="park-species-list">
+                  {species.map((item) => <span key={item}>{item}</span>)}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <section className="wildlife-moments park-journey capella-stop-section">
+        <div className="capella-template-wrapper">
+          <Reveal>
+            <div className="section_title split-title wildlife-section-head">
+              <h2>Parcours de visite</h2>
+              <p>Une expérience progressive : arrivée, découverte, pauses, règles, éventuelles offres famille et contact avant venue.</p>
+            </div>
+          </Reveal>
+          <div className="wildlife-moment-grid">
+            {[
+              ["Arriver", "Vérifier horaires, conditions d’accès, tarifs adultes/enfants et disponibilité du jour avant déplacement."],
+              ["Découvrir", "Observer les espèces, suivre les indications et garder un rythme adapté aux enfants."],
+              ["Prolonger", "Associer la visite à une offre brunch, journée piscine ou expérience famille selon programmation."],
+            ].map(([title, copy], index) => (
+              <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
+                <article className="wildlife-moment-card">
+                  <small>{String(index + 1).padStart(2, "0")}</small>
+                  <strong>{title}</strong>
+                  <p>{copy}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="park-practical capella-stop-section">
+        <div className="capella-template-wrapper park-practical-grid">
+          <Reveal>
+            <div className="park-practical-head">
+              <p className="section-kicker">Informations pratiques</p>
+              <h2>Tarifs, horaires et conditions.</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <FactGrid facts={[
+              { label: "Tarif adulte", value: "À confirmer selon saison" },
+              { label: "Tarif enfant", value: "À confirmer selon âge et saison" },
+              { label: "Horaires", value: "Calendrier d’ouverture à confirmer" },
+              { label: "Accès", value: "Libre ou encadré selon politique opérationnelle" },
+              { label: "Règle clé", value: "Non-nourrissage des animaux" },
+              { label: "Public", value: "Familles, enfants, clients journée et groupes" },
+              { label: "Durée", value: "Temps de visite à confirmer" },
+              { label: "Conseil", value: "Contact recommandé avant déplacement" },
+            ]} />
+          </Reveal>
+        </div>
+      </section>
+
+      <ParkFamilyOffers locale={locale} />
+
+      <WildlifeRules
+        kicker="Bien-être animal"
+        title="Une visite respectueuse avant tout."
+        intro="Le parc doit rester une expérience pédagogique et maîtrisée. Les règles protègent les animaux, les visiteurs et la qualité du parcours."
+        rules={["Ne pas nourrir les animaux", "Ne pas crier près des enclos", "Suivre les zones autorisées", "Respecter les consignes de l’équipe", "Surveiller les enfants pendant toute la visite"]}
+      />
+
+      <WildlifeMediaBlock
+        title="Photos et vidéos du parc"
+        copy="Le parcours animalier doit donner à voir les espèces, les haltes familiales, les règles de visite et les ambiances naturelles avant le contact ou la réservation."
+        image={images.parkWalk}
+        alt="Parcours familial et nature du Parc Animalier"
+      />
+
+      <PageGallery title="Parc Animalier en images" imagesList={page.gallery ?? []} />
+      <WildlifeCta page={page} locale={locale} title="Préparer votre visite en famille" copy="Contactez l’équipe pour confirmer horaires, tarifs, conditions d’accès et offres famille disponibles à la date souhaitée." />
+      {page.faqs?.length ? <InnerServiceBlock page={page} /> : null}
+      <WildlifeContactBlock locale={locale} page={page} />
+    </>
+  );
+}
+
+function WildlifeCinematicSection({ variant, kicker, title, quote, copy, imagesList }: { variant: "reserve" | "park"; kicker: string; title: string; quote: string; copy: string; imagesList: string[] }) {
+  const [main, portrait, detail] = imagesList;
+
+  return (
+    <section className={`wildlife-cinematic-section is-${variant} capella-stop-section`}>
+      <div className="capella-template-wrapper wildlife-cinematic-grid">
+        <Reveal>
+          <article className="wildlife-cinematic-copy">
+            <p className="section-kicker">{kicker}</p>
+            <h2>{title}</h2>
+            <div className="wildlife-poetic-quote">
+              <blockquote>{quote}</blockquote>
+            </div>
+            <p>{copy}</p>
+          </article>
+        </Reveal>
+
+        <div className="wildlife-cinematic-gallery">
+          <Reveal>
+            <EditorialMedia src={main} alt={`${title} image principale`} className="wildlife-cinematic-main-image" />
+          </Reveal>
+          <div className="wildlife-cinematic-duo">
+            <Reveal delay={0.08}>
+              <EditorialMedia src={portrait} alt={`${title} détail vertical`} className="wildlife-cinematic-portrait-image" />
+            </Reveal>
+            <Reveal delay={0.14}>
+              <EditorialMedia src={detail} alt={`${title} atmosphère`} className="wildlife-cinematic-detail-image" />
+            </Reveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WildlifeRequirementStrip({ kicker, title, copy, items }: { kicker: string; title: string; copy: string; items: string[][] }) {
+  return (
+    <section className="wildlife-requirement-strip capella-stop-section">
+      <div className="capella-template-wrapper wildlife-requirement-grid">
+        <Reveal>
+          <div className="wildlife-requirement-copy">
+            <p className="section-kicker">{kicker}</p>
+            <h2>{title}</h2>
+            <p>{copy}</p>
+          </div>
+        </Reveal>
+        <div className="wildlife-requirement-list">
+          {items.map(([label, text], index) => (
+            <Reveal key={label} delay={Math.min(index * 0.04, 0.12)}>
+              <article>
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <strong>{label}</strong>
+                <p>{text}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WildlifeMediaBlock({ title, copy, image, alt }: { title: string; copy: string; image: string; alt: string }) {
+  return (
+    <section className="wildlife-media-block capella-stop-section">
+      <div className="capella-template-wrapper wildlife-media-grid">
+        <Reveal>
+          <div className="wildlife-media-copy">
+            <p className="section-kicker">Photos et vidéos</p>
+            <h2>{title}</h2>
+            <p>{copy}</p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="wildlife-video-stage">
+            <EditorialMedia src={image} alt={alt} className="wildlife-video-poster" />
+            <video className="wildlife-video" poster={image} autoPlay muted loop playsInline preload="metadata" aria-label={title}>
+              <source src={heroVideos.mobile} media="(max-width: 768px)" type="video/mp4" />
+              <source src={heroVideos.desktop} type="video/mp4" />
+            </video>
+            <div className="wildlife-video-caption">
+              <Play aria-hidden="true" className="size-4 fill-current" />
+              <span>Film immersif</span>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function ParkFamilyOffers({ locale }: { locale: Locale }) {
+  const offers = [
+    ["Brunch & Parc Animalier", "Associer la visite à un moment de table selon programmation."],
+    ["Journée famille", "Parcours animalier, pause, piscine ou activités selon saison."],
+    ["Groupe enfants", "Demande dédiée pour écoles, anniversaires ou sorties encadrées."],
+  ];
+
+  return (
+    <section className="park-family-offers capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="section_title split-title wildlife-section-head">
+            <h2>Offres famille</h2>
+            <p>Le cahier des charges demande un bloc dédié aux offres famille : cette section oriente vers les formats journée, brunch, groupe et contact.</p>
+          </div>
+        </Reveal>
+        <div className="park-family-offer-grid">
+          {offers.map(([title, copy], index) => (
+            <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
+              <article className="park-family-offer-card cinematic-card">
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <strong>{title}</strong>
+                <p>{copy}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={0.14}>
+          <div className="park-family-offer-actions">
+            <ButtonLink cta={{ label: "Voir les offres famille", href: "/offres", variant: "secondary" }} locale={locale} />
+            <ButtonLink cta={{ label: "Contacter l’équipe", href: "/contact?type=parc-animalier" }} locale={locale} />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function WildlifeLodgeFeature({ item, locale }: { item: Accommodation; locale: Locale }) {
+  return (
+    <section className="wildlife-lodge-feature-section capella-stop-section">
+      <div className="capella-template-wrapper wildlife-lodge-feature-wrapper">
+        <Reveal>
+          <div className="section_title split-title wildlife-section-head">
+            <h2>Lodges concernés</h2>
+            <p>Une image large pour installer le séjour dans son décor : le lodge, la réserve, la lumière et le prochain geste de réservation.</p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <Link href={localizedHref(locale, `/sejours/${item.slug}`)} className="wildlife-lodge-feature group">
+            <EditorialMedia src={item.image} alt={`${item.name} face à la réserve`} className="wildlife-lodge-feature-image" />
+            <span className="wildlife-lodge-feature-frame" aria-hidden="true" />
+            <span className="wildlife-lodge-feature-panel">
+              <small>{item.capacity}</small>
+              <strong>{item.name}</strong>
+              <em>{item.position}</em>
+              <span className="wildlife-lodge-feature-cta">
+                Découvrir le lodge
+                <ArrowRight aria-hidden="true" className="size-4" />
+              </span>
+            </span>
+          </Link>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function WildlifeRules({ kicker, title, intro, rules }: { kicker: string; title: string; intro: string; rules: string[] }) {
+  return (
+    <section className="wildlife-rules capella-stop-section">
+      <div className="capella-template-wrapper wildlife-rules-grid">
+        <Reveal>
+          <div>
+            <p className="section-kicker">{kicker}</p>
+            <h2>{title}</h2>
+            <p>{intro}</p>
+          </div>
+        </Reveal>
+        <div className="wildlife-rule-list">
+          {rules.map((rule, index) => (
+            <Reveal key={rule} delay={Math.min(index * 0.035, 0.14)}>
+              <article>
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <span>{rule}</span>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WildlifeCta({ page, locale, title, copy }: { page: SitePage; locale: Locale; title: string; copy: string }) {
+  return (
+    <section className="wildlife-cta capella-stop-section">
+      <div className="capella-template-wrapper wildlife-cta-inner">
+        <Reveal>
+          <div>
+            <p className="section-kicker">Prochain geste</p>
+            <h2>{title}</h2>
+            <p>{copy}</p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="wildlife-cta-actions">
+            <ButtonLink cta={page.primaryCta} locale={locale} />
+            {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function WildlifeContactBlock({ locale, page }: { locale: Locale; page: SitePage }) {
+  const isReserve = page.slug === "reserve-africaine";
+  const image = isReserve ? images.reserveLodge : images.parkScenic;
+  const title = isReserve ? "Composer votre nuit face à la réserve." : "Préparer une visite qui se déroule sans hasard.";
+  const quote = isReserve
+    ? "Un échange suffit parfois à choisir le bon lodge, le bon rythme, la bonne lumière."
+    : "Avant de venir, confirmez le moment juste, les conditions et les attentions utiles aux familles.";
+
+  return (
+    <section className="wildlife-contact-section capella-stop-section">
+      <div className="capella-template-wrapper wildlife-contact-grid">
+        <Reveal>
+          <div className="wildlife-contact-media-card">
+            <EditorialMedia src={image} alt={`${page.title} contact visuel`} className="wildlife-contact-image" />
+            <div className="wildlife-contact-caption">
+              <span>Contact dédié</span>
+              <strong>{page.title}</strong>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <article className="wildlife-contact-card cinematic-card">
+            <p className="section-kicker">Contact</p>
+            <h2>{title}</h2>
+            <div className="wildlife-poetic-quote compact">
+              <blockquote>{quote}</blockquote>
+            </div>
+            <p>Notre équipe vous oriente vers le bon service, les disponibilités, les conditions d’accès et les prochaines étapes.</p>
+            <div className="wildlife-contact-actions">
+              <ButtonLink cta={page.primaryCta} locale={locale} />
+              <ButtonLink cta={{ label: "Contact", href: "/contact", variant: "secondary", track: "quick_contact" }} locale={locale} />
+              <a href="https://wa.me/212000000000" data-track="whatsapp_click">WhatsApp Business</a>
+            </div>
+            <div className="wildlife-contact-meta">
+              <span><Clock aria-hidden="true" className="size-4" /> Réponse par service</span>
+              <span><MapPinned aria-hidden="true" className="size-4" /> Région Agadir - Taroudant</span>
+            </div>
+          </article>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -1563,8 +2104,11 @@ function PageGallery({ title, imagesList }: { title: string; imagesList: string[
       <div className="capella-template-wrapper">
         <Reveal>
           <div className="section_title split-title inner-gallery-head">
-            <h2>{title}</h2>
-            <p>Image principale et atmosphères associées pour comprendre la lumière, les matières, la vue et les expériences liées au parcours.</p>
+            <div>
+              <p className="section-kicker">Galerie</p>
+              <h2>{title}</h2>
+            </div>
+            <p>Des cadrages larges, des détails de lumière et des atmosphères naturelles pour donner envie d’entrer dans l’expérience.</p>
           </div>
         </Reveal>
 
@@ -1572,7 +2116,7 @@ function PageGallery({ title, imagesList }: { title: string; imagesList: string[
           <div className="innergallery-container inner-page-gallery-stage">
             <EditorialMedia src={main} alt={`${title} image principale`} className="innergallery-panel active" />
             {secondary ? <EditorialMedia src={secondary} alt={`${title} détail éditorial`} className="innergallery-secondary-image" /> : null}
-            <div className="innergallery-caption">Galerie immersive, éditoriale et pensée pour rassurer avant la réservation.</div>
+            <div className="innergallery-caption">Une invitation visuelle avant la visite.</div>
           </div>
         </Reveal>
 
@@ -1862,6 +2406,8 @@ function EditorialMedia({ src, alt, variant = "default", className = "" }: { src
 }
 
 function toneFromSrc(src: string) {
+  if (src === images.reserve) return "tone-reserve";
+  if (src === images.park) return "tone-park";
   if (src.includes("sejours")) return "tone-stays";
   if (src.includes("reserve")) return "tone-reserve";
   if (src.includes("parc")) return "tone-park";

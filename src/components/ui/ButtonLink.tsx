@@ -10,7 +10,7 @@ type ButtonLinkProps = {
 
 const variants: Record<NonNullable<Cta["variant"]>, string> = {
   primary:
-    "bg-[var(--limoune-brown)] text-[var(--limoune-ivory)] shadow-[0_18px_50px_rgba(61,37,24,0.22)] hover:bg-[var(--limoune-black)]",
+    "bg-[var(--limoune-brown)] text-[var(--limoune-ivory)] shadow-[0_18px_50px_rgba(16,36,58,0.22)] hover:bg-[var(--limoune-black)]",
   secondary:
     "border border-[var(--limoune-brown)]/25 bg-[var(--limoune-ivory)]/80 text-[var(--limoune-brown)] hover:border-[var(--limoune-orange)] hover:bg-white",
   ghost:

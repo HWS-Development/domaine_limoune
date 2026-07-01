@@ -114,8 +114,13 @@ export const images = {
   hero: "https://capellahotels.com/assets/img/site_images/ubud/ubud-home01.jpg",
   domain: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Top-01.jpg",
   stays: "https://capellahotels.com/assets/img/site_images/ubud/Capella_Ubud_One_Bedroom_Keliki_Valley_Tent1.jpg",
-  reserve: "https://capellahotels.com/assets/img/site_images/ubud/ubud-accommodation-tent-river-exterior.jpg",
-  park: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-06.jpg",
+  reserve: "https://images.pexels.com/photos/247376/pexels-photo-247376.jpeg?auto=compress&cs=tinysrgb&w=2400",
+  reserveLodge: "https://capellahotels.com/assets/img/site_images/ubud/ubud-accommodation-tent-river-exterior.jpg",
+  reserveCanopy: "https://capellahotels.com/assets/img/site_images/ubud/Capella_Ubud_One_Bedroom_Keliki_Valley_Tent1.jpg",
+  reserveLandscape: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Top-01.jpg",
+  park: "https://images.pexels.com/photos/34098/south-africa-hluhluwe-giraffes-pattern.jpg?auto=compress&cs=tinysrgb&w=2400",
+  parkScenic: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-06.jpg",
+  parkWalk: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-01.jpg",
   restaurants: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Dining-Brasserie-1930-01a.jpg",
   spa: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Wellness-A-01.jpg",
   summer: "https://capellahotels.com/assets/img/site_images/bangkok/Capella-Bangkok-Homepage-Gallery-04.jpg",
@@ -138,7 +143,7 @@ export const heroVideos = {
 export const navItems = [
   {
     label: "Le Domaine",
-    href: "/le-domaine",
+    href: "/",
     description: "Histoire, ADN, localisation et vision du Domaine.",
   },
   {
@@ -366,8 +371,8 @@ export const accommodations = [
     category: "Lodges Safari avec mezzanine",
     position: "Dormir face à la réserve africaine, dans un lodge pensé pour les familles et les séjours immersifs.",
     emotionalText: "Le réveil se fait dans le calme de la réserve, avec une sensation de bout du monde et le confort d’un lodge familial.",
-    image: roomImages.tower,
-    gallery: [roomImages.tower, roomImages.skyline, roomImages.capellaSuite, roomImages.libertySuite],
+    image: images.reserveLodge,
+    gallery: [images.reserveLodge, images.reserveCanopy, roomImages.capellaSuite, roomImages.libertySuite],
     capacity: "Jusqu'à 4 personnes",
     surface: "Surface selon configuration",
     bed: "Lit double et couchages mezzanine",
@@ -742,7 +747,7 @@ const basePages: SitePage[] = [
     summary:
       "La Réserve Africaine n'est pas une simple visite. C'est une expérience d'hébergement immersive, pensée autour de la nature, de l'observation et du respect animalier.",
     heroImage: images.reserve,
-    heroAlt: "Réserve africaine du Domaine Limoune face aux lodges safari",
+    heroAlt: "Zèbres dans une réserve verdoyante, ambiance safari immersive",
     seoTitle: "Réserve Africaine Domaine Limoune | Lodge safari Maroc près d'Agadir",
     seoDescription:
       "Vivez l'expérience réserve africaine du Domaine Limoune : lodges safari, observation, nature et hébergement immersif près d'Agadir.",
@@ -767,7 +772,7 @@ const basePages: SitePage[] = [
         cards: accommodations.slice(0, 2).map(accommodationToCard),
       },
     ],
-    gallery: [images.reserve, images.stays, images.park, images.domain],
+    gallery: [images.reserveLodge, images.reserveCanopy, images.reserveLandscape, images.park],
     faqs: [sharedFaqs[2], sharedFaqs[0]],
   },
   {
@@ -778,7 +783,7 @@ const basePages: SitePage[] = [
     summary:
       "Un parcours accessible selon conditions, orienté découverte, pédagogie, conservation et bien-être animal.",
     heroImage: images.park,
-    heroAlt: "Parc animalier du Domaine Limoune avec familles et animaux",
+    heroAlt: "Girafes dans un paysage naturel, parcours animalier familial",
     seoTitle: "Parc animalier Agadir | Domaine Limoune",
     seoDescription:
       "Découvrez le parc animalier du Domaine Limoune près d'Agadir : plus de 30 espèces, visite familiale, horaires, tarifs et règles de bien-être animal.",
@@ -808,7 +813,7 @@ const basePages: SitePage[] = [
         bullets: ["Parcours famille", "Temps de visite selon saison", "Offres brunch ou journée selon programmation", "Contact conseillé avant déplacement"],
       },
     ],
-    gallery: [images.park, images.domain, images.experiences, images.restaurants],
+    gallery: [images.parkScenic, images.parkWalk, images.domain, images.experiences],
     faqs: sharedFaqs,
   },
   {

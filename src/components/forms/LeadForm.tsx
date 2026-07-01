@@ -131,7 +131,7 @@ export function LeadForm({ type }: LeadFormProps) {
   }, [requestType, type]);
 
   return (
-    <section id="lead-form" className="rounded-[2rem] border border-[var(--limoune-brown)]/10 bg-white/70 p-5 shadow-[0_24px_70px_rgba(61,37,24,0.1)] backdrop-blur md:p-8">
+    <section id="lead-form" className="rounded-[2rem] border border-[var(--limoune-brown)]/10 bg-white/70 p-5 shadow-[0_24px_70px_rgba(16,36,58,0.1)] backdrop-blur md:p-8">
       <div className="grid gap-3 md:grid-cols-[0.9fr_1.1fr] md:items-end">
         <div>
           <p className="text-sm font-bold tracking-[0.24em] text-[var(--limoune-orange)] uppercase">Demande personnalisée</p>

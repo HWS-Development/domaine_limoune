@@ -61,9 +61,6 @@ export function Header() {
 
       <div className="capella-hotelnav">
         <div className="capella-hotelnav-inner">
-          <Link className="capella-hotel-title" href={`/${locale}`}>
-            Domaine Limoune
-          </Link>
           <nav className="capella-hotel-links" aria-label="Navigation Domaine Limoune">
             {navItems.map((item) => (
               <Link key={item.href} className="capella-hotel-link" href={localizedHref(locale, item.href)}>
