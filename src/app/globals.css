@@ -1576,10 +1576,7 @@ html {
 .limoune-wild-summer {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(201, 104, 52, 0.28), transparent 28%),
-    radial-gradient(circle at 85% 70%, rgba(226, 178, 118, 0.18), transparent 32%),
-    linear-gradient(135deg, #21130c, #3a2114 48%, #160f0b);
+  background: #10243a;
   color: var(--limoune-ivory);
   padding: clamp(92px, 8vw, 150px) 0;
 }
@@ -5888,6 +5885,24 @@ html {
   box-shadow: 0 34px 110px rgba(16, 36, 58, 0.12);
 }
 
+.inner-page-gallery .limoune-media-image {
+  opacity: 1;
+  filter: saturate(1.04) contrast(1.06) brightness(1.02);
+}
+
+.inner-page-gallery .limoune-media-depth {
+  opacity: 0.2;
+}
+
+.inner-page-gallery .limoune-media-sheen {
+  opacity: 0.1;
+}
+
+.inner-page-gallery .limoune-media::after {
+  height: 22%;
+  background: linear-gradient(0deg, rgba(16, 36, 58, 0.2), transparent);
+}
+
 .inner-gallery-thumbs {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -7864,6 +7879,1060 @@ a {
   font-weight: 800;
   letter-spacing: 0.24em;
   text-transform: uppercase;
+}
+
+/* Restaurants and Canopy Spa premium landing pages */
+.dining-hero,
+.spa-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: min(100dvh, 920px);
+  overflow: hidden;
+  background: var(--limoune-brown);
+  color: var(--limoune-ivory);
+  padding: clamp(118px, 11vw, 164px) 0 clamp(30px, 5vw, 70px);
+}
+
+.limoune-media.dining-hero-media,
+.limoune-media.spa-hero-media {
+  position: absolute;
+  inset: 0;
+  min-height: 100%;
+  clip-path: none;
+  box-shadow: none;
+}
+
+.dining-hero-media .limoune-media-image {
+  opacity: 0.7;
+  filter: saturate(0.92) contrast(1.05) brightness(0.78);
+}
+
+.spa-hero-media .limoune-media-image {
+  opacity: 0.72;
+  filter: saturate(0.86) contrast(1.02) brightness(0.84);
+}
+
+.dining-hero-shade,
+.spa-hero-shade {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.dining-hero-shade {
+  background:
+    radial-gradient(circle at 82% 22%, rgba(201, 104, 52, 0.26), transparent 24rem),
+    linear-gradient(90deg, rgba(16, 36, 58, 0.86), rgba(16, 36, 58, 0.45) 46%, rgba(16, 36, 58, 0.18)),
+    linear-gradient(0deg, rgba(16, 36, 58, 0.86), transparent 42%);
+}
+
+.spa-hero-shade {
+  background:
+    radial-gradient(circle at 20% 12%, rgba(251, 245, 234, 0.18), transparent 18rem),
+    radial-gradient(circle at 78% 26%, rgba(210, 176, 139, 0.22), transparent 25rem),
+    linear-gradient(90deg, rgba(16, 36, 58, 0.84), rgba(16, 36, 58, 0.48) 46%, rgba(16, 36, 58, 0.16)),
+    linear-gradient(0deg, rgba(16, 36, 58, 0.78), transparent 44%);
+}
+
+.dining-hero-line {
+  pointer-events: none;
+  position: absolute;
+  right: clamp(24px, 7vw, 120px);
+  bottom: 0;
+  z-index: 4;
+  width: 1px;
+  height: 44%;
+  background: linear-gradient(180deg, transparent, rgba(251, 245, 234, 0.42));
+}
+
+.dining-hero-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--limoune-orange);
+  animation: dining-line-pulse 2.8s ease-in-out infinite;
+}
+
+.dining-hero-inner,
+.spa-hero-inner {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  gap: clamp(34px, 5vw, 72px);
+  align-items: end;
+  margin-top: auto;
+}
+
+.dining-hero-inner {
+  grid-template-columns: minmax(0, 0.94fr) minmax(340px, 0.46fr);
+}
+
+.spa-hero-inner {
+  grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.42fr);
+}
+
+.dining-hero-copy,
+.spa-hero-copy {
+  max-width: 850px;
+}
+
+.dining-hero-kicker,
+.spa-hero-kicker {
+  color: var(--limoune-orange);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.dining-hero-copy h1,
+.spa-hero-copy h1 {
+  margin-top: 18px;
+  color: white;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(3.2rem, 7.2vw, 8.4rem);
+  font-weight: 300;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+  text-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+}
+
+.dining-hero-subtitle,
+.spa-hero-subtitle {
+  margin-top: clamp(18px, 2.4vw, 34px);
+  color: white;
+  font-family: var(--font-display-regular), Georgia, serif;
+  font-size: clamp(1.45rem, 2.2vw, 2.4rem);
+  line-height: 1.05;
+}
+
+.dining-hero-copy > p:not(.dining-hero-kicker):not(.dining-hero-subtitle),
+.spa-hero-copy > p:not(.spa-hero-kicker):not(.spa-hero-subtitle) {
+  max-width: 620px;
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  line-height: 1.75;
+}
+
+.dining-hero-actions,
+.spa-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(24px, 3.2vw, 42px);
+}
+
+.dining-hero-anchors {
+  display: grid;
+  gap: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(20px);
+}
+
+.dining-hero-anchors a {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 8px 16px;
+  min-height: 96px;
+  background: rgba(16, 36, 58, 0.36);
+  color: white;
+  padding: 18px;
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.dining-hero-anchors a:hover,
+.dining-hero-anchors a:focus-visible {
+  background: rgba(201, 104, 52, 0.64);
+  transform: translateX(-4px);
+  outline: none;
+}
+
+.dining-hero-anchors span {
+  color: var(--limoune-orange);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.8rem;
+  line-height: 0.9;
+}
+
+.dining-hero-anchors strong {
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dining-hero-anchors small {
+  grid-column: 2;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.spa-breathe-orb {
+  pointer-events: none;
+  position: absolute;
+  z-index: 4;
+  border: 1px solid rgba(251, 245, 234, 0.18);
+  border-radius: 999px;
+  animation: spa-orb-breathe 8s ease-in-out infinite alternate;
+}
+
+.spa-breathe-orb-one {
+  right: 9vw;
+  top: 20%;
+  width: clamp(15rem, 28vw, 32rem);
+  height: clamp(15rem, 28vw, 32rem);
+}
+
+.spa-breathe-orb-two {
+  right: 23vw;
+  bottom: 13%;
+  width: clamp(9rem, 16vw, 19rem);
+  height: clamp(9rem, 16vw, 19rem);
+  opacity: 0.56;
+  animation-delay: -2s;
+}
+
+.spa-hero-card {
+  display: grid;
+  gap: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(251, 245, 234, 0.1);
+  color: white;
+  padding: clamp(22px, 2.6vw, 34px);
+  backdrop-filter: blur(22px);
+}
+
+.spa-hero-card span {
+  color: var(--limoune-orange);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.spa-hero-card strong {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.4rem, 4.5vw, 5.2rem);
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  line-height: 0.86;
+}
+
+.spa-hero-card p {
+  color: rgba(255, 255, 255, 0.66);
+  line-height: 1.7;
+}
+
+.spa-hero-card div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spa-hero-card small {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dining-page-section,
+.spa-page-section,
+.spa-journey-section,
+.spa-rituals-section,
+.spa-bridal-section,
+.spa-conditions-section,
+.spa-reservation-section,
+.dining-private-events,
+.dining-reservation-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(84px, 8vw, 142px) 0;
+}
+
+.dining-intro-section,
+.spa-concept-section {
+  background: var(--limoune-bg);
+}
+
+.dining-intro-grid,
+.spa-concept-grid,
+.dining-hours-grid,
+.dining-private-grid,
+.dining-reservation-grid,
+.spa-journey-grid,
+.spa-bridal-grid,
+.spa-conditions-grid,
+.spa-reservation-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(420px, 1fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.dining-intro-title h2,
+.spa-concept-copy h2,
+.dining-hours-title h2,
+.dining-private-copy h2,
+.dining-reservation-note h2,
+.spa-journey-copy h2,
+.spa-bridal-copy h2,
+.spa-conditions-grid h2,
+.spa-reservation-note h2 {
+  margin-top: 16px;
+  color: var(--limoune-brown);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.7rem, 5.4vw, 6.2rem);
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  line-height: 0.88;
+}
+
+.dining-intro-copy,
+.spa-concept-copy,
+.dining-hours-title,
+.dining-private-copy,
+.spa-journey-copy,
+.spa-bridal-copy,
+.spa-conditions-grid > .cinematic-reveal:first-child,
+.dining-reservation-note,
+.spa-reservation-note {
+  color: var(--limoune-muted);
+  font-size: 1rem;
+  line-height: 1.82;
+}
+
+.dining-intro-copy p + p,
+.spa-concept-copy p + p {
+  margin-top: 1.1rem;
+}
+
+.dining-moment-chips,
+.spa-concept-proof,
+.spa-bridal-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: clamp(24px, 3vw, 38px);
+}
+
+.dining-moment-chips span,
+.spa-concept-proof span,
+.spa-bridal-list span {
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  border-radius: 999px;
+  background: rgba(251, 245, 234, 0.62);
+  color: var(--limoune-brown);
+  padding: 9px 12px;
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dining-sticky-nav {
+  position: sticky;
+  top: 104px;
+  z-index: 45;
+  border-block: 1px solid rgba(16, 36, 58, 0.1);
+  background: rgba(251, 245, 234, 0.78);
+  backdrop-filter: blur(18px);
+}
+
+.dining-sticky-nav-inner {
+  display: flex;
+  gap: clamp(16px, 3vw, 46px);
+  overflow-x: auto;
+  padding: 14px 0;
+  scrollbar-width: none;
+}
+
+.dining-sticky-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.dining-sticky-nav a {
+  flex: 0 0 auto;
+  color: var(--limoune-brown);
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.dining-sticky-nav a:hover,
+.dining-sticky-nav a:focus-visible {
+  color: var(--limoune-orange);
+  outline: none;
+}
+
+.dining-venues-section,
+.spa-installations-section {
+  background: var(--limoune-ivory);
+}
+
+.dining-section-head,
+.spa-section-head {
+  margin-bottom: clamp(48px, 6vw, 86px);
+}
+
+.dining-section-head > p,
+.spa-section-head > p {
+  max-width: 560px;
+  color: var(--limoune-muted);
+  line-height: 1.75;
+}
+
+.dining-venue-list {
+  display: grid;
+  gap: clamp(46px, 6vw, 94px);
+}
+
+.dining-venue-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.72fr);
+  gap: clamp(34px, 5vw, 82px);
+  align-items: center;
+  scroll-margin-top: 154px;
+}
+
+.dining-venue-row.is-reverse {
+  grid-template-columns: minmax(360px, 0.72fr) minmax(0, 0.95fr);
+}
+
+.dining-venue-row.is-reverse .dining-venue-media-wrap {
+  order: 2;
+}
+
+.dining-venue-media-wrap,
+.dining-private-media,
+.spa-concept-panel,
+.spa-journey-media,
+.spa-bridal-media {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: rgba(255, 255, 255, 0.45);
+  padding: clamp(10px, 1.1vw, 16px);
+}
+
+.limoune-media.dining-venue-image,
+.limoune-media.dining-private-image,
+.limoune-media.spa-concept-image,
+.limoune-media.spa-journey-image,
+.limoune-media.spa-bridal-image {
+  min-height: clamp(500px, 54vw, 740px);
+}
+
+.dining-venue-badge,
+.dining-private-caption,
+.spa-journey-caption {
+  position: absolute;
+  left: clamp(24px, 3vw, 42px);
+  bottom: clamp(24px, 3vw, 42px);
+  z-index: 5;
+  display: grid;
+  max-width: min(78%, 380px);
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(16, 36, 58, 0.48);
+  color: white;
+  padding: 18px 20px;
+  backdrop-filter: blur(18px);
+}
+
+.dining-venue-badge span,
+.dining-private-caption span,
+.spa-journey-caption span {
+  color: var(--limoune-orange);
+  font-size: 0.64rem;
+  font-weight: 850;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.dining-venue-badge strong,
+.dining-private-caption strong,
+.spa-journey-caption strong {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.7rem, 2.6vw, 3rem);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+}
+
+.dining-venue-copy h3 {
+  margin-top: 14px;
+  color: var(--limoune-brown);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.55rem, 4.8vw, 5.7rem);
+  font-weight: 300;
+  letter-spacing: -0.065em;
+  line-height: 0.88;
+}
+
+.dining-venue-copy p {
+  color: var(--limoune-muted);
+  font-size: 1rem;
+  line-height: 1.78;
+}
+
+.dining-venue-lead {
+  margin-top: 24px;
+  color: var(--limoune-brown) !important;
+  font-family: var(--font-display-regular), Georgia, serif !important;
+  font-size: clamp(1.24rem, 1.8vw, 1.85rem) !important;
+  line-height: 1.22 !important;
+}
+
+.dining-venue-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.dining-venue-tags span {
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  border-radius: 999px;
+  color: var(--limoune-brown);
+  padding: 8px 10px;
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dining-venue-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: clamp(24px, 3vw, 38px);
+  overflow: hidden;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: rgba(16, 36, 58, 0.12);
+}
+
+.dining-venue-facts div {
+  min-height: 112px;
+  background: rgba(251, 245, 234, 0.72);
+  padding: 16px;
+}
+
+.dining-venue-facts small {
+  display: block;
+  color: var(--limoune-orange);
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.dining-venue-facts strong {
+  display: block;
+  margin-top: 10px;
+  color: var(--limoune-brown);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.dining-venue-actions,
+.dining-hours-actions,
+.dining-private-actions,
+.spa-ritual-actions,
+.spa-bridal-actions,
+.spa-condition-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(24px, 3vw, 40px);
+}
+
+.dining-detail-link,
+.spa-ritual-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  color: var(--limoune-brown);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.dining-detail-link:hover,
+.dining-detail-link:focus-visible,
+.spa-ritual-card a:hover,
+.spa-ritual-card a:focus-visible {
+  color: var(--limoune-orange);
+  transform: translateX(3px);
+  outline: none;
+}
+
+.dining-hours-section,
+.spa-rituals-section {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(201, 104, 52, 0.2), transparent 28%),
+    linear-gradient(135deg, #10243a, #12263b);
+  color: var(--limoune-ivory);
+}
+
+.dining-hours-title h2,
+.spa-rituals-head h2 {
+  color: white;
+}
+
+.dining-hours-title p,
+.spa-rituals-head p {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.dining-hours-board {
+  display: grid;
+  gap: 14px;
+}
+
+.dining-hour-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+  color: white;
+  padding: clamp(20px, 2.4vw, 30px);
+  backdrop-filter: blur(18px);
+}
+
+.dining-hour-card small,
+.spa-ritual-card span {
+  color: var(--limoune-orange);
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.dining-hour-card h3,
+.spa-ritual-card h3 {
+  color: white;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 3.1vw, 3.4rem);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 0.94;
+}
+
+.dining-hour-card p,
+.dining-hour-card span,
+.spa-ritual-card p {
+  color: rgba(255, 255, 255, 0.66);
+  line-height: 1.65;
+}
+
+.dining-hour-card div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.dining-hour-card a {
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.dining-private-events,
+.spa-bridal-section {
+  background: var(--limoune-bg);
+}
+
+.dining-private-copy p,
+.spa-bridal-copy p,
+.spa-conditions-grid p {
+  color: var(--limoune-muted);
+  line-height: 1.78;
+}
+
+.dining-private-card-list {
+  display: grid;
+  gap: 1px;
+  margin-top: clamp(26px, 3.2vw, 44px);
+  overflow: hidden;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: rgba(16, 36, 58, 0.12);
+}
+
+.dining-private-card-list article {
+  display: grid;
+  gap: 12px;
+  background: rgba(251, 245, 234, 0.72);
+  padding: clamp(18px, 2.2vw, 28px);
+}
+
+.dining-private-card-list small,
+.spa-journey-steps small,
+.spa-installation-card small,
+.spa-condition-list small {
+  color: var(--limoune-orange);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 0.9;
+}
+
+.dining-private-card-list strong,
+.spa-journey-steps strong,
+.spa-installation-card strong,
+.spa-condition-list strong {
+  color: var(--limoune-brown);
+  font-size: 1rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dining-private-card-list p,
+.spa-journey-steps p,
+.spa-installation-card p,
+.spa-condition-list p {
+  color: var(--limoune-muted);
+  line-height: 1.68;
+}
+
+.dining-reservation-section,
+.spa-reservation-section {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(201, 104, 52, 0.18), transparent 25%),
+    linear-gradient(180deg, var(--limoune-ivory), var(--limoune-bg));
+}
+
+.dining-reservation-note,
+.spa-reservation-note {
+  position: sticky;
+  top: 150px;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: rgba(251, 245, 234, 0.72);
+  padding: clamp(24px, 3vw, 42px);
+}
+
+.dining-reservation-proof,
+.spa-reservation-proof {
+  display: grid;
+  gap: 12px;
+  margin-top: clamp(26px, 3vw, 38px);
+  border-top: 1px solid rgba(16, 36, 58, 0.14);
+  padding-top: 22px;
+}
+
+.dining-reservation-proof span,
+.spa-reservation-proof span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--limoune-brown);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.dining-reservation-proof svg,
+.spa-reservation-proof svg {
+  color: var(--limoune-orange);
+}
+
+.dining-reservation-stack,
+.spa-reservation-stack {
+  display: grid;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.spa-concept-copy blockquote {
+  margin-top: clamp(28px, 3.4vw, 46px);
+  border-left: 1px solid rgba(201, 104, 52, 0.44);
+  color: var(--limoune-brown);
+  padding-left: 22px;
+  font-family: var(--font-display-regular), Georgia, serif;
+  font-size: clamp(1.38rem, 2vw, 2.2rem);
+  line-height: 1.12;
+}
+
+.spa-concept-panel {
+  align-self: stretch;
+}
+
+.spa-concept-proof {
+  position: absolute;
+  left: clamp(22px, 3vw, 40px);
+  right: clamp(22px, 3vw, 40px);
+  bottom: clamp(22px, 3vw, 40px);
+  z-index: 5;
+  margin-top: 0;
+}
+
+.spa-concept-proof span {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(16, 36, 58, 0.42);
+  color: white;
+  backdrop-filter: blur(16px);
+}
+
+.spa-journey-section,
+.spa-conditions-section {
+  background: var(--limoune-bg);
+}
+
+.spa-journey-media {
+  position: sticky;
+  top: 138px;
+}
+
+.spa-journey-steps {
+  display: grid;
+  gap: 1px;
+  margin-top: clamp(34px, 4vw, 58px);
+  overflow: hidden;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: rgba(16, 36, 58, 0.12);
+}
+
+.spa-journey-steps article,
+.spa-condition-list article {
+  display: grid;
+  grid-template-columns: 56px minmax(120px, 0.42fr) 1fr;
+  gap: 20px;
+  align-items: start;
+  background: rgba(251, 245, 234, 0.72);
+  padding: clamp(18px, 2.2vw, 28px);
+}
+
+.spa-installations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: rgba(16, 36, 58, 0.12);
+}
+
+.spa-installation-card {
+  display: grid;
+  min-height: 220px;
+  align-content: space-between;
+  gap: 18px;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(201, 104, 52, 0.12), transparent 32%),
+    rgba(251, 245, 234, 0.78);
+  padding: clamp(20px, 2.5vw, 34px);
+}
+
+.spa-installation-card:hover {
+  background: white;
+  transform: translateY(-4px);
+}
+
+.spa-rituals-head {
+  max-width: 820px;
+  margin-bottom: clamp(40px, 5vw, 72px);
+}
+
+.spa-rituals-head h2 {
+  margin-top: 16px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(3rem, 5.8vw, 6.8rem);
+  font-weight: 300;
+  letter-spacing: -0.065em;
+  line-height: 0.86;
+}
+
+.spa-ritual-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.spa-ritual-card {
+  display: grid;
+  min-height: 360px;
+  align-content: space-between;
+  gap: 22px;
+  background: rgba(255, 255, 255, 0.07);
+  color: white;
+  padding: clamp(22px, 2.8vw, 36px);
+  transition: background 220ms ease, transform 220ms ease;
+}
+
+.spa-ritual-card:hover {
+  background: rgba(201, 104, 52, 0.24);
+  transform: translateY(-4px);
+}
+
+.spa-ritual-card a {
+  color: white;
+}
+
+.spa-bridal-list span {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.spa-condition-list {
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(16, 36, 58, 0.12);
+  background: rgba(16, 36, 58, 0.12);
+}
+
+.spa-condition-actions {
+  grid-column: 2;
+  margin-top: 0;
+}
+
+@media (max-width: 1180px) {
+  .dining-hero-inner,
+  .spa-hero-inner,
+  .dining-intro-grid,
+  .spa-concept-grid,
+  .dining-hours-grid,
+  .dining-private-grid,
+  .dining-reservation-grid,
+  .spa-journey-grid,
+  .spa-bridal-grid,
+  .spa-conditions-grid,
+  .spa-reservation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dining-hero-anchors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dining-venue-row,
+  .dining-venue-row.is-reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .dining-venue-row.is-reverse .dining-venue-media-wrap {
+    order: 0;
+  }
+
+  .dining-reservation-note,
+  .spa-reservation-note,
+  .spa-journey-media {
+    position: relative;
+    top: auto;
+  }
+
+  .spa-installations-grid,
+  .spa-ritual-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .spa-condition-actions {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .dining-hero,
+  .spa-hero {
+    min-height: 86dvh;
+    padding-top: 104px;
+  }
+
+  .dining-hero-anchors,
+  .spa-installations-grid,
+  .spa-ritual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dining-hero-anchors a {
+    min-height: 82px;
+  }
+
+  .dining-venue-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .spa-journey-steps article,
+  .spa-condition-list article {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .limoune-media.dining-venue-image,
+  .limoune-media.dining-private-image,
+  .limoune-media.spa-concept-image,
+  .limoune-media.spa-journey-image,
+  .limoune-media.spa-bridal-image {
+    min-height: clamp(340px, 92vw, 520px);
+  }
+}
+
+@media (max-width: 560px) {
+  .dining-hero-actions,
+  .spa-hero-actions,
+  .dining-venue-actions,
+  .dining-hours-actions,
+  .dining-private-actions,
+  .spa-ritual-actions,
+  .spa-bridal-actions,
+  .spa-condition-actions {
+    flex-direction: column;
+  }
+
+  .dining-sticky-nav {
+    top: 76px;
+  }
+
+  .dining-venue-badge,
+  .dining-private-caption,
+  .spa-journey-caption {
+    max-width: calc(100% - 38px);
+    left: 19px;
+    right: 19px;
+    bottom: 19px;
+  }
+}
+
+@keyframes dining-line-pulse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) scale(1.4);
+    opacity: 1;
+  }
+}
+
+@keyframes spa-orb-breathe {
+  from {
+    transform: scale(0.96) translate3d(0, 0, 0);
+    opacity: 0.28;
+  }
+  to {
+    transform: scale(1.08) translate3d(-14px, 10px, 0);
+    opacity: 0.58;
+  }
 }
 
 .section-title {

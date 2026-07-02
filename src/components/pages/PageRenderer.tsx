@@ -22,6 +22,7 @@ import {
   heroVideos,
   images,
   localizedHref,
+  restaurants,
   type Accommodation,
   type Card,
   type ContentSection,
@@ -161,6 +162,126 @@ const homeStories: StorySection[] = [
   },
 ];
 
+const diningVenueProfiles = [
+  {
+    slug: "massa-restaurant",
+    nav: "Massa",
+    name: "Massa Restaurant",
+    kicker: "Restaurant signature",
+    image: images.restaurantMassa,
+    alt: "Table signature Massa Restaurant au Domaine Limoune",
+    cuisine: "Cuisine signature et produits de saison",
+    hours: "Déjeuner et dîner selon calendrier",
+    lead: "La table qui installe le Domaine dans une vraie adresse gastronomique : précise, chaude, élégante, adaptée au déjeuner, au dîner et aux moments privés.",
+    atmosphere: "Service attentif, assiettes travaillées, lumière du soir et argument parfait pour transformer un séjour ou une journée en expérience complète.",
+    menu: "Menu signature, menu découverte, déjeuner ou dîner privé selon disponibilité.",
+    privateUse: "Déjeuner de direction, dîner privé, groupe ou célébration intimiste.",
+    details: ["Signature", "Déjeuner", "Dîner privé", "Groupes"],
+  },
+  {
+    slug: "aman-sous-les-orangers",
+    nav: "Aman",
+    name: "Aman sous les Orangers",
+    kicker: "Sous les orangers",
+    image: images.restaurantAman,
+    alt: "Déjeuner sous les orangers au Domaine Limoune",
+    cuisine: "Brunchs, banquets et cuisine conviviale",
+    hours: "Selon programmation et privatisation",
+    lead: "Le lieu de partage du Domaine : brunchs, déjeuners de groupe, banquets, tea time et événements privés dans une atmosphère naturelle et généreuse.",
+    atmosphere: "Une scène plus ouverte, plus familiale, où l’ombre des orangers, les grandes tablées et la lumière chaude portent la mémoire du lieu.",
+    menu: "Brunch, banquet, déjeuner de groupe et propositions événementielles.",
+    privateUse: "Mariages, lendemains de fête, familles, agences et groupes corporate.",
+    details: ["Brunch", "Groupes", "Orangers", "Banquets"],
+  },
+  {
+    slug: "monkey-beach",
+    nav: "Monkey Beach",
+    name: "Monkey Beach",
+    kicker: "Pool day",
+    image: images.restaurantMonkey,
+    alt: "Monkey Beach, piscine et snacking premium au Domaine Limoune",
+    cuisine: "Food, drinks, pool access et snacking premium",
+    hours: "Horaires saisonniers",
+    lead: "L’univers piscine, détente et journée famille : une offre claire pour les visiteurs journée, les résidents et les activations d’été.",
+    atmosphere: "Carte food & drinks, accès piscine selon conditions, rythme solaire et moments simples à réserver avant de venir.",
+    menu: "Carte food & drinks, snacking premium, offres été et formules pool access.",
+    privateUse: "Anniversaires, journées familles, summer events et activations saisonnières.",
+    details: ["Piscine", "Famille", "Été", "Pool access"],
+  },
+  {
+    slug: "limoune-club",
+    nav: "Limoune Club",
+    name: "Limoune Club",
+    kicker: "Soirée et sport",
+    image: images.restaurantClub,
+    alt: "Limoune Club, cheminée, sport et soirées au Domaine Limoune",
+    cuisine: "Cuisine, boissons, programmation et privatisations",
+    hours: "Selon programmation",
+    lead: "Le lieu qui prolonge la journée : chill-out, cheminée, diffusions sportives, offres food & drinks et événements privés.",
+    atmosphere: "Plus nocturne, plus vivant, pensé pour les matchs, les groupes, les soirées et les moments qui donnent envie de revenir au Domaine.",
+    menu: "Offres food & drinks, programmation sportive, soirées privées et formats groupe.",
+    privateUse: "Diffusions, afterworks, anniversaires, team moments et privatisations.",
+    details: ["Soirée", "Sport", "Cheminée", "Privatisation"],
+  },
+] as const;
+
+const diningMoments = [
+  ["Déjeuner signature", "Massa Restaurant pour un déjeuner ou dîner qui positionne le Domaine comme adresse de table."],
+  ["Brunch sous les orangers", "Aman sous les Orangers pour les familles, groupes, lendemains de mariage et événements."],
+  ["Pool day", "Monkey Beach pour l’accès piscine, la détente, la carte food & drinks et les offres été."],
+  ["Soirée et match", "Limoune Club pour les diffusions sportives, la cheminée, le chill-out et les privatisations."],
+] as const;
+
+const spaJourneySteps = [
+  ["Accueil", "Choisir le bon rythme : soin, hammam, duo, journée spa ou rituel mariage."],
+  ["Chaleur", "Hammam, vapeur, préparation du corps et ralentissement du temps."],
+  ["Soin", "Cabine solo ou duo, massage, rituel signature, beauté des mains ou coiffure."],
+  ["Eau", "Piscine chauffée, jacuzzis et pause calme pour prolonger le bénéfice."],
+  ["Tisanerie", "Une sortie douce, claire, avec conseil et prochaine réservation possible."],
+] as const;
+
+const spaInstallations = [
+  ["Hammams", "Chaleur, vapeur et préparation du corps avant un soin ou un rituel complet."],
+  ["Cabines", "Espaces de soin solo, calmes et précis, à réserver selon disponibilité."],
+  ["Cabine duo", "Un format couple, anniversaire, séjour ou moment partagé avant une célébration."],
+  ["Piscine chauffée", "Une parenthèse d’eau pour prolonger le soin et donner de la valeur à la journée spa."],
+  ["Jacuzzis", "Détente, récupération et pause lente dans le parcours wellness."],
+  ["Salle de sport", "Un appui fitness pour les clients hébergement et les séjours plus actifs."],
+  ["Manucure / pédicure", "Beauté des mains et des pieds pour séjour, mariage ou pause journée."],
+  ["Coiffure", "Coiffure homme et femme, préparation avant événement ou rituel bridal."],
+  ["Tisanerie", "Un moment final qui imprime le calme du Canopy Spa dans la mémoire du visiteur."],
+] as const;
+
+const spaRituals = [
+  {
+    title: "Rituel Canopy Signature",
+    meta: "Soin complet",
+    copy: "Un parcours lent qui associe chaleur, soin, eau et tisanerie pour transformer une simple pause en rituel mémorable.",
+  },
+  {
+    title: "Hammam & massage",
+    meta: "Solo ou duo",
+    copy: "Le format lisible pour les clients journée, les couples et les séjours qui veulent un bénéfice immédiat.",
+  },
+  {
+    title: "Canopy Spa Day",
+    meta: "Journée bien-être",
+    copy: "Une offre à composer avec piscine chauffée, jacuzzis, soin et table du Domaine selon calendrier.",
+  },
+  {
+    title: "Bridal Rituals",
+    meta: "Mariage",
+    copy: "Préparation mariée, duo, beauté, coiffure et rituels avant cérémonie ou brunch du lendemain.",
+  },
+] as const;
+
+const spaConditions = [
+  ["Horaires soins", "10h - 19h selon calendrier et confirmation opérationnelle."],
+  ["Réservation", "Créneau conseillé à l’avance, surtout pour duo, bridal rituals et week-ends."],
+  ["Accès", "Selon offre, disponibilité, capacité spa et conditions du jour."],
+  ["Documents", "Carte spa téléchargeable et demande personnalisée via formulaire dédié."],
+] as const;
+
 export function PageRenderer({ page, locale }: PageRendererProps) {
   return (
     <>
@@ -186,6 +307,14 @@ function Hero({ page, locale }: PageRendererProps) {
 
   if (["reserve-africaine", "parc-animalier"].includes(page.slug)) {
     return <WildlifeImmersiveHero page={page} locale={locale} />;
+  }
+
+  if (page.slug === "restaurants") {
+    return <DiningImmersiveHero page={page} locale={locale} />;
+  }
+
+  if (page.slug === "canopy-spa") {
+    return <CanopySpaImmersiveHero page={page} locale={locale} />;
   }
 
   const stayItem = getStayItemFromPage(page);
@@ -256,30 +385,126 @@ function WildlifeImmersiveHero({ page, locale }: PageRendererProps) {
   const copy = isReserve
     ? "Une expérience d’hébergement immersive, lente et attentive, pensée autour de l’observation."
     : "Une visite familiale, pédagogique et respectueuse, accessible selon conditions.";
-  const proofItems = isReserve
-    ? ["Hébergement immersif", "Lodges safari", "Observation silencieuse"]
-    : ["30+ espèces", "Parcours famille", "Non-nourrissage"];
+  const heroAnchors = isReserve
+    ? [
+        ["#reserve-concept", "Concept", "Hébergement immersif"],
+        ["#reserve-lodges", "Lodges", "Safari et réserve"],
+        ["#reserve-rules", "Règles", "Respect animalier"],
+        ["#reserve-contact", "Contact", "Réserver le bon séjour"],
+      ]
+    : [
+        ["#park-concept", "Concept", "Visite familiale"],
+        ["#park-species", "Espèces", "Plus de 30 espèces"],
+        ["#park-rules", "Règles", "Bien-être animal"],
+        ["#park-contact", "Contact", "Préparer la visite"],
+      ];
 
   return (
-    <section className={`wildlife-immersive-hero ${isReserve ? "is-reserve" : "is-park"} capella-stop-section`} aria-label={page.title}>
-      <EditorialMedia src={page.heroImage} alt={page.heroAlt} variant="hero" className="wildlife-immersive-hero-media" />
-      <div className="wildlife-immersive-hero-shade" aria-hidden="true" />
-      <div className="wildlife-immersive-hero-gradient" aria-hidden="true" />
-      <div className="capella-template-wrapper wildlife-immersive-hero-inner">
-        <div className="wildlife-immersive-copy">
-          <p className="wildlife-immersive-kicker fade-in-left">{page.eyebrow}</p>
-          <h1 className="wildlife-immersive-title fade-in-left">{page.title}</h1>
-          <p className="wildlife-immersive-subtitle fade-in-left">{subtitle}</p>
-          <span className="wildlife-hero-rule fade-in-left" aria-hidden="true" />
-          <p className="wildlife-immersive-text fade-in-left">{copy}</p>
-          <div className="wildlife-immersive-actions fade-in-left">
-            <ButtonLink cta={page.primaryCta} locale={locale} />
-            {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+    <section className={`dining-hero wildlife-dining-hero ${isReserve ? "is-reserve" : "is-park"} capella-stop-section`} aria-label={page.title}>
+      <EditorialMedia src={page.heroImage} alt={page.heroAlt} variant="hero" className="dining-hero-media wildlife-dining-hero-media" />
+      <div className="dining-hero-shade wildlife-dining-hero-shade" aria-hidden="true" />
+      <div className="dining-hero-line" aria-hidden="true" />
+      <div className="capella-template-wrapper dining-hero-inner">
+        <Reveal>
+          <div className="dining-hero-copy">
+            <p className="dining-hero-kicker">{page.eyebrow}</p>
+            <h1>{page.title}</h1>
+            <p className="dining-hero-subtitle">{subtitle}</p>
+            <p>{copy}</p>
+            <div className="dining-hero-actions">
+              <ButtonLink cta={page.primaryCta} locale={locale} />
+              {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+            </div>
           </div>
-        </div>
-        <div className="wildlife-immersive-proof" aria-label="Points clés">
-          {proofItems.map((item) => <span key={item}>{item}</span>)}
-        </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <nav className="dining-hero-anchors" aria-label={`Parcours ${page.title}`}>
+            {heroAnchors.map(([href, title, label], index) => (
+              <a key={href} href={href}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{title}</strong>
+                <small>{label}</small>
+              </a>
+            ))}
+          </nav>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function DiningImmersiveHero({ page, locale }: PageRendererProps) {
+  return (
+    <section className="dining-hero capella-stop-section" aria-label={page.title}>
+      <EditorialMedia src={page.heroImage} alt={page.heroAlt} variant="hero" className="dining-hero-media" />
+      <div className="dining-hero-shade" aria-hidden="true" />
+      <div className="dining-hero-line" aria-hidden="true" />
+      <div className="capella-template-wrapper dining-hero-inner">
+        <Reveal>
+          <div className="dining-hero-copy">
+            <p className="dining-hero-kicker">{page.eyebrow}</p>
+            <h1>{page.title}</h1>
+            <p className="dining-hero-subtitle">Quatre lieux de vie, quatre manières de goûter le Domaine.</p>
+            <p>
+              Massa Restaurant, Aman sous les Orangers, Monkey Beach et Limoune Club composent une restauration de séjour, de journée, de groupe et d’événement.
+            </p>
+            <div className="dining-hero-actions">
+              <ButtonLink cta={{ ...page.primaryCta, href: "#restaurants-reservation" }} locale={locale} />
+              {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <nav className="dining-hero-anchors" aria-label="Restaurants du Domaine">
+            {diningVenueProfiles.map((venue, index) => (
+              <a key={venue.slug} href={`#${venue.slug}`}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{venue.nav}</strong>
+                <small>{venue.kicker}</small>
+              </a>
+            ))}
+          </nav>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function CanopySpaImmersiveHero({ page, locale }: PageRendererProps) {
+  return (
+    <section className="spa-hero capella-stop-section" aria-label={page.title}>
+      <EditorialMedia src={page.heroImage} alt={page.heroAlt} variant="hero" className="spa-hero-media" />
+      <div className="spa-hero-shade" aria-hidden="true" />
+      <span className="spa-breathe-orb spa-breathe-orb-one" aria-hidden="true" />
+      <span className="spa-breathe-orb spa-breathe-orb-two" aria-hidden="true" />
+      <div className="capella-template-wrapper spa-hero-inner">
+        <Reveal>
+          <div className="spa-hero-copy">
+            <p className="spa-hero-kicker">{page.eyebrow}</p>
+            <h1>{page.title}</h1>
+            <p className="spa-hero-subtitle">Un refuge de lumière, de chaleur et d’eau au cœur du Domaine.</p>
+            <p>
+              Soins, hammams, cabines, cabine duo, piscine chauffée, jacuzzis, salle de sport, beauté, coiffure et tisanerie composent un parcours wellness clair et désirable.
+            </p>
+            <div className="spa-hero-actions">
+              <ButtonLink cta={page.primaryCta} locale={locale} />
+              {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <aside className="spa-hero-card cinematic-card" aria-label="Points clés Canopy Spa">
+            <span>Horaires soins</span>
+            <strong>10h - 19h</strong>
+            <p>Rituels signature, hammams, duo, bridal rituals et journée spa selon disponibilité.</p>
+            <div>
+              {['Hammams', 'Cabine duo', 'Piscine chauffée'].map((item) => <small key={item}>{item}</small>)}
+            </div>
+          </aside>
+        </Reveal>
       </div>
     </section>
   );
@@ -840,6 +1065,14 @@ function InnerPage({ page, locale }: PageRendererProps) {
     return <ParcAnimalierPage page={page} locale={locale} />;
   }
 
+  if (page.slug === "restaurants") {
+    return <RestaurantsLandingPage page={page} locale={locale} />;
+  }
+
+  if (page.slug === "canopy-spa") {
+    return <CanopySpaLandingPage page={page} locale={locale} />;
+  }
+
   return (
     <>
       <InnerEditorialIntro page={page} locale={locale} />
@@ -1176,7 +1409,7 @@ function ReserveAfricainePage({ page, locale }: { page: SitePage; locale: Locale
 
   return (
     <>
-      <section className="wildlife-intro reserve-intro capella-stop-section">
+      <section id="reserve-concept" className="wildlife-intro reserve-intro capella-stop-section">
         <div className="capella-template-wrapper wildlife-intro-grid">
           <Reveal>
             <div>
@@ -1256,7 +1489,7 @@ function ReserveAfricainePage({ page, locale }: { page: SitePage; locale: Locale
         </div>
       </section>
 
-      {featuredLodge ? <WildlifeLodgeFeature item={featuredLodge} locale={locale} /> : null}
+      {featuredLodge ? <WildlifeLodgeFeature id="reserve-lodges" item={featuredLodge} locale={locale} /> : null}
 
       <WildlifeMediaBlock
         title="Photos et vidéos de la réserve"
@@ -1266,6 +1499,7 @@ function ReserveAfricainePage({ page, locale }: { page: SitePage; locale: Locale
       />
 
       <WildlifeRules
+        id="reserve-rules"
         kicker="Respect animalier"
         title="Les règles font partie de l’expérience."
         intro="La réserve repose sur une relation calme au vivant. Ces règles doivent être comprises avant le séjour et rappelées sur place."
@@ -1285,7 +1519,7 @@ function ParcAnimalierPage({ page, locale }: { page: SitePage; locale: Locale })
 
   return (
     <>
-      <section className="wildlife-intro park-intro capella-stop-section">
+      <section id="park-concept" className="wildlife-intro park-intro capella-stop-section">
         <div className="capella-template-wrapper wildlife-intro-grid">
           <Reveal>
             <div>
@@ -1311,7 +1545,7 @@ function ParcAnimalierPage({ page, locale }: { page: SitePage; locale: Locale })
         imagesList={[images.parkScenic, images.parkWalk, images.domain]}
       />
 
-      <section className="park-species capella-stop-section">
+      <section id="park-species" className="park-species capella-stop-section">
         <div className="capella-template-wrapper park-species-grid">
           <div className="park-species-showcase">
             <Reveal>
@@ -1386,6 +1620,7 @@ function ParcAnimalierPage({ page, locale }: { page: SitePage; locale: Locale })
       <ParkFamilyOffers locale={locale} />
 
       <WildlifeRules
+        id="park-rules"
         kicker="Bien-être animal"
         title="Une visite respectueuse avant tout."
         intro="Le parc doit rester une expérience pédagogique et maîtrisée. Les règles protègent les animaux, les visiteurs et la qualité du parcours."
@@ -1536,9 +1771,9 @@ function ParkFamilyOffers({ locale }: { locale: Locale }) {
   );
 }
 
-function WildlifeLodgeFeature({ item, locale }: { item: Accommodation; locale: Locale }) {
+function WildlifeLodgeFeature({ id, item, locale }: { id?: string; item: Accommodation; locale: Locale }) {
   return (
-    <section className="wildlife-lodge-feature-section capella-stop-section">
+    <section id={id} className="wildlife-lodge-feature-section capella-stop-section">
       <div className="capella-template-wrapper wildlife-lodge-feature-wrapper">
         <Reveal>
           <div className="section_title split-title wildlife-section-head">
@@ -1567,9 +1802,9 @@ function WildlifeLodgeFeature({ item, locale }: { item: Accommodation; locale: L
   );
 }
 
-function WildlifeRules({ kicker, title, intro, rules }: { kicker: string; title: string; intro: string; rules: string[] }) {
+function WildlifeRules({ id, kicker, title, intro, rules }: { id?: string; kicker: string; title: string; intro: string; rules: string[] }) {
   return (
-    <section className="wildlife-rules capella-stop-section">
+    <section id={id} className="wildlife-rules capella-stop-section">
       <div className="capella-template-wrapper wildlife-rules-grid">
         <Reveal>
           <div>
@@ -1616,19 +1851,45 @@ function WildlifeCta({ page, locale, title, copy }: { page: SitePage; locale: Lo
 }
 
 function WildlifeContactBlock({ locale, page }: { locale: Locale; page: SitePage }) {
-  const isReserve = page.slug === "reserve-africaine";
-  const image = isReserve ? images.reserveLodge : images.parkScenic;
-  const title = isReserve ? "Composer votre nuit face à la réserve." : "Préparer une visite qui se déroule sans hasard.";
-  const quote = isReserve
-    ? "Un échange suffit parfois à choisir le bon lodge, le bon rythme, la bonne lumière."
-    : "Avant de venir, confirmez le moment juste, les conditions et les attentions utiles aux familles.";
+  const contactMap: Record<string, { id: string; image: string; title: string; quote: string }> = {
+    "reserve-africaine": {
+      id: "reserve-contact",
+      image: images.reserveLodge,
+      title: "Composer votre nuit face à la réserve.",
+      quote: "Un échange suffit parfois à choisir le bon lodge, le bon rythme, la bonne lumière.",
+    },
+    "parc-animalier": {
+      id: "park-contact",
+      image: images.parkScenic,
+      title: "Préparer une visite qui se déroule sans hasard.",
+      quote: "Avant de venir, confirmez le moment juste, les conditions et les attentions utiles aux familles.",
+    },
+    restaurants: {
+      id: "restaurants-contact",
+      image: images.restaurantContact,
+      title: "Réserver la bonne table ou imaginer une privatisation.",
+      quote: "Un déjeuner, un brunch, une soirée ou un groupe se prépare mieux quand la demande arrive directement au bon service.",
+    },
+    "canopy-spa": {
+      id: "spa-contact",
+      image: images.spaContact,
+      title: "Choisir le soin, le créneau et le rituel juste.",
+      quote: "Un échange suffit à transformer une intention de pause en rituel clair, fluide et parfaitement réservé.",
+    },
+  };
+  const content = contactMap[page.slug] ?? {
+    id: `${page.slug || "domaine"}-contact`,
+    image: page.gallery?.[0] ?? page.heroImage,
+    title: "Choisir le bon interlocuteur.",
+    quote: "Notre équipe oriente chaque demande vers le service le plus adapté.",
+  };
 
   return (
-    <section className="wildlife-contact-section capella-stop-section">
+    <section id={content.id} className="wildlife-contact-section capella-stop-section">
       <div className="capella-template-wrapper wildlife-contact-grid">
         <Reveal>
           <div className="wildlife-contact-media-card">
-            <EditorialMedia src={image} alt={`${page.title} contact visuel`} className="wildlife-contact-image" />
+            <EditorialMedia src={content.image} alt={`${page.title} contact visuel`} className="wildlife-contact-image" />
             <div className="wildlife-contact-caption">
               <span>Contact dédié</span>
               <strong>{page.title}</strong>
@@ -1639,9 +1900,9 @@ function WildlifeContactBlock({ locale, page }: { locale: Locale; page: SitePage
         <Reveal delay={0.08}>
           <article className="wildlife-contact-card cinematic-card">
             <p className="section-kicker">Contact</p>
-            <h2>{title}</h2>
+            <h2>{content.title}</h2>
             <div className="wildlife-poetic-quote compact">
-              <blockquote>{quote}</blockquote>
+              <blockquote>{content.quote}</blockquote>
             </div>
             <p>Notre équipe vous oriente vers le bon service, les disponibilités, les conditions d’accès et les prochaines étapes.</p>
             <div className="wildlife-contact-actions">
@@ -1695,6 +1956,454 @@ function StayContactBlock({ locale }: { locale: Locale }) {
             ))}
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function RestaurantsLandingPage({ page, locale }: { page: SitePage; locale: Locale }) {
+  return (
+    <>
+      <DiningEditorialIntro />
+      <DiningStickyNav />
+      <DiningVenueShowcase locale={locale} />
+      <DiningHoursAndMenus locale={locale} />
+      <DiningPrivateEvents locale={locale} />
+      {page.gallery?.length ? <PageGallery title="Restaurants du Domaine en images" imagesList={page.gallery} /> : null}
+      <DiningReservationBlock page={page} locale={locale} />
+      <WildlifeContactBlock locale={locale} page={page} />
+    </>
+  );
+}
+
+function DiningEditorialIntro() {
+  return (
+    <section className="dining-page-section dining-intro-section capella-stop-section">
+      <div className="capella-template-wrapper dining-intro-grid">
+        <Reveal>
+          <div className="dining-intro-title">
+            <p className="section-kicker">Introduction</p>
+            <h2>Une table pour chaque moment du Domaine.</h2>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="dining-intro-copy">
+            <p>La page Restaurants doit présenter la restauration comme un pôle majeur, pas comme une simple liste de points de vente.</p>
+            <p>Chaque adresse possède son rôle : Massa pour la signature, Aman pour les orangers et les groupes, Monkey Beach pour la piscine, Limoune Club pour le soir, le sport et les privatisations.</p>
+            <div className="dining-moment-chips" aria-label="Moments de restauration">
+              {diningMoments.map(([title]) => <span key={title}>{title}</span>)}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function DiningStickyNav() {
+  return (
+    <nav className="dining-sticky-nav" aria-label="Accès rapide restaurants">
+      <div className="capella-template-wrapper dining-sticky-nav-inner">
+        <a href="#dining-venues">Restaurants</a>
+        <a href="#dining-hours">Horaires et menus</a>
+        <a href="#dining-private-events">F&B events</a>
+        <a href="#restaurants-reservation">Réservation</a>
+      </div>
+    </nav>
+  );
+}
+
+function DiningVenueShowcase({ locale }: { locale: Locale }) {
+  return (
+    <section id="dining-venues" className="dining-page-section dining-venues-section capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="section_title split-title dining-section-head">
+            <div>
+              <p className="section-kicker">Listing des restaurants</p>
+              <h2>Quatre univers indépendants.</h2>
+            </div>
+            <p>Une structure inspirée des grands sites hôteliers : chaque restaurant raconte son ambiance, sa cuisine, ses horaires, son menu, sa réservation et sa possibilité de privatisation.</p>
+          </div>
+        </Reveal>
+
+        <div className="dining-venue-list">
+          {diningVenueProfiles.map((venue, index) => (
+            <Reveal key={venue.slug} delay={Math.min(index * 0.05, 0.16)}>
+              <article id={venue.slug} className={`dining-venue-row${index % 2 ? " is-reverse" : ""}`}>
+                <div className="dining-venue-media-wrap cinematic-card">
+                  <EditorialMedia src={venue.image} alt={venue.alt} className="dining-venue-image" />
+                  <div className="dining-venue-badge">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <strong>{venue.kicker}</strong>
+                  </div>
+                </div>
+                <div className="dining-venue-copy">
+                  <p className="section-kicker">{venue.kicker}</p>
+                  <h3>{venue.name}</h3>
+                  <p className="dining-venue-lead">{venue.lead}</p>
+                  <p>{venue.atmosphere}</p>
+                  <div className="dining-venue-tags" aria-label={`${venue.name} points forts`}>
+                    {venue.details.map((detail) => <span key={detail}>{detail}</span>)}
+                  </div>
+                  <div className="dining-venue-facts">
+                    <div><small>Cuisine</small><strong>{venue.cuisine}</strong></div>
+                    <div><small>Horaires</small><strong>{venue.hours}</strong></div>
+                    <div><small>Menus</small><strong>{venue.menu}</strong></div>
+                    <div><small>Privatisation</small><strong>{venue.privateUse}</strong></div>
+                  </div>
+                  <div className="dining-venue-actions">
+                    <ButtonLink cta={{ label: "Réserver cette table", href: "#restaurants-reservation", track: `restaurant_${venue.slug}` }} locale={locale} />
+                    <ButtonLink cta={{ label: "Télécharger le menu", href: downloads.restaurants.href, variant: "secondary" }} locale={locale} />
+                    <Link className="dining-detail-link" href={localizedHref(locale, `/restaurants/${venue.slug}`)}>
+                      Page dédiée
+                      <ArrowRight aria-hidden="true" className="size-3" />
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DiningHoursAndMenus({ locale }: { locale: Locale }) {
+  return (
+    <section id="dining-hours" className="dining-page-section dining-hours-section capella-stop-section">
+      <div className="capella-template-wrapper dining-hours-grid">
+        <Reveal>
+          <div className="dining-hours-title">
+            <p className="section-kicker">Horaires, menus, réservation</p>
+            <h2>Tout ce qui rassure avant de réserver.</h2>
+            <p>Les horaires exacts restent confirmés selon saison et programmation. La page doit néanmoins clarifier le type d’expérience, le menu disponible et le bon prochain geste.</p>
+            <div className="dining-hours-actions">
+              <ButtonLink cta={{ label: "Réserver une table", href: "#restaurants-reservation", track: "restaurant_hours_booking" }} locale={locale} />
+              <ButtonLink cta={{ label: "Voir les expériences", href: "/experiences", variant: "secondary" }} locale={locale} />
+            </div>
+          </div>
+        </Reveal>
+        <div className="dining-hours-board">
+          {restaurants.map((item, index) => {
+            const profile = diningVenueProfiles.find((venue) => venue.slug === item.slug);
+            return (
+              <Reveal key={item.slug} delay={Math.min(index * 0.04, 0.14)}>
+                <article className="dining-hour-card cinematic-card">
+                  <small>{profile?.nav ?? item.name}</small>
+                  <h3>{item.name}</h3>
+                  <p>{item.hours}</p>
+                  <span>{item.cuisine}</span>
+                  <div>
+                    <a href={downloads.restaurants.href}>Menu PDF</a>
+                    <a href="#restaurants-reservation">Réserver</a>
+                  </div>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DiningPrivateEvents({ locale }: { locale: Locale }) {
+  const cards = [
+    ["Offres et événements F&B", "Brunchs, dîners thématiques, activations été, diffusions sportives et programmations saisonnières donnent des raisons concrètes de revenir."],
+    ["Privatisations", "Déjeuner de groupe, dîner privé, banquet, événement d’entreprise, anniversaire ou lendemain de mariage : la demande doit être orientée vers le bon service."],
+    ["Safari Stop Experience", "Safari Stop Experience ou Giraffe Café peuvent être présentés comme touchpoints F&B à valider, sans les confondre avec les restaurants principaux."],
+  ];
+
+  return (
+    <section id="dining-private-events" className="dining-private-events capella-stop-section">
+      <div className="capella-template-wrapper dining-private-grid">
+        <Reveal>
+          <div className="dining-private-media cinematic-card">
+            <EditorialMedia src={images.restaurantPrivate} alt="Table privée et événement sous les orangers" className="dining-private-image" />
+            <div className="dining-private-caption">
+              <span>Privatisations</span>
+              <strong>Déjeuner, dîner, brunch ou événement complet</strong>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="dining-private-copy">
+            <p className="section-kicker">Offres et événements F&B</p>
+            <h2>La restauration devient un moteur de leads.</h2>
+            <p>Le parcours doit convertir autant les couples et familles que les groupes, wedding planners, agences événementielles et clients corporate.</p>
+            <div className="dining-private-card-list">
+              {cards.map(([title, copy], index) => (
+                <article key={title}>
+                  <small>{String(index + 1).padStart(2, "0")}</small>
+                  <strong>{title}</strong>
+                  <p>{copy}</p>
+                </article>
+              ))}
+            </div>
+            <div className="dining-private-actions">
+              <ButtonLink cta={{ label: "Demander une privatisation", href: "/contact?type=restaurant", track: "restaurant_private_event" }} locale={locale} />
+              <ButtonLink cta={{ label: "Voir l’agenda", href: "/agenda", variant: "secondary" }} locale={locale} />
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function DiningReservationBlock({ page, locale }: { page: SitePage; locale: Locale }) {
+  return (
+    <section id="restaurants-reservation" className="dining-reservation-section capella-stop-section">
+      <div className="capella-template-wrapper dining-reservation-grid">
+        <Reveal>
+          <aside className="dining-reservation-note cinematic-card">
+            <p className="section-kicker">Réservation restaurants</p>
+            <h2>Une table, un groupe ou une privatisation.</h2>
+            <p>Le formulaire collecte le restaurant, la date, l’heure, le nombre de personnes et l’intention de privatisation pour éviter un contact générique.</p>
+            <div className="dining-reservation-proof">
+              <span><Clock aria-hidden="true" className="size-4" /> Réponse par service</span>
+              <span><Download aria-hidden="true" className="size-4" /> Carte restaurants</span>
+              <span><MapPinned aria-hidden="true" className="size-4" /> Domaine Limoune</span>
+            </div>
+          </aside>
+        </Reveal>
+        <div className="dining-reservation-stack">
+          <LeadForm type="restaurant" />
+          <DownloadBlock keysList={page.downloads ?? ["restaurants"]} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CanopySpaLandingPage({ page, locale }: { page: SitePage; locale: Locale }) {
+  return (
+    <>
+      <SpaConceptIntro />
+      <SpaJourneySection />
+      <SpaInstallationsSection />
+      <SpaRitualsSection locale={locale} />
+      <SpaBridalSection locale={locale} />
+      <SpaConditionsSection locale={locale} />
+      {page.gallery?.length ? <PageGallery title="Canopy Spa en images" imagesList={page.gallery} /> : null}
+      <SpaReservationBlock page={page} />
+      <WildlifeContactBlock locale={locale} page={page} />
+    </>
+  );
+}
+
+function SpaConceptIntro() {
+  return (
+    <section className="spa-page-section spa-concept-section capella-stop-section">
+      <div className="capella-template-wrapper spa-concept-grid">
+        <Reveal>
+          <div className="spa-concept-copy">
+            <p className="section-kicker">Concept Canopy</p>
+            <h2>Un spa pensé comme un refuge, pas comme une liste de soins.</h2>
+            <p>Canopy Spa prolonge l’expérience du Domaine par la chaleur, l’eau, le silence, les soins et les rituels. La promesse reste claire : réserver une pause wellness premium, seule, en duo, en journée ou avant une célébration.</p>
+            <blockquote>« Entrer, ralentir, ressortir avec le Domaine imprimé dans le corps. »</blockquote>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="spa-concept-panel cinematic-card">
+            <EditorialMedia src={images.spaConcept} alt="Canopy Spa, lumière douce et bassin chauffé" className="spa-concept-image" />
+            <div className="spa-concept-proof">
+              {spaRituals.map((ritual) => <span key={ritual.title}>{ritual.meta}</span>)}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function SpaJourneySection() {
+  return (
+    <section className="spa-journey-section capella-stop-section">
+      <div className="capella-template-wrapper spa-journey-grid">
+        <Reveal>
+          <div className="spa-journey-media cinematic-card">
+            <EditorialMedia src={images.spaJourney} alt="Eau, calme et prolongement du soin au Canopy Spa" className="spa-journey-image" />
+            <div className="spa-journey-caption">
+              <span>Parcours wellness</span>
+              <strong>Chaleur, soin, eau, tisanerie</strong>
+            </div>
+          </div>
+        </Reveal>
+        <div className="spa-journey-copy">
+          <Reveal>
+            <div>
+              <p className="section-kicker">Micro-parcours</p>
+              <h2>Un rituel en cinq gestes.</h2>
+              <p>La page doit arrêter le scroll par une lecture simple : le visiteur se projette dans le parcours avant même de choisir son soin.</p>
+            </div>
+          </Reveal>
+          <div className="spa-journey-steps">
+            {spaJourneySteps.map(([title, copy], index) => (
+              <Reveal key={title} delay={Math.min(index * 0.035, 0.14)}>
+                <article>
+                  <small>{String(index + 1).padStart(2, "0")}</small>
+                  <strong>{title}</strong>
+                  <p>{copy}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SpaInstallationsSection() {
+  return (
+    <section className="spa-page-section spa-installations-section capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="section_title split-title spa-section-head">
+            <div>
+              <p className="section-kicker">Installations</p>
+              <h2>Tout le parcours wellness en une page.</h2>
+            </div>
+            <p>Les informations demandées par le cahier des charges sont rendues visibles, utiles et désirables : hammams, cabines, duo, piscine chauffée, jacuzzis, salle de sport, beauté, coiffure et tisanerie.</p>
+          </div>
+        </Reveal>
+        <div className="spa-installations-grid">
+          {spaInstallations.map(([title, copy], index) => (
+            <Reveal key={title} delay={Math.min(index * 0.025, 0.14)}>
+              <article className="spa-installation-card cinematic-card">
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <strong>{title}</strong>
+                <p>{copy}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SpaRitualsSection({ locale }: { locale: Locale }) {
+  return (
+    <section className="spa-rituals-section capella-stop-section">
+      <div className="capella-template-wrapper">
+        <Reveal>
+          <div className="spa-rituals-head">
+            <p className="section-kicker">Soins, hammams et rituels</p>
+            <h2>Choisir un bénéfice, pas seulement un soin.</h2>
+            <p>Chaque rituel est présenté comme un produit clair : cible, contexte, sensation attendue et prochain geste de réservation.</p>
+          </div>
+        </Reveal>
+        <div className="spa-ritual-grid">
+          {spaRituals.map((ritual, index) => (
+            <Reveal key={ritual.title} delay={Math.min(index * 0.04, 0.14)}>
+              <article className="spa-ritual-card cinematic-card">
+                <span>{ritual.meta}</span>
+                <h3>{ritual.title}</h3>
+                <p>{ritual.copy}</p>
+                <a href="#lead-form">
+                  Réserver ce rituel
+                  <ArrowRight aria-hidden="true" className="size-3" />
+                </a>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={0.14}>
+          <div className="spa-ritual-actions">
+            <ButtonLink cta={{ label: "Télécharger la carte spa", href: downloads.spa.href, variant: "secondary" }} locale={locale} />
+            <ButtonLink cta={{ label: "Voir les offres spa", href: "/offres", variant: "secondary" }} locale={locale} />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function SpaBridalSection({ locale }: { locale: Locale }) {
+  return (
+    <section className="spa-bridal-section capella-stop-section">
+      <div className="capella-template-wrapper spa-bridal-grid">
+        <Reveal>
+          <div className="spa-bridal-copy">
+            <p className="section-kicker">Bridal rituals</p>
+            <h2>Préparer la célébration par le calme.</h2>
+            <p>Canopy Spa doit être relié aux mariages : préparation mariée, cabine duo, beauté, coiffure, manucure, pédicure, pause tisanerie et lendemain de fête.</p>
+            <div className="spa-bridal-list">
+              {['Préparation mariée', 'Duo avant cérémonie', 'Beauté et coiffure', 'Brunch du lendemain'].map((item) => <span key={item}>{item}</span>)}
+            </div>
+            <div className="spa-bridal-actions">
+              <ButtonLink cta={{ label: "Découvrir les rituels mariage", href: "/mariages", track: "spa_bridal_rituals" }} locale={locale} />
+              <ButtonLink cta={{ label: "Contacter le spa", href: "#lead-form", variant: "secondary" }} locale={locale} />
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="spa-bridal-media cinematic-card">
+            <EditorialMedia src={images.spaBridal} alt="Rituels mariage et préparation au Domaine Limoune" className="spa-bridal-image" />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function SpaConditionsSection({ locale }: { locale: Locale }) {
+  return (
+    <section className="spa-conditions-section capella-stop-section">
+      <div className="capella-template-wrapper spa-conditions-grid">
+        <Reveal>
+          <div>
+            <p className="section-kicker">Horaires et conditions</p>
+            <h2>Réserver sans friction.</h2>
+            <p>Les informations pratiques rassurent avant le formulaire : horaires, accès, créneaux, documents et conditions opérationnelles.</p>
+          </div>
+        </Reveal>
+        <div className="spa-condition-list">
+          {spaConditions.map(([title, copy], index) => (
+            <Reveal key={title} delay={Math.min(index * 0.04, 0.14)}>
+              <article>
+                <small>{String(index + 1).padStart(2, "0")}</small>
+                <strong>{title}</strong>
+                <p>{copy}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={0.12}>
+          <div className="spa-condition-actions">
+            <ButtonLink cta={{ label: "Réserver un soin", href: "#lead-form", track: "spa_conditions_booking" }} locale={locale} />
+            <ButtonLink cta={{ label: "Carte spa", href: downloads.spa.href, variant: "secondary" }} locale={locale} />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function SpaReservationBlock({ page }: { page: SitePage }) {
+  return (
+    <section className="spa-reservation-section capella-stop-section">
+      <div className="capella-template-wrapper spa-reservation-grid">
+        <Reveal>
+          <aside className="spa-reservation-note cinematic-card">
+            <p className="section-kicker">Réservation spa</p>
+            <h2>Choisir une catégorie, une date, un créneau.</h2>
+            <p>Le formulaire respecte le cahier des charges : catégorie de soin, date souhaitée, créneau, nombre de personnes et commentaire.</p>
+            <div className="spa-reservation-proof">
+              <span><Clock aria-hidden="true" className="size-4" /> Soins 10h - 19h</span>
+              <span><Download aria-hidden="true" className="size-4" /> Carte spa</span>
+              <span><MapPinned aria-hidden="true" className="size-4" /> Canopy Spa</span>
+            </div>
+          </aside>
+        </Reveal>
+        <div className="spa-reservation-stack">
+          <LeadForm type="spa" />
+          <DownloadBlock keysList={page.downloads ?? ["spa"]} />
+        </div>
       </div>
     </section>
   );
