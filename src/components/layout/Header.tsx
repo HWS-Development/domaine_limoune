@@ -28,11 +28,7 @@ export function Header() {
     <header className="capella-header">
       <div className="capella-topbar">
         <div className="capella-topbar-inner">
-          <div className="capella-top-left">
-            <Link className="capella-top-link capella-line" href={localizedHref(locale, "/le-domaine")}>
-              Destinations
-            </Link>
-          </div>
+          <div className="capella-top-left" />
 
           <Link className="capella-mark" href={`/${locale}`} aria-label="Domaine Limoune accueil">
             <span>Domaine</span>

@@ -17,7 +17,7 @@ type LeadFormProps = {
 };
 
 const inputClass =
-  "min-h-12 rounded-2xl border border-[var(--limoune-brown)]/14 bg-white/75 px-4 text-base text-[var(--limoune-brown)] shadow-inner outline-none transition focus:border-[var(--limoune-orange)] focus:ring-4 focus:ring-[var(--limoune-orange)]/12";
+  "min-h-12 border border-[var(--limoune-brown)]/14 bg-white/75 px-4 text-base text-[var(--limoune-brown)] shadow-inner outline-none transition focus:border-[var(--limoune-orange)] focus:ring-4 focus:ring-[var(--limoune-orange)]/12";
 
 const baseFields: Field[] = [
   { label: "Nom", name: "lastName", required: true },
@@ -32,9 +32,11 @@ const fieldsByType: Record<Exclude<FormKey, "contact">, Field[]> = {
     { label: "Date souhaitée", name: "preferredDate", type: "date", required: true },
     { label: "Date alternative", name: "alternateDate", type: "date" },
     { label: "Nombre d'invités", name: "guests", type: "number", required: true },
+    { label: "Type d'événement", name: "eventType", options: ["Cérémonie", "Dîner", "After party", "Brunch lendemain", "Week-end complet"] },
     { label: "Type de cérémonie", name: "ceremony", options: ["Cérémonie civile", "Cérémonie symbolique", "Dîner privé", "Week-end complet"] },
     { label: "Besoin hébergement", name: "needsAccommodation", options: ["Oui", "Non", "À définir"] },
     { label: "Besoin restauration", name: "needsFood", options: ["Oui", "Non", "À définir"] },
+    { label: "Besoin technique", name: "needsTechnical", options: ["Oui", "Non", "À définir"] },
     { label: "Besoin spa", name: "needsSpa", options: ["Oui", "Non", "À définir"] },
     { label: "Budget indicatif", name: "budget" },
     { label: "Document d'inspiration", name: "brief", type: "file" },
@@ -111,27 +113,54 @@ export function LeadForm({ type }: LeadFormProps) {
         label: "Type de demande",
         name: "requestType",
         required: true,
-        options: ["Séjour", "Restaurant", "Spa", "Mariage", "Événement d’entreprise", "Activités", "Parc animalier", "Presse", "Autre"],
+        options: ["Séjour", "Restaurant", "Spa", "Mariage", "Événement corporate", "Activités", "Parc animalier", "Presse", "Autre"],
       },
     ];
+
+    if (requestType === "Séjour") {
+      dynamicFields.push(
+        { label: "Date d’arrivée", name: "arrival", type: "date" },
+        { label: "Date de départ", name: "departure", type: "date" },
+        { label: "Adultes", name: "adults", type: "number" },
+        { label: "Enfants", name: "children", type: "number" },
+        { label: "Catégorie souhaitée", name: "stayCategory", options: ["Suite", "Lodge", "Famille", "Réserve", "À conseiller"] },
+      );
+    }
 
     if (requestType === "Mariage") {
       dynamicFields.push({ label: "Date souhaitée", name: "preferredDate", type: "date" }, { label: "Nombre d'invités", name: "guests", type: "number" });
     }
 
-    if (requestType === "Événement d’entreprise") {
-      dynamicFields.push({ label: "Société", name: "company" }, { label: "Nombre de participants", name: "attendees", type: "number" });
+    if (requestType === "Événement corporate" || requestType === "Événement d’entreprise") {
+      dynamicFields.push(
+        { label: "Société", name: "company" },
+        { label: "Date souhaitée", name: "preferredDate", type: "date" },
+        { label: "Nombre de participants", name: "attendees", type: "number" },
+        { label: "Format", name: "format", options: ["Réunion", "Séminaire", "Team building", "Déjeuner", "Dîner", "Privatisation"] },
+      );
     }
 
     if (requestType === "Spa" || requestType === "Restaurant") {
       dynamicFields.push({ label: "Date souhaitée", name: "preferredDate", type: "date" }, { label: "Nombre de personnes", name: "people", type: "number" });
     }
 
+    if (requestType === "Activités" || requestType === "Parc animalier") {
+      dynamicFields.push(
+        { label: "Date souhaitée", name: "preferredDate", type: "date" },
+        { label: "Nombre de personnes", name: "people", type: "number" },
+        { label: "Expérience souhaitée", name: "experience", options: ["Parc animalier", "Safari Experience", "Quad", "Cheval sunset", "Kids Club", "Pool Day", "À conseiller"] },
+      );
+    }
+
+    if (requestType === "Presse") {
+      dynamicFields.push({ label: "Média / organisation", name: "media" }, { label: "Objet presse", name: "pressSubject", options: ["Dossier presse", "Photos officielles", "Interview", "Tournage", "Autre"] });
+    }
+
     return dynamicFields;
   }, [requestType, type]);
 
   return (
-    <section id="lead-form" className="rounded-[2rem] border border-[var(--limoune-brown)]/10 bg-white/70 p-5 shadow-[0_24px_70px_rgba(16,36,58,0.1)] backdrop-blur md:p-8">
+    <section id="lead-form" className="border border-[var(--limoune-brown)]/10 bg-white/70 p-5 shadow-[0_24px_70px_rgba(16,36,58,0.1)] backdrop-blur md:p-8">
       <div className="grid gap-3 md:grid-cols-[0.9fr_1.1fr] md:items-end">
         <div>
           <p className="text-sm font-bold tracking-[0.24em] text-[var(--limoune-orange)] uppercase">Demande personnalisée</p>
@@ -143,7 +172,7 @@ export function LeadForm({ type }: LeadFormProps) {
       </div>
 
       {sent ? (
-        <div className="mt-8 rounded-[1.5rem] border border-[var(--limoune-orange)]/20 bg-[var(--limoune-ivory)] p-5 text-[var(--limoune-brown)]" role="status" aria-live="polite">
+        <div className="mt-8 border border-[var(--limoune-orange)]/20 bg-[var(--limoune-ivory)] p-5 text-[var(--limoune-brown)]" role="status" aria-live="polite">
           <CheckCircle2 aria-hidden="true" className="mb-3 size-7 text-[var(--limoune-orange)]" />
           <p className="font-semibold">Votre demande a bien été préparée.</p>
           <p className="mt-2 text-sm text-[var(--limoune-muted)]">L’équipe concernée reviendra vers vous avec les informations adaptées à votre demande.</p>
@@ -158,7 +187,7 @@ export function LeadForm({ type }: LeadFormProps) {
         }}
       >
         {type === "contact" ? (
-          <div className="rounded-[1.5rem] border border-[var(--limoune-brown)]/10 bg-[var(--limoune-sand)]/50 p-4">
+          <div className="border border-[var(--limoune-brown)]/10 bg-[var(--limoune-sand)]/50 p-4">
             <label className="text-sm font-bold tracking-[0.08em] text-[var(--limoune-brown)]" htmlFor="service-router">
               Service concerné
             </label>
@@ -169,7 +198,7 @@ export function LeadForm({ type }: LeadFormProps) {
               className={`${inputClass} mt-2 w-full`}
             >
               {departments.map((department) => (
-                <option key={department} value={department === "Événements d’entreprise" ? "Événement d’entreprise" : department.replace("Réservations hébergement", "Séjour")}>
+                <option key={department} value={department === "Événements d’entreprise" ? "Événement corporate" : department.replace("Réservations hébergement", "Séjour")}>
                   {department}
                 </option>
               ))}
@@ -191,7 +220,7 @@ export function LeadForm({ type }: LeadFormProps) {
         <button
           type="submit"
           data-track={`submit_${type}`}
-          className="min-h-12 cursor-pointer rounded-full bg-[var(--limoune-brown)] px-6 py-4 text-sm font-bold tracking-[0.18em] text-[var(--limoune-ivory)] uppercase transition hover:bg-[var(--limoune-orange)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)] active:scale-[0.98] md:w-fit"
+          className="min-h-12 cursor-pointer bg-[var(--limoune-brown)] px-6 py-4 text-sm font-bold tracking-[0.18em] text-[var(--limoune-ivory)] uppercase transition hover:bg-[var(--limoune-orange)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)] active:scale-[0.98] md:w-fit"
         >
           Envoyer la demande
         </button>
