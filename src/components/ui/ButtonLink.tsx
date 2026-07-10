@@ -20,7 +20,7 @@ const variants: Record<NonNullable<Cta["variant"]>, string> = {
 export function ButtonLink({ cta, locale, className = "" }: ButtonLinkProps) {
   const href = localizedHref(locale, cta.href);
   const variant = cta.variant ?? "primary";
-  const classes = `limoune-button group inline-flex min-h-10 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold tracking-[0.15em] uppercase transition duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)] active:scale-[0.98] ${variants[variant]} ${className}`;
+  const classes = `limoune-button group inline-flex min-h-10 items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold tracking-[0.15em] uppercase transition duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)] active:scale-[0.98] ${variants[variant]} ${className}`;
   const content = (
     <>
       <span>{cta.label}</span>

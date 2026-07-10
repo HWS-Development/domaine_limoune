@@ -17,7 +17,7 @@ export function ImagePanel({
 }: ImagePanelProps) {
   return (
     <div
-      className={`relative isolate overflow-hidden rounded-[2rem] border border-white/35 bg-[var(--limoune-sand)] shadow-[0_30px_80px_rgba(16,36,58,0.16)] ${className}`}
+      className={`relative isolate overflow-hidden border border-white/35 bg-[var(--limoune-sand)] shadow-[0_30px_80px_rgba(16,36,58,0.16)] ${className}`}
     >
       <Image
         src={src}

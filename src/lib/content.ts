@@ -110,6 +110,8 @@ export const localeLabels: Record<Locale, string> = {
   de: "DE",
 };
 
+const pexels = (id: string) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=2400`;
+
 export const images = {
   hero: "https://capellahotels.com/assets/img/site_images/ubud/ubud-home01.jpg",
   domain: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Top-01.jpg",
@@ -146,10 +148,26 @@ export const images = {
   spaGalleryFive: "https://capellahotels.com/assets/img/site_images/ubud/ubud-wellness-auriga-treatmentroom-02.jpg",
   summer: "https://capellahotels.com/assets/img/site_images/bangkok/Capella-Bangkok-Homepage-Gallery-04.jpg",
   pool: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-06.jpg",
-  experiences: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-01.jpg",
+  experiences: pexels("1268855"),
+  experienceSafari: pexels("247431"),
+  experienceSunsetRide: pexels("1631665"),
+  experienceSport: pexels("3768916"),
+  experienceFamily: pexels("4252137"),
+  experienceDiningStars: pexels("1267320"),
+  experienceSpaDay: pexels("3757957"),
   weddings: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Private-Dining.jpg",
-  corporate: "https://capellahotels.com/assets/img/site_images/sydney/Capella-Sydney-Gallery-01a.jpg_.jpg",
-  offers: "https://capellahotels.com/assets/img/site_images/sydney/Sydney_Escape_Web_Exclusive-01.jpg",
+  corporate: pexels("3184291"),
+  corporateMeeting: pexels("3184431"),
+  corporateTeam: pexels("3184465"),
+  corporateDinner: pexels("1833336"),
+  corporateSpaces: pexels("3184360"),
+  offers: pexels("346885"),
+  offerStay: pexels("2608517"),
+  offerFamily: pexels("1024960"),
+  offerSpa: pexels("3757657"),
+  offerPool: pexels("3997983"),
+  offerBrunch: pexels("70497"),
+  offerSafari: pexels("667205"),
   agenda: "https://capellahotels.com/assets/img/site_images/ubud/Capella-Ubud-Homepage-Gallery-03.jpg",
 };
 
@@ -165,17 +183,17 @@ export const navItems = [
   {
     label: "Le Domaine",
     href: "/",
-    description: "Histoire, ADN, localisation et vision du Domaine.",
+    description: "Destination nature aux portes d'Agadir.",
   },
   {
-    label: "Séjours",
+    label: "Séjours & Lodges",
     href: "/sejours",
     description: "Suites, lodges safari et hébergements familiaux.",
   },
   {
-    label: "Réserve Africaine",
+    label: "Safari Experience",
     href: "/reserve-africaine",
-    description: "L'expérience immersive réservée aux clients des lodges.",
+    description: "Lodges safari face à la réserve africaine.",
   },
   {
     label: "Parc Animalier",
@@ -190,22 +208,12 @@ export const navItems = [
   {
     label: "Canopy Spa",
     href: "/canopy-spa",
-    description: "Soins, hammams, rituels, piscine chauffée et rituels mariage.",
+    description: "Soins, hammams, piscine chauffée et espaces détente.",
   },
   {
-    label: "Expériences",
-    href: "/experiences",
-    description: "Safari, plein air, familles, gastronomie et moments signature.",
-  },
-  {
-    label: "Mariages",
+    label: "Mariages & Événements",
     href: "/mariages",
-    description: "Cérémonies, dîners, soirée, brunch et hébergement invités.",
-  },
-  {
-    label: "Événements d’entreprise",
-    href: "/evenements-entreprise",
-    description: "Séminaires, activités d’équipe, réunions et privatisations.",
+    description: "Mariages, séminaires, privatisations et célébrations.",
   },
   {
     label: "Offres",
@@ -213,16 +221,63 @@ export const navItems = [
     description: "Offres saisonnières sans logique de discount agressif.",
   },
   {
-    label: "Agenda",
-    href: "/agenda",
-    description: "Programmation, brunchs, soirées et événements saisonniers.",
+    label: "Contact",
+    href: "/contact",
+    description: "Contacter le bon service.",
+  },
+];
+
+const navItemsEn: typeof navItems = [
+  {
+    label: "The Domaine",
+    href: "/",
+    description: "A nature destination at the gates of Agadir.",
+  },
+  {
+    label: "Stays & Lodges",
+    href: "/sejours",
+    description: "Suites, safari lodges and family accommodation.",
+  },
+  {
+    label: "Safari Experience",
+    href: "/reserve-africaine",
+    description: "Safari lodges facing the African reserve.",
+  },
+  {
+    label: "Wildlife Park",
+    href: "/parc-animalier",
+    description: "A family-friendly, educational visit that respects living nature.",
+  },
+  {
+    label: "Restaurants",
+    href: "/restaurants",
+    description: "Massa, Aman sous les Orangers, Monkey Beach and Limoune Club.",
+  },
+  {
+    label: "Canopy Spa",
+    href: "/canopy-spa",
+    description: "Treatments, hammams, heated pool and relaxation spaces.",
+  },
+  {
+    label: "Weddings & Events",
+    href: "/mariages",
+    description: "Weddings, seminars, private events and celebrations.",
+  },
+  {
+    label: "Offers",
+    href: "/offres",
+    description: "Seasonal offers without aggressive discount language.",
   },
   {
     label: "Contact",
     href: "/contact",
-    description: "Demandes segmentées par service.",
+    description: "Contact the right department.",
   },
 ];
+
+export function getNavItems(locale: Locale) {
+  return locale === "en" ? navItemsEn : navItems;
+}
 
 export const footerLinks = [
   { label: "Agenda", href: "/agenda" },
@@ -234,6 +289,21 @@ export const footerLinks = [
   { label: "Conditions générales", href: "/conditions-generales" },
   { label: "Cookies", href: "/politique-cookies" },
 ];
+
+const footerLinksEn: typeof footerLinks = [
+  { label: "Agenda", href: "/agenda" },
+  { label: "Domaine Journal", href: "/journal" },
+  { label: "Press", href: "/presse" },
+  { label: "Careers", href: "/recrutement" },
+  { label: "Legal notice", href: "/mentions-legales" },
+  { label: "Privacy", href: "/politique-confidentialite" },
+  { label: "Terms & conditions", href: "/conditions-generales" },
+  { label: "Cookies", href: "/politique-cookies" },
+];
+
+export function getFooterLinks(locale: Locale) {
+  return locale === "en" ? footerLinksEn : footerLinks;
+}
 
 export const downloads: Record<string, { label: string; href: string }> = {
   factsheet: {
@@ -370,9 +440,9 @@ export const accommodations = [
   {
     slug: "suites",
     name: "Suites",
-    category: "Suites",
-    position: "Des suites ouvertes sur les jardins, pensées pour ralentir, se retrouver et vivre le Domaine avec élégance.",
-    emotionalText: "Une respiration douce entre matières naturelles, lumière chaude et confort discret, idéale pour une escapade près d’Agadir.",
+    category: "Une pause élégante dans les jardins",
+    position: "Des suites confortables pour vivre Le Domaine Limoune en couple, en famille ou lors d’une escapade près d’Agadir.",
+    emotionalText: "Des suites confortables pour vivre Le Domaine Limoune en couple, en famille ou lors d’une escapade près d’Agadir.",
     image: roomImages.deluxeSuite,
     gallery: [roomImages.deluxeSuite, roomImages.premier, roomImages.skylineSuite, roomImages.capellaSuite],
     capacity: "2 personnes, selon configuration",
@@ -383,15 +453,15 @@ export const accommodations = [
     amenities: ["Salle de bain équipée", "Climatisation", "Wi-Fi", "Salon ou coin détente selon unité", "Rangements", "Produits d’accueil"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance conciergerie", "Stationnement selon disponibilité"],
     childConditions: "Enfant accepté selon configuration de la suite, lit bébé ou couchage additionnel sur demande et selon disponibilité.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "lodge-safari-mezzanine",
-    name: "Lodge Safari avec Mezzanine",
-    category: "Lodges Safari avec mezzanine",
-    position: "Dormir face à la réserve africaine, dans un lodge pensé pour les familles et les séjours immersifs.",
-    emotionalText: "Le réveil se fait dans le calme de la réserve, avec une sensation de bout du monde et le confort d’un lodge familial.",
+    name: "Lodges Safari avec mezzanine",
+    category: "L’expérience signature",
+    position: "Des lodges familiaux face à la réserve africaine, pensés pour vivre l’esprit Safari Experience avec confort et immersion.",
+    emotionalText: "Des lodges familiaux face à la réserve africaine, pensés pour vivre l’esprit Safari Experience avec confort et immersion.",
     image: images.reserveLodge,
     gallery: [images.reserveLodge, images.reserveCanopy, roomImages.capellaSuite, roomImages.libertySuite],
     capacity: "Jusqu'à 4 personnes",
@@ -402,15 +472,15 @@ export const accommodations = [
     amenities: ["Mezzanine", "Salle de bain équipée", "Climatisation", "Terrasse ou extérieur selon lodge", "Wi-Fi", "Rangements famille", "Salle de sport selon conditions"],
     servicesIncluded: ["Petit-déjeuner inclus selon offre", "Accès piscine selon horaires", "Accès parc animalier selon conditions", "Kids club selon calendrier", "Activités selon disponibilité", "Assistance conciergerie", "Stationnement selon disponibilité"],
     childConditions: "Adapté aux familles. Surveillance parentale requise sur mezzanine, lit bébé sur demande et activités enfants selon calendrier.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "lodges-cote-piscine-ou-jardin",
     name: "Lodges côté piscine ou jardin",
-    category: "Lodges côté piscine ou jardin",
-    position: "Des lodges lumineux pour prolonger le séjour autour de la piscine, des jardins et des espaces de détente du Domaine.",
-    emotionalText: "Une adresse simple à vivre, proche des lieux de journée, pour alterner baignade, repos et moments sous les orangers.",
+    category: "Le séjour facile à vivre",
+    position: "Des lodges proches des espaces de journée pour alterner piscine, repos, restaurants et moments en famille.",
+    emotionalText: "Des lodges proches des espaces de journée pour alterner piscine, repos, restaurants et moments en famille.",
     image: roomImages.premier,
     gallery: [roomImages.premier, roomImages.deluxe, roomImages.skyline, roomImages.macquarieSuite],
     capacity: "2 à 3 personnes",
@@ -421,15 +491,15 @@ export const accommodations = [
     amenities: ["Terrasse ou accès extérieur", "Salle de bain équipée", "Climatisation", "Wi-Fi", "Coin détente", "Produits d’accueil"],
     servicesIncluded: ["Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance réservation restaurants", "Stationnement selon disponibilité", "Service conciergerie"],
     childConditions: "Un enfant peut être accueilli selon configuration. Couchage additionnel et équipements bébé sur demande.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "suite-junior",
     name: "Suite Junior",
-    category: "Suites Junior",
-    position: "Une suite élégante pour les courts séjours, les couples et les escapades près d'Agadir.",
-    emotionalText: "Le bon format pour une pause raffinée : une chambre généreuse, une atmosphère calme et un accès fluide aux univers du Domaine.",
+    category: "Le format idéal pour une escapade",
+    position: "Une chambre généreuse, une atmosphère calme et un accès simple aux différents univers du Domaine.",
+    emotionalText: "Une chambre généreuse, une atmosphère calme et un accès simple aux différents univers du Domaine.",
     image: roomImages.deluxe,
     gallery: [roomImages.deluxe, roomImages.premier, roomImages.accessible, roomImages.deluxeSuite],
     capacity: "2 personnes",
@@ -440,8 +510,8 @@ export const accommodations = [
     amenities: ["Salon ou coin lecture", "Salle de bain équipée", "Wi-Fi", "Climatisation", "Minibar selon offre", "Produits d’accueil"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Assistance conciergerie", "Réservation prioritaire selon disponibilité"],
     childConditions: "Pensée principalement pour deux personnes. Lit bébé possible sur demande selon disponibilité.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "suite-executive",
@@ -459,8 +529,8 @@ export const accommodations = [
     amenities: ["Coin salon", "Bureau", "Wi-Fi", "Climatisation", "Salle de bain équipée", "Rangements", "Minibar selon offre"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Assistance conciergerie", "Accès piscine selon horaires", "Aide organisation réunion ou table selon disponibilité"],
     childConditions: "Enfant accueilli selon configuration. Couchage additionnel sur demande et selon disponibilité.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "suite-familiale",
@@ -478,8 +548,8 @@ export const accommodations = [
     amenities: ["Espaces séparés selon unité", "Salle de bain équipée", "Climatisation", "Wi-Fi", "Options enfants", "Rangements famille"],
     servicesIncluded: ["Petit-déjeuner selon offre", "Accès piscine selon horaires", "Accès parc animalier selon conditions", "Club enfants selon calendrier", "Assistance activités famille"],
     childConditions: "Pensée pour les familles. Lit bébé, couchage enfant et activités enfants selon âge, calendrier et disponibilité.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "suite-signature",
@@ -497,8 +567,8 @@ export const accommodations = [
     amenities: ["Salon", "Terrasse selon unité", "Salle de bain équipée", "Climatisation", "Wi-Fi", "Produits d’accueil premium", "Rangements"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Assistance conciergerie", "Accès spa selon offre", "Réservation prioritaire selon disponibilité"],
     childConditions: "Format recommandé pour adultes ou couple. Accueil enfant uniquement selon configuration et validation de l’équipe réservation.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "lodges-communicants",
@@ -516,8 +586,8 @@ export const accommodations = [
     amenities: ["Configurations flexibles", "Salles de bain équipées", "Climatisation", "Wi-Fi", "Espaces extérieurs selon lodges", "Rangements"],
     servicesIncluded: ["Assistance réservation groupe", "Petit-déjeuner selon offre", "Accès piscine selon horaires", "Coordination activités", "Stationnement selon disponibilité"],
     childConditions: "Adapté aux familles nombreuses. Répartition des enfants selon âge, capacité et validation de l’équipe réservation.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
   {
     slug: "suite-lodge-premium",
@@ -535,10 +605,169 @@ export const accommodations = [
     amenities: ["Espace salon", "Salle de bain équipée", "Climatisation", "Wi-Fi", "Terrasse ou extérieur selon unité", "Produits d’accueil premium"],
     servicesIncluded: ["Accueil personnalisé", "Petit-déjeuner selon offre", "Assistance conciergerie", "Accès piscine selon horaires", "Aide organisation spa, table ou expérience"],
     childConditions: "Conditions enfants selon suite ou lodge attribué. Lit bébé et couchage additionnel sur demande, sous réserve de capacité.",
-    checkIn: "À partir de 15h00, selon politique opérationnelle",
-    checkOut: "Jusqu’à 12h00, départ tardif selon disponibilité",
+    checkIn: "À partir de 15h00",
+    checkOut: "Jusqu’à 12h00",
   },
 ] satisfies Accommodation[];
+
+const accommodationsEn: Record<string, Omit<Accommodation, "slug" | "image" | "gallery">> = {
+  suites: {
+    name: "Suites",
+    category: "An elegant pause in the gardens",
+    position: "Comfortable suites for experiencing Le Domaine Limoune as a couple, as a family or on an escape near Agadir.",
+    emotionalText: "Comfortable suites for experiencing Le Domaine Limoune as a couple, as a family or on an escape near Agadir.",
+    capacity: "2 guests, depending on configuration",
+    surface: "Surface area depending on suite and availability",
+    bed: "King bed or twin beds on request",
+    view: "Gardens, Domaine or landscaped areas",
+    meta: ["Suite", "Couple", "Gardens", "Comfort"],
+    amenities: ["Equipped bathroom", "Air conditioning", "Wi-Fi", "Lounge or relaxation corner depending on unit", "Storage", "Welcome amenities"],
+    servicesIncluded: ["Personalised welcome", "Breakfast according to the offer", "Pool access according to opening hours", "Concierge assistance", "Parking subject to availability"],
+    childConditions: "Children accepted depending on suite configuration. Baby cot or additional bedding available on request and subject to availability.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "lodge-safari-mezzanine": {
+    name: "Safari Lodges with mezzanine",
+    category: "The signature experience",
+    position: "Family lodges facing the African reserve, designed to live the Safari Experience with comfort and immersion.",
+    emotionalText: "Family lodges facing the African reserve, designed to live the Safari Experience with comfort and immersion.",
+    capacity: "Up to 4 guests",
+    surface: "Surface area depending on configuration",
+    bed: "Double bed and mezzanine bedding",
+    view: "African reserve view",
+    meta: ["Family", "Reserve", "Breakfast", "Pool"],
+    amenities: ["Mezzanine", "Equipped bathroom", "Air conditioning", "Terrace or outdoor area depending on lodge", "Wi-Fi", "Family storage", "Fitness room subject to conditions"],
+    servicesIncluded: ["Breakfast included according to the offer", "Pool access according to opening hours", "Wildlife park access subject to conditions", "Kids club according to schedule", "Activities subject to availability", "Concierge assistance", "Parking subject to availability"],
+    childConditions: "Suited to families. Parental supervision required on the mezzanine, baby cot on request and children's activities according to schedule.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "lodges-cote-piscine-ou-jardin": {
+    name: "Poolside or garden lodges",
+    category: "An easy-to-live stay",
+    position: "Lodges close to the daytime spaces, alternating pool time, rest, restaurants and family moments.",
+    emotionalText: "Lodges close to the daytime spaces, alternating pool time, rest, restaurants and family moments.",
+    capacity: "2 to 3 guests",
+    surface: "Surface area depending on lodge and availability",
+    bed: "Double bed or twin beds, additional bedding depending on configuration",
+    view: "Pool or gardens",
+    meta: ["Pool", "Garden", "Couple", "Daytime"],
+    amenities: ["Terrace or outdoor access", "Equipped bathroom", "Air conditioning", "Wi-Fi", "Relaxation corner", "Welcome amenities"],
+    servicesIncluded: ["Breakfast according to the offer", "Pool access according to opening hours", "Restaurant booking assistance", "Parking subject to availability", "Concierge service"],
+    childConditions: "One child may be accommodated depending on configuration. Additional bedding and baby equipment available on request.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "suite-junior": {
+    name: "Junior Suite",
+    category: "The ideal escape format",
+    position: "A generous room, a calm atmosphere and easy access to the different worlds of the Domaine.",
+    emotionalText: "A generous room, a calm atmosphere and easy access to the different worlds of the Domaine.",
+    capacity: "2 guests",
+    surface: "Surface area depending on unit",
+    bed: "King bed or twin beds",
+    view: "Domaine or gardens",
+    meta: ["Couple", "Comfort", "Short stay"],
+    amenities: ["Lounge or reading corner", "Equipped bathroom", "Wi-Fi", "Air conditioning", "Minibar according to offer", "Welcome amenities"],
+    servicesIncluded: ["Personalised welcome", "Breakfast according to the offer", "Pool access according to opening hours", "Concierge assistance", "Priority booking subject to availability"],
+    childConditions: "Mainly designed for two guests. Baby cot available on request subject to availability.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "suite-executive": {
+    name: "Executive Suite",
+    category: "Executive suites",
+    position: "A more spacious suite designed for work, hosting or extending the stay without losing the Domaine's calm.",
+    emotionalText: "A more spacious suite designed for work, hosting or extending the stay without losing the Domaine's calm.",
+    capacity: "2 to 3 guests",
+    surface: "Surface area depending on unit",
+    bed: "King bed, additional bedding depending on configuration",
+    view: "Gardens or Domaine",
+    meta: ["Executive", "Prestige", "Long stay", "Business"],
+    amenities: ["Lounge area", "Desk", "Wi-Fi", "Air conditioning", "Equipped bathroom", "Storage", "Minibar according to offer"],
+    servicesIncluded: ["Personalised welcome", "Breakfast according to the offer", "Concierge assistance", "Pool access according to opening hours", "Support organising a meeting or table subject to availability"],
+    childConditions: "Children welcomed depending on configuration. Additional bedding available on request and subject to availability.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "suite-familiale": {
+    name: "Family Suite",
+    category: "Family suites",
+    position: "A comfortable layout for families who want to experience the Domaine without compromise.",
+    emotionalText: "Everyone finds their rhythm: children explore, parents breathe, and the suite becomes the anchor point of the stay.",
+    capacity: "Up to 5 guests",
+    surface: "Surface area depending on unit",
+    bed: "Double bed and children's bedding",
+    view: "Gardens or Domaine",
+    meta: ["Family", "Kids club", "Wildlife park", "Pool"],
+    amenities: ["Separate spaces depending on unit", "Equipped bathroom", "Air conditioning", "Wi-Fi", "Children's options", "Family storage"],
+    servicesIncluded: ["Breakfast according to the offer", "Pool access according to opening hours", "Wildlife park access subject to conditions", "Kids club according to schedule", "Family activity assistance"],
+    childConditions: "Designed for families. Baby cot, children's bedding and children's activities according to age, schedule and availability.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "suite-signature": {
+    name: "Signature Suite",
+    category: "Signature suites",
+    position: "The reference suite for a more exclusive, sensory and generous experience.",
+    emotionalText: "A more intimate address, conceived as a rare interlude with attentive service, warm materials and privileged access to the Domaine rituals.",
+    capacity: "2 guests",
+    surface: "Large suite subject to availability",
+    bed: "King bed",
+    view: "Domaine, gardens or horizon",
+    meta: ["Signature", "Couple", "Spa", "Prestige"],
+    amenities: ["Lounge", "Terrace depending on unit", "Equipped bathroom", "Air conditioning", "Wi-Fi", "Premium welcome amenities", "Storage"],
+    servicesIncluded: ["Personalised welcome", "Breakfast according to the offer", "Concierge assistance", "Spa access according to offer", "Priority booking subject to availability"],
+    childConditions: "Recommended for adults or couples. Children welcomed only depending on configuration and validation by the reservations team.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "lodges-communicants": {
+    name: "Connecting Lodges",
+    category: "Connecting lodges",
+    position: "A practical premium solution for large families, groups or multi-generational stays.",
+    emotionalText: "Two nearby spaces, one shared experience: everyone keeps their privacy while enjoying the Domaine's key moments together.",
+    capacity: "Depending on lodge combination",
+    surface: "Depending on configuration",
+    bed: "Several bedding options depending on combination",
+    view: "Gardens, pool or reserve depending on availability",
+    meta: ["Connecting", "Family", "Groups", "Flexible"],
+    amenities: ["Flexible configurations", "Equipped bathrooms", "Air conditioning", "Wi-Fi", "Outdoor spaces depending on lodges", "Storage"],
+    servicesIncluded: ["Group booking assistance", "Breakfast according to the offer", "Pool access according to opening hours", "Activity coordination", "Parking subject to availability"],
+    childConditions: "Suited to large families. Children's allocation depends on age, capacity and validation by the reservations team.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+  "suite-lodge-premium": {
+    name: "Premium suite or lodge",
+    category: "Premium suites or lodges",
+    position: "A premium selection for travellers seeking more space, calm and personalisation.",
+    emotionalText: "The stay becomes smoother and more generous, with a level of attention suited to special occasions and longer pauses.",
+    capacity: "2 to 4 guests depending on unit",
+    surface: "Large surface area depending on assigned suite or lodge",
+    bed: "King bed, twin beds or additional bedding depending on configuration",
+    view: "Gardens, Domaine, pool or reserve depending on availability",
+    meta: ["Premium", "Tailored", "Occasion", "Long stay"],
+    amenities: ["Lounge space", "Equipped bathroom", "Air conditioning", "Wi-Fi", "Terrace or outdoor area depending on unit", "Premium welcome amenities"],
+    servicesIncluded: ["Personalised welcome", "Breakfast according to the offer", "Concierge assistance", "Pool access according to opening hours", "Support organising spa, dining or experiences"],
+    childConditions: "Children's conditions depend on the assigned suite or lodge. Baby cot and additional bedding available on request, subject to capacity.",
+    checkIn: "From 3:00 pm",
+    checkOut: "Until 12:00 pm",
+  },
+};
+
+export function localizeAccommodation(item: Accommodation, locale: Locale): Accommodation {
+  if (locale !== "en") return item;
+
+  const copy = accommodationsEn[item.slug];
+  return copy ? { ...item, ...copy } : item;
+}
+
+export function getAccommodationBySlug(locale: Locale, slug: string): Accommodation | null {
+  const item = accommodations.find((candidate) => candidate.slug === slug) ?? null;
+  return item ? localizeAccommodation(item, locale) : null;
+}
 
 export const restaurants = [
   {
@@ -580,39 +809,71 @@ export const restaurants = [
 ];
 
 export const experiences = [
-  ["Safari Limoune", "Observation, nature et immersion face aux animaux du Domaine.", "Familles, couples, clients hébergement"],
-  ["Balade à cheval au coucher du soleil", "Une sortie de fin de journée dans la lumière chaude de la région.", "Couples, familles, groupes"],
+  ["Safari Experience", "Observation, nature et immersion face aux animaux du Domaine.", "Familles, couples, clients hébergement"],
+  ["Parc animalier", "Un parcours familial et pédagogique autour de plus de 30 espèces selon conditions.", "Familles, visiteurs journée"],
+  ["Balade à cheval sunset", "Une sortie de fin de journée dans la lumière chaude de la région.", "Couples, familles, groupes"],
   ["Quad", "Une activité de plein air encadrée pour découvrir les alentours autrement.", "Adultes, groupes, activités d’équipe"],
-  ["Padel et tennis", "Des terrains et moments sportifs à intégrer au séjour ou à la journée.", "Familles, entreprises"],
-  ["Club enfants", "Un espace enfants pensé pour rassurer les parents et enrichir la journée.", "Familles"],
-  ["Chasse au trésor", "Une chasse au trésor scénarisée pour découvrir le Domaine en équipe.", "Enfants, familles, groupes"],
-  ["Pique-nique", "Un panier gourmand dans un décor naturel et calme.", "Couples, familles"],
-  ["Barbecue", "Une expérience conviviale de groupe autour du feu et des jardins.", "Groupes, entreprises"],
+  ["Padel", "Un moment sportif facile à intégrer au séjour, à la journée ou au team building.", "Familles, entreprises"],
+  ["Tennis", "Un format actif pour couples, familles, groupes et clients hébergement.", "Familles, clients séjour"],
+  ["Kids Club", "Un espace enfants pensé pour rassurer les parents et enrichir la journée.", "Familles"],
+  ["Treasure Hunt", "Une chasse au trésor scénarisée pour découvrir le Domaine en équipe.", "Enfants, familles, groupes"],
+  ["Picnic Experience", "Un panier gourmand dans un décor naturel et calme.", "Couples, familles"],
+  ["BBQ Experience", "Une expérience conviviale de groupe autour du feu et des jardins.", "Groupes, entreprises"],
   ["Dîner sous les étoiles", "Un dîner privatisable dans une atmosphère nocturne élégante.", "Couples, événements"],
-  ["Pause thé sous les orangers", "Une pause douce et sensorielle au coeur des plantations.", "Locaux, familles, visiteurs"],
-  ["Cinéma familial sous les étoiles", "Une soirée familiale avec projection en plein air.", "Familles, enfants"],
-  ["Atelier cuisine", "Atelier autour des saveurs du Domaine et de la cuisine locale.", "Tour-opérateurs, familles"],
+  ["Tea Time sous les orangers", "Une pause douce et sensorielle au coeur des plantations.", "Locaux, familles, visiteurs"],
+  ["Brunch familial", "Une table généreuse sous les orangers pour familles, groupes et visiteurs journée.", "Familles, groupes"],
+  ["Pool Day", "Une journée piscine, food and drinks et détente autour de Monkey Beach.", "Familles, clients journée"],
+  ["Canopy Spa Day", "Une journée wellness associant soin, eau, hammam et calme.", "Couples, spa, séjour"],
+  ["Family Cinema Under the Stars", "Une soirée familiale avec projection en plein air.", "Familles, enfants"],
+  ["Cooking class", "Atelier autour des saveurs du Domaine et de la cuisine locale.", "Tour-opérateurs, familles"],
   ["Mixologie", "Atelier boissons pour groupes, soirées privées ou événements d’entreprise.", "Adultes, groupes"],
+  ["Activités enfants", "Des activités adaptées à l’âge, au calendrier et aux conditions du jour.", "Enfants, familles"],
 ] as const;
 
 export const offers = [
-  ["Séjour Été Limoune", "Séjour saisonnier avec expériences famille, piscine et univers animalier.", "Saison été"],
-  ["Séjour Famille", "Une offre pensée pour chambres, activités enfants et moments de partage.", "Famille"],
-  ["Escapade Canopy Spa", "Séjour ou journée associant calme, soin et rituel bien-être.", "Spa"],
-  ["Brunch et parc animalier", "Une journée complète entre table, nature et découverte familiale.", "Restaurant"],
-  ["Journée piscine", "Accès piscine, cuisine, boissons et détente autour de Monkey Beach.", "Journée"],
-  ["Safari Lodge", "L'offre dédiée aux lodges face à la réserve africaine.", "Séjours"],
-  ["Séjour prolongé", "Une proposition premium pour prolonger le séjour sans discours promotionnel agressif.", "Long séjour"],
+  ["Offre Été Limoune", "Une offre saisonnière pour profiter des lodges, de la piscine, du parc animalier et des expériences famille.", "Saison été"],
+  ["Offre Famille", "Un séjour pensé pour les parents et les enfants, avec hébergement confortable, activités et moments de partage.", "Famille"],
+  ["Escapade Canopy Spa", "Une parenthèse bien-être autour du spa, du hammam, des soins et des espaces de détente du Canopy.", "Spa"],
+  ["Brunch & Parc Animalier", "Une journée complète entre table, nature et découverte familiale.", "Restaurant"],
+  ["Pool Day", "Accès piscine, cuisine, boissons et détente autour de Monkey Beach.", "Journée"],
+  ["Safari Lodge Experience", "L'offre dédiée aux lodges face à la réserve africaine.", "Séjours"],
+  ["Stay Longer", "Une proposition premium pour prolonger le séjour sans discours promotionnel agressif.", "Long séjour"],
   ["Offre Résidents Maroc", "Un avantage ponctuel pour la clientèle locale et nationale.", "Résidents"],
+  ["Offre Juin", "Un temps fort saisonnier à activer selon calendrier commercial.", "Saison"],
+  ["Offre Ramadan", "Une proposition dédiée aux tables, séjours et moments familiaux du Ramadan.", "Saison"],
+  ["Offre Fin d’année", "Une offre événementielle pour séjours, dîners et célébrations de fin d’année.", "Saison"],
+] as const;
+
+const offersEn = [
+  ["Limoune Summer Offer", "A seasonal offer to enjoy the lodges, pool, wildlife park and family experiences.", "Summer season"],
+  ["Family Offer", "A stay designed for parents and children, with comfortable accommodation, activities and shared moments.", "Family"],
+  ["Canopy Spa Escape", "A wellness break around the spa, hammam, treatments and Canopy relaxation spaces.", "Spa"],
+  ["Brunch & Wildlife Park", "A full day between dining, nature and family discovery.", "Restaurant"],
+  ["Pool Day", "Pool access, food, drinks and relaxation around Monkey Beach.", "Day experience"],
+  ["Safari Lodge Experience", "The offer dedicated to lodges facing the African reserve.", "Stays"],
+  ["Stay Longer", "A premium invitation to extend your stay without aggressive promotional wording.", "Long stay"],
+  ["Morocco Residents Offer", "A limited advantage for local and national guests.", "Residents"],
+  ["June Offer", "A seasonal highlight activated according to the commercial calendar.", "Season"],
+  ["Ramadan Offer", "A proposal dedicated to dining, stays and family moments during Ramadan.", "Season"],
+  ["Year-End Offer", "An event-led offer for stays, dinners and year-end celebrations.", "Season"],
 ] as const;
 
 export const agendaEvents = [
-  ["Brunch familial sous les orangers", "Aman sous les Orangers", "Chaque dimanche selon saison"],
-  ["Été Limoune", "Monkey Beach et parc animalier", "Activation estivale"],
+  ["Brunch familial", "Aman sous les Orangers", "Chaque dimanche selon saison"],
+  ["Été au Domaine Limoune", "Piscine, parc animalier et activités", "Pendant l’été"],
   ["Diffusions sportives", "Limoune Club", "Selon calendrier"],
   ["Dîners thématiques", "Massa Restaurant", "Programmation mensuelle"],
   ["Événements enfants", "Club enfants", "Vacances et week-ends"],
   ["Ramadan au Domaine", "Restaurants et jardins", "Selon calendrier religieux"],
+] as const;
+
+const agendaEventsEn = [
+  ["Family brunch", "Aman sous les Orangers", "Every Sunday depending on the season"],
+  ["Summer at Le Domaine Limoune", "Pool, wildlife park and activities", "During summer"],
+  ["Sports screenings", "Limoune Club", "According to schedule"],
+  ["Themed dinners", "Massa Restaurant", "Monthly programme"],
+  ["Children's events", "Kids Club", "Holidays and weekends"],
+  ["Ramadan at the Domaine", "Restaurants and gardens", "According to the religious calendar"],
 ] as const;
 
 export const departments = [
@@ -627,6 +888,23 @@ export const departments = [
   "Direction commerciale",
   "Informations générales",
 ];
+
+const departmentsEn: typeof departments = [
+  "Accommodation reservations",
+  "Restaurants",
+  "Canopy Spa",
+  "Weddings",
+  "Corporate events",
+  "Wildlife park",
+  "Activities",
+  "Press",
+  "Sales department",
+  "General information",
+];
+
+export function getDepartments(locale: Locale) {
+  return locale === "en" ? departmentsEn : departments;
+}
 
 const sharedFaqs: Faq[] = [
   {
@@ -646,19 +924,37 @@ const sharedFaqs: Faq[] = [
   },
 ];
 
+const sharedFaqsEn: Faq[] = [
+  {
+    question: "Is Le Domaine Limoune suitable for families?",
+    answer:
+      "Yes. The Domaine brings together family accommodation, the wildlife park, pool, children's activities, kids club and outdoor experiences depending on availability.",
+  },
+  {
+    question: "Can I visit for the day without staying overnight?",
+    answer:
+      "Yes, depending on each area and access conditions: restaurants, wildlife park, pool day, spa and activities may offer dedicated day experiences.",
+  },
+  {
+    question: "Is the African Reserve the same as the Wildlife Park?",
+    answer:
+      "No. The African Reserve is linked to the immersive accommodation experience. The Wildlife Park is the family visit route available under specific conditions.",
+  },
+];
+
 const basePages: SitePage[] = [
   {
     slug: "",
     template: "home",
-    title: "Domaine Limoune",
-    eyebrow: "Destination nature près d'Agadir",
+    title: "Le Domaine Limoune",
+    eyebrow: "Le Domaine Limoune",
     summary:
-      "Un domaine hôtelier expérientiel où hébergements, réserve africaine, parc animalier, restaurants, spa, activités, mariages et événements composent une destination complète.",
+      "Aux portes d’Agadir, Le Domaine Limoune réunit lodges safari, réserve africaine, parc animalier, restaurants, spa et expériences en pleine nature.",
     heroImage: images.hero,
-    heroAlt: "Vue cinématique du Domaine Limoune avec orangers, lodges et lumière chaude",
-    seoTitle: "Domaine Limoune | Hôtel, lodges, parc animalier et spa près d'Agadir",
+    heroAlt: "Lodges safari, réserve et nature au Domaine Limoune",
+    seoTitle: "Safari Experience près d’Agadir | Le Domaine Limoune",
     seoDescription:
-      "Découvrez Domaine Limoune, destination premium près d'Agadir : hébergements, réserve africaine, parc animalier, restaurants, Canopy Spa, mariages, séminaires et expériences.",
+      "Vivez Le Domaine Limoune près d’Agadir : lodges safari, réserve africaine, parc animalier, restaurants, Canopy Spa, activités, mariages et événements.",
     seoKeywords: [
       "hôtel Agadir",
       "lodge safari Maroc",
@@ -668,7 +964,7 @@ const basePages: SitePage[] = [
       "séminaire Agadir",
     ],
     primaryCta: { label: "Réserver votre séjour", href: "/sejours", track: "book_stay" },
-    secondaryCta: { label: "Voir nos expériences", href: "/experiences", variant: "secondary" },
+    secondaryCta: { label: "Découvrir Safari Experience", href: "/reserve-africaine", variant: "secondary" },
     sections: [],
     gallery: [images.domain, images.reserve, images.restaurants, images.spa],
     faqs: sharedFaqs,
@@ -679,7 +975,7 @@ const basePages: SitePage[] = [
     title: "Le Domaine",
     eyebrow: "Adresse expérientielle",
     summary:
-      "Domaine Limoune se raconte comme un lieu de vie : nature, hospitalité marocaine contemporaine, orangers, expériences familiales, gastronomie et événements.",
+      "Le Domaine Limoune se raconte comme un lieu de vie : nature, hospitalité marocaine contemporaine, orangers, expériences familiales, gastronomie et événements.",
     heroImage: images.domain,
     heroAlt: "Jardins et orangers du Domaine Limoune",
     seoTitle: "Le Domaine Limoune | Nature, hospitalité et expériences près d'Agadir",
@@ -721,18 +1017,18 @@ const basePages: SitePage[] = [
     slug: "sejours",
     template: "collection",
     collection: "accommodations",
-    title: "Séjours",
-    eyebrow: "Suites et lodges",
+    title: "Dormir au Domaine Limoune",
+    eyebrow: "Séjours & Lodges",
     summary:
-      "Des chambres, suites et lodges pensés pour les couples, familles, séjours premium et expériences safari face à la nature.",
+      "Suites, lodges et hébergements safari aux portes d’Agadir.",
     heroImage: roomImages.capellaSuite,
     heroAlt: "Suite élégante avec matières chaudes et lumière naturelle",
-    seoTitle: "Séjours au Domaine Limoune | Suites et lodges safari près d'Agadir",
+    seoTitle: "Séjours & lodges près d’Agadir | Le Domaine Limoune",
     seoDescription:
-      "Réservez suites, lodges safari avec mezzanine, lodges jardin, suites familiales et hébergements premium au Domaine Limoune près d'Agadir.",
-    seoKeywords: ["hôtel Agadir", "lodge safari Maroc", "suite familiale Agadir", "hôtel près d'Agadir"],
+      "Séjournez au Domaine Limoune près d’Agadir : suites, lodges safari, hébergements famille, réserve africaine, parc animalier, restaurants, spa et expériences nature.",
+    seoKeywords: ["séjour près d’Agadir", "lodge safari Maroc", "lodge avec réserve africaine", "hôtel nature Agadir", "séjour famille Agadir", "parc animalier Agadir", "spa et hébergement Agadir", "Le Domaine Limoune"],
     primaryCta: { label: "Vérifier les disponibilités", href: "#booking", track: "booking_widget" },
-    secondaryCta: { label: "Brochure hébergement", href: downloads.accommodation.href, variant: "secondary" },
+    secondaryCta: { label: "Voir la brochure hébergement", href: downloads.accommodation.href, variant: "secondary" },
     sections: [
       {
         eyebrow: "Choisir",
@@ -769,7 +1065,7 @@ const basePages: SitePage[] = [
       "La Réserve Africaine n'est pas une simple visite. C'est une expérience d'hébergement immersive, pensée autour de la nature, de l'observation et du respect animalier.",
     heroImage: images.reserve,
     heroAlt: "Zèbres dans une réserve verdoyante, ambiance safari immersive",
-    seoTitle: "Réserve Africaine Domaine Limoune | Lodge safari Maroc près d'Agadir",
+    seoTitle: "Réserve Africaine | Le Domaine Limoune près d'Agadir",
     seoDescription:
       "Vivez l'expérience réserve africaine du Domaine Limoune : lodges safari, observation, nature et hébergement immersif près d'Agadir.",
     seoKeywords: ["lodge safari Maroc", "réserve africaine Agadir", "hébergement immersif Maroc"],
@@ -790,7 +1086,7 @@ const basePages: SitePage[] = [
       {
         title: "Lodges concernés",
         body: "Les lodges safari avec mezzanine et configurations premium sont les points d'entrée naturels vers cet univers.",
-        cards: accommodations.slice(0, 2).map(accommodationToCard),
+        cards: accommodations.slice(0, 2).map((item) => accommodationToCard(item)),
       },
     ],
     gallery: [images.reserveLodge, images.reserveCanopy, images.reserveLandscape, images.park],
@@ -805,7 +1101,7 @@ const basePages: SitePage[] = [
       "Un parcours accessible selon conditions, orienté découverte, pédagogie, conservation et bien-être animal.",
     heroImage: images.park,
     heroAlt: "Girafes dans un paysage naturel, parcours animalier familial",
-    seoTitle: "Parc animalier Agadir | Domaine Limoune",
+    seoTitle: "Parc animalier Agadir | Le Domaine Limoune",
     seoDescription:
       "Découvrez le parc animalier du Domaine Limoune près d'Agadir : plus de 30 espèces, visite familiale, horaires, tarifs et règles de bien-être animal.",
     seoKeywords: ["parc animalier Agadir", "activités famille Agadir", "zèbres Agadir", "sortie famille Agadir"],
@@ -847,7 +1143,7 @@ const basePages: SitePage[] = [
       "La restauration du Domaine se présente comme un ensemble d'univers indépendants, chacun avec son ambiance, ses horaires, son menu et son parcours de réservation.",
     heroImage: images.restaurants,
     heroAlt: "Tables et cuisine du Domaine Limoune",
-    seoTitle: "Restaurants Domaine Limoune | Brunch, journée piscine et table signature près d'Agadir",
+    seoTitle: "Restaurants | Le Domaine Limoune près d'Agadir",
     seoDescription:
       "Découvrez Massa Restaurant, Aman sous les Orangers, Monkey Beach et Limoune Club au Domaine Limoune près d'Agadir.",
     seoKeywords: ["restaurant Agadir nature", "brunch Agadir", "journée piscine Agadir", "restaurant famille Agadir"],
@@ -881,7 +1177,7 @@ const basePages: SitePage[] = [
       "Canopy Spa est un refuge de lumière et de calme, pensé pour prolonger l'expérience du Domaine à travers soins, hammams, rituels et espaces bien-être.",
     heroImage: images.spa,
     heroAlt: "Canopy Spa avec piscine chauffée, hammam et lumière douce",
-    seoTitle: "Spa Agadir | Canopy Spa Domaine Limoune",
+    seoTitle: "Spa Agadir | Canopy Spa du Domaine Limoune",
     seoDescription:
       "Réservez un soin au Canopy Spa du Domaine Limoune : hammams, cabines, cabine duo, piscine chauffée, jacuzzis, rituels signature et rituels mariage.",
     seoKeywords: ["spa Agadir", "hammam Agadir", "week-end spa près d'Agadir", "spa mariage Agadir"],
@@ -928,9 +1224,9 @@ const basePages: SitePage[] = [
       "Des moments à composer selon l’âge, la saison et l’envie : plein air, famille, gastronomie, sport, calme ou soirée sous les étoiles.",
     heroImage: images.experiences,
     heroAlt: "Activités de plein air et expériences signature au Domaine Limoune",
-    seoTitle: "Activités famille Agadir | Expériences Domaine Limoune",
+    seoTitle: "Activités famille Agadir | Le Domaine Limoune",
     seoDescription:
-      "Safari Limoune, parc animalier, cheval au coucher du soleil, quad, padel, club enfants, pique-nique, barbecue, dîner sous les étoiles et expériences famille près d'Agadir.",
+      "Safari Experience, parc animalier, équitation, quad, padel, kids club, pique-nique, barbecue, dîner sous les étoiles et activités famille près d'Agadir.",
     seoKeywords: ["activités famille Agadir", "activité équipe Agadir", "quad Agadir", "brunch Agadir"],
     primaryCta: { label: "Réserver une expérience", href: "/contact?type=activites" },
     secondaryCta: { label: "Voir l'agenda", href: "/agenda", variant: "secondary" },
@@ -940,7 +1236,7 @@ const basePages: SitePage[] = [
         title: "Des formats pour chaque public",
         body:
           "Familles, couples, groupes et entreprises peuvent choisir une expérience douce, sportive, gourmande ou nocturne selon la saison et les disponibilités.",
-        bullets: ["Safari Limoune et parc animalier", "Cheval au coucher du soleil, quad, padel et tennis", "Club enfants, chasse au trésor et cinéma familial", "Pique-nique, barbecue, dîner sous les étoiles, atelier cuisine et mixologie"],
+        bullets: ["Safari Experience et parc animalier", "Équitation, quad, padel et tennis", "Kids club, chasse au trésor et cinéma familial", "Pique-nique, barbecue, dîner sous les étoiles, atelier cuisine et mixologie"],
       },
       {
         eyebrow: "Conseil",
@@ -951,7 +1247,7 @@ const basePages: SitePage[] = [
         secondaryCta: { label: "Voir l'agenda", href: "/agenda", variant: "secondary" },
       },
     ],
-    gallery: [images.experiences, images.park, images.pool, images.agenda],
+    gallery: [images.experienceSafari, images.experienceSunsetRide, images.experienceSport, images.experienceFamily, images.experienceDiningStars, images.experienceSpaDay],
   },
   {
     slug: "mariages",
@@ -963,7 +1259,7 @@ const basePages: SitePage[] = [
       "Une célébration pensée dans le détail : cérémonie, dîner, soirée, brunch, spa, hébergement des invités et coordination sur mesure.",
     heroImage: images.weddings,
     heroAlt: "Mariage premium sous les orangers au Domaine Limoune",
-    seoTitle: "Mariage Agadir | Domaine Limoune",
+    seoTitle: "Mariage Agadir | Le Domaine Limoune",
     seoDescription:
       "Organisez votre mariage près d'Agadir au Domaine Limoune : lieux, cérémonie, dîner, soirée, brunch, rituel spa mariage, hébergement invités et devis personnalisé.",
     seoKeywords: ["mariage Agadir", "lieu mariage Maroc", "mariage destination Agadir", "mariage sous les orangers"],
@@ -1010,7 +1306,7 @@ const basePages: SitePage[] = [
       "Une destination complète pour séminaires, activités d’équipe, réunions, déjeuners, dîners d’entreprise, privatisations et activités de groupe.",
     heroImage: images.corporate,
     heroAlt: "Séminaire et événement d’entreprise au Domaine Limoune",
-    seoTitle: "Séminaire Agadir | Événements d’entreprise Domaine Limoune",
+    seoTitle: "Séminaire Agadir | Événements d’entreprise au Domaine Limoune",
     seoDescription:
       "Organisez séminaire, activité d’équipe, réunion, déjeuner d’entreprise ou privatisation au Domaine Limoune près d'Agadir.",
     seoKeywords: ["séminaire Agadir", "activité équipe Agadir", "événement entreprise Maroc", "privatisation Agadir"],
@@ -1038,28 +1334,28 @@ const basePages: SitePage[] = [
       },
     ],
     downloads: ["corporate"],
-    gallery: [images.corporate, images.domain, images.restaurants, images.experiences],
+    gallery: [images.corporateMeeting, images.corporateTeam, images.corporateDinner, images.corporateSpaces],
   },
   {
     slug: "offres",
     template: "collection",
     collection: "offers",
     title: "Offres",
-    eyebrow: "Saisons et rituels",
+    eyebrow: "Saisons et offres",
     summary:
-      "Des offres saisonnières claires, désirables et segmentées, sans logique de discount agressif.",
+      "Des offres saisonnières claires et désirables, sans logique de discount agressif.",
     heroImage: images.offers,
     heroAlt: "Offres saisonnières du Domaine Limoune",
-    seoTitle: "Offres Domaine Limoune | Séjours, spa, famille et journée piscine près d'Agadir",
+    seoTitle: "Offres du Domaine Limoune | Séjours, spa et famille près d'Agadir",
     seoDescription:
-      "Découvrez les offres du Domaine Limoune : Séjour Été Limoune, Séjour Famille, Canopy Spa, Brunch et parc animalier, Journée piscine et Safari Lodge.",
+      "Découvrez les offres du Domaine Limoune : Offre Été Limoune, Offre Famille, Escapade Canopy Spa, brunch, parc animalier, journée piscine et lodges safari.",
     seoKeywords: ["offre hôtel Agadir", "journée piscine Agadir", "séjour famille Agadir", "offre spa Agadir"],
     primaryCta: { label: "Découvrir les offres", href: "#collection" },
     secondaryCta: { label: "Contacter l'équipe", href: "/contact", variant: "secondary" },
     sections: [
       {
         eyebrow: "Choisir",
-        title: "Séjour, journée ou rituel de saison",
+        title: "Séjour, journée ou offre de saison",
         body:
           "Chaque offre met en avant un moment précis : dormir au Domaine, venir en famille, profiter du spa, déjeuner sous les orangers ou vivre une journée piscine.",
       },
@@ -1072,7 +1368,7 @@ const basePages: SitePage[] = [
         secondaryCta: { label: "Demander conseil", href: "/contact", variant: "secondary" },
       },
     ],
-    gallery: [images.offers, images.pool, images.stays, images.spa],
+    gallery: [images.offerStay, images.offerFamily, images.offerSpa, images.offerPool, images.offerBrunch, images.offerSafari],
   },
   {
     slug: "agenda",
@@ -1081,12 +1377,12 @@ const basePages: SitePage[] = [
     title: "Agenda",
     eyebrow: "Programmation du Domaine",
     summary:
-      "Brunchs, soirées, diffusions sportives, activations été, événements enfants, Ramadan, Été Limoune, dîners thématiques, concerts et soirées musicales.",
+      "Brunchs, soirées, diffusions sportives, activités enfants, Ramadan, Été au Domaine Limoune, dîners thématiques, concerts et soirées musicales.",
     heroImage: images.agenda,
     heroAlt: "Programmation et événements saisonniers au Domaine Limoune",
-    seoTitle: "Agenda Domaine Limoune | Brunchs, soirées et événements près d'Agadir",
+    seoTitle: "Agenda du Domaine Limoune | Brunchs et soirées près d'Agadir",
     seoDescription:
-      "Consultez la programmation du Domaine Limoune : brunchs, soirées, diffusions sportives, événements enfants, Ramadan, Été Limoune et dîners thématiques.",
+      "Consultez la programmation du Domaine Limoune : brunchs, soirées, diffusions sportives, activités enfants, Ramadan, Été au Domaine Limoune et dîners thématiques.",
     seoKeywords: ["brunch Agadir", "soirée Agadir", "agenda Agadir", "événements famille Agadir"],
     primaryCta: { label: "Réserver un événement", href: "/contact?type=agenda" },
     secondaryCta: { label: "Voir les offres", href: "/offres", variant: "secondary" },
@@ -1107,15 +1403,15 @@ const basePages: SitePage[] = [
     template: "lead",
     form: "contact",
     title: "Contact",
-    eyebrow: "Une demande, le bon service",
+    eyebrow: "Contact rapide",
     summary:
       "Chaque demande est orientée vers le bon service : séjour, restaurant, spa, mariage, entreprise, parc animalier, activités, presse ou informations générales.",
     heroImage: images.domain,
-    heroAlt: "Accueil et contact Domaine Limoune",
-    seoTitle: "Contact Domaine Limoune | Réservations, spa, restaurants, mariages et événements",
+    heroAlt: "Accueil et contact Le Domaine Limoune",
+    seoTitle: "Contact Le Domaine Limoune | Réservations, spa et restaurants",
     seoDescription:
       "Contactez le Domaine Limoune par service : hébergement, restaurants, Canopy Spa, mariages, entreprise, parc animalier, activités, presse et informations générales.",
-    seoKeywords: ["contact Domaine Limoune", "réservation Domaine Limoune", "restaurant Agadir réservation"],
+    seoKeywords: ["contact Le Domaine Limoune", "réservation Le Domaine Limoune", "restaurant Agadir réservation"],
     primaryCta: { label: "Choisir votre demande", href: "#lead-form" },
     secondaryCta: { label: "Télécharger la fiche Domaine", href: downloads.factsheet.href, variant: "secondary" },
     sections: [
@@ -1172,7 +1468,7 @@ const basePages: SitePage[] = [
       "Un espace pour présenter le Domaine, ses communiqués, photos officielles, dossier presse, logos, contacts médias, articles parus et distinctions.",
     heroImage: images.corporate,
     heroAlt: "Espace presse Domaine Limoune",
-    seoTitle: "Presse Domaine Limoune | Dossier presse et contacts médias",
+    seoTitle: "Presse | Le Domaine Limoune",
     seoDescription:
       "Téléchargez le dossier presse du Domaine Limoune et accédez aux contacts médias, photos officielles, communiqués et informations institutionnelles.",
     seoKeywords: ["presse Domaine Limoune", "dossier presse hôtel Maroc", "photos officielles Domaine Limoune"],
@@ -1187,6 +1483,149 @@ const basePages: SitePage[] = [
     downloads: ["press", "factsheet"],
   },
 ];
+
+const pageCopyEn: Record<string, Partial<SitePage>> = {
+  "": {
+    title: "Le Domaine Limoune",
+    eyebrow: "Le Domaine Limoune",
+    summary:
+      "At the gates of Agadir, Le Domaine Limoune brings together safari lodges, an African reserve, wildlife park, restaurants, spa and nature experiences.",
+    heroAlt: "Safari lodges, reserve and nature at Le Domaine Limoune",
+    seoTitle: "Safari Experience near Agadir | Le Domaine Limoune",
+    seoDescription:
+      "Experience Le Domaine Limoune near Agadir: safari lodges, African reserve, wildlife park, restaurants, Canopy Spa, activities, weddings and events.",
+    seoKeywords: [
+      "hotel Agadir",
+      "safari lodge Morocco",
+      "wildlife park Agadir",
+      "spa Agadir",
+      "wedding Agadir",
+      "seminar Agadir",
+    ],
+    primaryCta: { label: "Book your stay", href: "/sejours", track: "book_stay" },
+    secondaryCta: { label: "Discover Safari Experience", href: "/reserve-africaine", variant: "secondary" },
+    faqs: sharedFaqsEn,
+  },
+  sejours: {
+    title: "Stay at Le Domaine Limoune",
+    eyebrow: "Stays & Lodges",
+    summary:
+      "Suites, lodges and safari accommodation at the gates of Agadir.",
+    heroAlt: "Elegant suite with warm materials and natural light",
+    seoTitle: "Stays & lodges near Agadir | Le Domaine Limoune",
+    seoDescription:
+      "Stay at Le Domaine Limoune near Agadir: suites, safari lodges, family accommodation, African reserve, wildlife park, restaurants, spa and nature experiences.",
+    seoKeywords: ["stay near Agadir", "safari lodge Morocco", "lodge with African reserve", "nature hotel Agadir", "family stay Agadir", "wildlife park Agadir", "spa and accommodation Agadir", "Le Domaine Limoune"],
+    primaryCta: { label: "Check availability", href: "#booking", track: "booking_widget" },
+    secondaryCta: { label: "View accommodation brochure", href: downloads.accommodation.href, variant: "secondary" },
+    sections: [
+      {
+        eyebrow: "Choose",
+        title: "Find the right rhythm",
+        body:
+          "A garden suite, a poolside lodge, a family stay or a more immersive night facing the reserve: each category responds to a different way of experiencing the Domaine.",
+        bullets: ["Junior, Executive, Family and Signature Suites", "Safari Lodges with mezzanine", "Poolside, garden or connecting lodges"],
+      },
+      {
+        eyebrow: "Before the stay",
+        title: "Clear services, views and conditions",
+        body:
+          "Capacity, bedding, view, amenities, arrival times, included services and children's conditions are shown so you can compare without hesitation.",
+        bullets: ["Breakfast according to the booked offer", "Pool access according to opening hours", "Restaurants, spa and activities on request", "Reservation assistance before arrival"],
+      },
+      {
+        eyebrow: "Families and groups",
+        title: "Configurations designed for sharing",
+        body:
+          "Family suites, connecting lodges and premium accommodation make it possible to bring several generations together while preserving the calm of each space.",
+        cta: { label: "Ask for advice", href: "/contact?type=sejour", variant: "secondary" },
+      },
+    ],
+    faqs: sharedFaqsEn,
+  },
+};
+
+function localizeAccommodationPage(page: SitePage, locale: Locale): SitePage {
+  const slug = page.slug.replace("sejours/", "");
+  const item = getAccommodationBySlug(locale, slug);
+
+  if (!item) return page;
+
+  const practicalFacts = [
+    { label: "Capacity", value: item.capacity },
+    { label: "Surface area", value: item.surface },
+    { label: "Bedding", value: item.bed },
+    { label: "View", value: item.view },
+    { label: "Check-in", value: item.checkIn },
+    { label: "Check-out", value: item.checkOut },
+  ];
+
+  return {
+    ...page,
+    title: item.name,
+    eyebrow: item.category,
+    summary: item.position,
+    heroAlt: `${item.name} at Le Domaine Limoune`,
+    seoTitle: `${item.name} | Accommodation at Le Domaine Limoune near Agadir`,
+    seoDescription: `${item.position} Gallery, capacity, surface area, bedding, view, amenities, included services, children's conditions and booking.`,
+    seoKeywords: [item.name, item.category, "Le Domaine Limoune accommodation", "hotel Agadir", "safari lodge Morocco"],
+    primaryCta: { label: "Book", href: "/sejours#booking", track: "room_booking" },
+    secondaryCta: { label: "Request more information", href: "/contact?type=sejour", variant: "secondary" },
+    details: [
+      { label: "Category", value: item.category },
+      ...practicalFacts,
+    ],
+    sections: [
+      {
+        title: "Full description",
+        body: item.emotionalText,
+      },
+      {
+        title: "Practical information",
+        body: "Essential information is grouped together so you can compare configurations quickly and prepare your booking.",
+        facts: practicalFacts,
+      },
+      {
+        title: "Amenities",
+        body: "Each page details the amenities available or confirmable depending on the assigned unit.",
+        bullets: item.amenities,
+      },
+      {
+        title: "Included services",
+        body: "Included services may vary depending on the offer, season and booked configuration.",
+        bullets: item.servicesIncluded,
+      },
+      {
+        title: "Children's conditions",
+        body: item.childConditions,
+      },
+      {
+        title: "Experiences available during the stay",
+        body: "Subject to availability: wildlife park, pool, restaurants, Canopy Spa, kids club, fitness room, outdoor activities and seasonal experiences.",
+      },
+      {
+        title: "Book this accommodation",
+        body: "Choose your dates or request more information from the reservations team to confirm the best available configuration.",
+        cta: { label: "Book", href: "/sejours#booking", track: "room_booking_section" },
+        secondaryCta: { label: "Request more information", href: "/contact?type=sejour", variant: "secondary" },
+      },
+      {
+        title: "Related suggestions and similar accommodation",
+        body: "Discover other nearby accommodation options to choose the stay that best matches your rhythm.",
+        cards: accommodations.filter((candidate) => candidate.slug !== item.slug).slice(0, 3).map((candidate) => accommodationToCard(candidate, locale)),
+      },
+    ],
+  };
+}
+
+function localizePage(page: SitePage, locale: Locale): SitePage {
+  if (locale !== "en") return page;
+
+  if (page.slug.startsWith("sejours/")) return localizeAccommodationPage(page, locale);
+
+  const copy = pageCopyEn[page.slug];
+  return copy ? { ...page, ...copy } : page;
+}
 
 const legalPages: SitePage[] = [
   ["mentions-legales", "Mentions légales"],
@@ -1205,9 +1644,9 @@ const legalPages: SitePage[] = [
     "Retrouvez les informations légales et institutionnelles du Domaine Limoune.",
   heroImage: images.domain,
   heroAlt: `${title} Domaine Limoune`,
-  seoTitle: `${title} | Domaine Limoune`,
+  seoTitle: `${title} | Le Domaine Limoune`,
   seoDescription: `${title} du site officiel du Domaine Limoune.`,
-  seoKeywords: [title, "Domaine Limoune"],
+  seoKeywords: [title, "Le Domaine Limoune"],
   primaryCta: { label: "Contacter l'équipe", href: "/contact" },
   sections: [
     {
@@ -1218,16 +1657,36 @@ const legalPages: SitePage[] = [
   ],
 }));
 
-function accommodationToCard(item: (typeof accommodations)[number]): Card {
+type AccommodationCardCopy = {
+  name: string;
+  category: string;
+  emotionalText: string;
+  meta: string[];
+};
+
+function getAccommodationCardCopy(item: (typeof accommodations)[number], locale: Locale): AccommodationCardCopy {
+  const copy = localizeAccommodation(item, locale);
+
   return {
-    title: item.name,
+    name: copy.name,
+    category: copy.category,
+    emotionalText: copy.emotionalText,
+    meta: copy.meta,
+  };
+}
+
+function accommodationToCard(item: (typeof accommodations)[number], locale: Locale = defaultLocale): Card {
+  const copy = getAccommodationCardCopy(item, locale);
+
+  return {
+    title: copy.name,
     href: `/sejours/${item.slug}`,
-    eyebrow: item.category,
-    text: item.emotionalText,
+    eyebrow: copy.category,
+    text: copy.emotionalText,
     image: item.image,
-    alt: `${item.name} au Domaine Limoune`,
-    cta: "Voir la fiche",
-    meta: item.meta,
+    alt: locale === "en" ? `${copy.name} at Le Domaine Limoune` : `${copy.name} au Domaine Limoune`,
+    cta: locale === "en" ? "View details" : "Voir la fiche",
+    meta: copy.meta,
   };
 }
 
@@ -1249,16 +1708,19 @@ function tupleToCard(
   index: number,
   parent: string,
   image: string,
+  locale: Locale = defaultLocale,
 ): Card {
+  const isEn = locale === "en";
+
   return {
     title: item[0],
     href: parent,
     eyebrow: item[2],
     text: item[1],
     image,
-    alt: `${item[0]} au Domaine Limoune`,
-    cta: "Contacter l'équipe",
-    meta: [`Durée selon saison`, `Réservation conseillée`, `Moment ${index + 1}`],
+    alt: isEn ? `${item[0]} at Le Domaine Limoune` : `${item[0]} au Domaine Limoune`,
+    cta: isEn ? "Contact the team" : "Contacter l'équipe",
+    meta: isEn ? ["Duration by season", "Booking recommended", `Moment ${index + 1}`] : [`Durée selon saison`, `Réservation conseillée`, `Moment ${index + 1}`],
   };
 }
 
@@ -1331,7 +1793,7 @@ const accommodationPages: SitePage[] = accommodations.map((item) => ({
     {
       title: "Suggestions liées et hébergements similaires",
       body: "Découvrez d'autres hébergements proches pour choisir le séjour qui correspond le mieux à votre rythme.",
-      cards: accommodations.filter((candidate) => candidate.slug !== item.slug).slice(0, 3).map(accommodationToCard),
+      cards: accommodations.filter((candidate) => candidate.slug !== item.slug).slice(0, 3).map((item) => accommodationToCard(item)),
     },
   ],
   downloads: ["accommodation"],
@@ -1408,14 +1870,31 @@ export function localizedHref(locale: Locale, href: string): string {
 }
 
 export function getPageBySlug(locale: Locale, slug: string[] | undefined): SitePage | null {
-  void locale;
   const path = slugToPath(slug);
-  return allPages.find((page) => page.slug === path) ?? null;
+  const page = allPages.find((candidate) => candidate.slug === path) ?? null;
+  return page ? localizePage(page, locale) : null;
 }
 
-export function getCollectionCards(collection: CollectionKey): Card[] {
+export function getCollectionCards(collection: CollectionKey, locale: Locale = defaultLocale): Card[] {
+  const experienceImages = [
+    images.experienceSafari,
+    images.experienceSunsetRide,
+    images.experienceSport,
+    images.experienceFamily,
+    images.experienceDiningStars,
+    images.experienceSpaDay,
+  ];
+  const offerImages = [
+    images.offerStay,
+    images.offerFamily,
+    images.offerSpa,
+    images.offerBrunch,
+    images.offerPool,
+    images.offerSafari,
+  ];
+
   if (collection === "accommodations") {
-    return accommodations.map(accommodationToCard);
+    return accommodations.map((item) => accommodationToCard(item, locale));
   }
 
   if (collection === "restaurants") {
@@ -1423,14 +1902,16 @@ export function getCollectionCards(collection: CollectionKey): Card[] {
   }
 
   if (collection === "experiences") {
-    return experiences.map((item, index) => tupleToCard(item, index, "/experiences", images.experiences));
+    return experiences.map((item, index) => tupleToCard(item, index, "/experiences", experienceImages[index % experienceImages.length], locale));
   }
 
   if (collection === "offers") {
-    return offers.map((item, index) => tupleToCard(item, index, "/offres", images.offers));
+    const source = locale === "en" ? offersEn : offers;
+    return source.map((item, index) => tupleToCard(item, index, "/offres", offerImages[index % offerImages.length], locale));
   }
 
-  return agendaEvents.map((item, index) => tupleToCard(item, index, "/agenda", images.agenda));
+  const source = locale === "en" ? agendaEventsEn : agendaEvents;
+  return source.map((item, index) => tupleToCard(item, index, "/agenda", images.agenda, locale));
 }
 
 export function getStaticPageParams(): { locale: Locale; slug: string[] }[] {
@@ -1450,12 +1931,12 @@ export function getAlternateLanguages(page: SitePage): Record<string, string> {
 
 export function getBreadcrumbs(locale: Locale, page: SitePage) {
   const parts = splitSlug(page.slug);
-  const items = [{ name: "Accueil", url: `${baseUrl}/${locale}` }];
+  const items = [{ name: locale === "en" ? "Home" : "Accueil", url: `${baseUrl}/${locale}` }];
   let current = "";
 
   for (const part of parts) {
     current = current ? `${current}/${part}` : part;
-    const found = allPages.find((candidate) => candidate.slug === current);
+    const found = getPageBySlug(locale, splitSlug(current));
     items.push({
       name: found?.title ?? part.replace(/-/g, " "),
       url: `${baseUrl}/${locale}/${current}`,
@@ -1472,25 +1953,22 @@ function absoluteImageUrl(src: string) {
 export function buildStructuredData(locale: Locale, page: SitePage) {
   const pageUrl = getPageUrl(locale, page);
   const breadcrumbs = getBreadcrumbs(locale, page);
+  const hotelDescription = locale === "en"
+    ? "Nature destination near Agadir bringing together lodges, African reserve, wildlife park, restaurants, Canopy Spa, weddings, events and activities."
+    : "Destination nature près d'Agadir réunissant lodges, réserve africaine, parc animalier, restaurants, Canopy Spa, mariages, événements et activités.";
+  const amenityFeature = locale === "en"
+    ? ["Accommodation", "African reserve", "Wildlife park", "Restaurants", "Spa", "Weddings", "Seminars"]
+    : ["Hébergement", "Réserve africaine", "Parc animalier", "Restaurants", "Spa", "Mariages", "Séminaires"];
 
   const baseGraph: Record<string, unknown>[] = [
     {
       "@type": "Hotel",
       "@id": `${baseUrl}/#hotel`,
-      name: "Domaine Limoune",
+      name: "Le Domaine Limoune",
       url: `${baseUrl}/${locale}`,
       image: absoluteImageUrl(images.hero),
-      description:
-        "Domaine hôtelier expérientiel près d'Agadir réunissant hébergement, réserve africaine, parc animalier, restaurants, Canopy Spa, mariages, événements et activités.",
-      amenityFeature: [
-        "Hébergement",
-        "Réserve africaine",
-        "Parc animalier",
-        "Restaurants",
-        "Spa",
-        "Mariages",
-        "Séminaires",
-      ].map((name) => ({ "@type": "LocationFeatureSpecification", name })),
+      description: hotelDescription,
+      amenityFeature: amenityFeature.map((name) => ({ "@type": "LocationFeatureSpecification", name })),
       address: {
         "@type": "PostalAddress",
         addressCountry: "MA",
@@ -1521,7 +1999,7 @@ export function buildStructuredData(locale: Locale, page: SitePage) {
     baseGraph.push({
       "@type": "EventSeries",
       "@id": `${pageUrl}#agenda`,
-      name: "Agenda Domaine Limoune",
+      name: "Agenda Le Domaine Limoune",
       url: pageUrl,
       description: page.summary,
     });

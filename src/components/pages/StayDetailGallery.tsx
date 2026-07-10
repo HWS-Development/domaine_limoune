@@ -3,16 +3,34 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
-import type { Accommodation } from "@/lib/content";
+import type { Accommodation, Locale } from "@/lib/content";
 
 type StayImagePreview = {
   src: string;
   alt: string;
 };
 
-export function StayDetailGallery({ item }: { item: Accommodation }) {
+const galleryCopy = {
+  fr: {
+    enlarge: "Agrandir",
+    visual: "visuel",
+    closePreview: "Fermer l'aperçu",
+  },
+  en: {
+    enlarge: "Enlarge",
+    visual: "visual",
+    closePreview: "Close preview",
+  },
+} as const;
+
+function getGalleryCopy(locale: Locale) {
+  return locale === "en" ? galleryCopy.en : galleryCopy.fr;
+}
+
+export function StayDetailGallery({ item, locale }: { item: Accommodation; locale: Locale }) {
   const [preview, setPreview] = useState<StayImagePreview | null>(null);
   const gallery = Array.from(new Set([item.image, ...item.gallery])).slice(0, 4);
+  const copy = getGalleryCopy(locale);
 
   useEffect(() => {
     if (!preview) return;
@@ -36,22 +54,22 @@ export function StayDetailGallery({ item }: { item: Accommodation }) {
       <div className="capella-template-wrapper stay-detail-gallery-grid">
         {gallery.map((image, index) => (
           <Reveal key={`${item.slug}-${image}`} delay={Math.min(index * 0.05, 0.12)}>
-            <button type="button" className="stay-detail-gallery-button" aria-label={`Agrandir ${item.name} visuel ${index + 1}`} onClick={() => setPreview({ src: image, alt: `${item.name} visuel ${index + 1}` })}>
-              <EditorialMedia src={image} alt={`${item.name} visuel ${index + 1}`} className={`stay-detail-gallery-image stay-detail-gallery-image-${index + 1}`} />
+            <button type="button" className="stay-detail-gallery-button" aria-label={`${copy.enlarge} ${item.name} ${copy.visual} ${index + 1}`} onClick={() => setPreview({ src: image, alt: `${item.name} ${copy.visual} ${index + 1}` })}>
+              <EditorialMedia src={image} alt={`${item.name} ${copy.visual} ${index + 1}`} className={`stay-detail-gallery-image stay-detail-gallery-image-${index + 1}`} />
             </button>
           </Reveal>
         ))}
       </div>
 
-      {preview ? <StayImageLightbox preview={preview} onClose={() => setPreview(null)} /> : null}
+      {preview ? <StayImageLightbox preview={preview} closeLabel={copy.closePreview} onClose={() => setPreview(null)} /> : null}
     </section>
   );
 }
 
-function StayImageLightbox({ preview, onClose }: { preview: StayImagePreview; onClose: () => void }) {
+function StayImageLightbox({ preview, closeLabel, onClose }: { preview: StayImagePreview; closeLabel: string; onClose: () => void }) {
   return (
     <div className="stay-image-lightbox" role="dialog" aria-modal="true" aria-label={preview.alt} onClick={onClose}>
-      <button type="button" className="stay-image-lightbox-close" aria-label="Fermer l'aperçu" onClick={onClose}>
+      <button type="button" className="stay-image-lightbox-close" aria-label={closeLabel} onClick={onClose}>
         X
       </button>
       <figure className="stay-image-lightbox-frame" onClick={(event) => event.stopPropagation()}>

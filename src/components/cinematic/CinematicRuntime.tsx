@@ -19,24 +19,28 @@ type OfferCopy = {
   statValue: string;
   primary: string;
   secondary: string;
+  videoModalLabel: string;
+  videoCloseLabel: string;
 };
 
 const offerCopy: Record<Locale, OfferCopy> = {
   fr: {
-    ariaLabel: "Offre saisonnière Domaine Limoune",
+    ariaLabel: "Offre saisonnière Le Domaine Limoune",
     closeLabel: "Fermer l'offre",
-    eyebrow: "Invitation de saison",
+    eyebrow: "Saison",
     badge: "Ouvert cette semaine",
-    title: "Été Limoune",
-    lead: "Piscine, brunch sous les orangers, parc animalier et rituel Canopy Spa composés en une échappée lumineuse.",
-    features: ["Journée piscine", "Brunch orangers", "Parc animalier", "Rituel spa"],
+    title: "Été au Domaine Limoune",
+    lead: "Piscine, brunch familial, kids club, parc animalier et dîners d’été à vivre du matin jusqu’au soir.",
+    features: ["Piscine", "Brunch", "Kids Club", "Parc animalier"],
     statLabel: "Parcours conseillé",
     statValue: "1 journée ou 1 nuit",
     primary: "Voir les offres",
     secondary: "Réserver un séjour",
+    videoModalLabel: "Film Le Domaine Limoune",
+    videoCloseLabel: "Fermer la vidéo",
   },
   en: {
-    ariaLabel: "Domaine Limoune seasonal offer",
+    ariaLabel: "Le Domaine Limoune seasonal offer",
     closeLabel: "Close offer",
     eyebrow: "Seasonal invitation",
     badge: "Open this week",
@@ -47,6 +51,8 @@ const offerCopy: Record<Locale, OfferCopy> = {
     statValue: "1 day or 1 night",
     primary: "View offers",
     secondary: "Book a stay",
+    videoModalLabel: "Le Domaine Limoune film",
+    videoCloseLabel: "Close video",
   },
   ar: {
     ariaLabel: "عرض موسمي من دومين ليمون",
@@ -60,9 +66,11 @@ const offerCopy: Record<Locale, OfferCopy> = {
     statValue: "يوم واحد أو ليلة واحدة",
     primary: "مشاهدة العروض",
     secondary: "حجز إقامة",
+    videoModalLabel: "فيلم دومين ليمون",
+    videoCloseLabel: "إغلاق الفيديو",
   },
   es: {
-    ariaLabel: "Oferta de temporada Domaine Limoune",
+    ariaLabel: "Oferta de temporada Le Domaine Limoune",
     closeLabel: "Cerrar la oferta",
     eyebrow: "Invitación de temporada",
     badge: "Disponible esta semana",
@@ -73,9 +81,11 @@ const offerCopy: Record<Locale, OfferCopy> = {
     statValue: "1 día o 1 noche",
     primary: "Ver ofertas",
     secondary: "Reservar estancia",
+    videoModalLabel: "Película Le Domaine Limoune",
+    videoCloseLabel: "Cerrar vídeo",
   },
   de: {
-    ariaLabel: "Saisonangebot Domaine Limoune",
+    ariaLabel: "Saisonangebot Le Domaine Limoune",
     closeLabel: "Angebot schließen",
     eyebrow: "Saisonale Einladung",
     badge: "Diese Woche verfügbar",
@@ -86,6 +96,8 @@ const offerCopy: Record<Locale, OfferCopy> = {
     statValue: "1 Tag oder 1 Nacht",
     primary: "Angebote ansehen",
     secondary: "Aufenthalt buchen",
+    videoModalLabel: "Le Domaine Limoune Film",
+    videoCloseLabel: "Video schließen",
   },
 };
 
@@ -115,6 +127,10 @@ export function CinematicRuntime() {
   const offerEntrance = reduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 58, scale: 0.9, rotateX: -10, filter: "blur(18px)" };
   const offerAnimate = reduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 1, y: 0, scale: 1, rotateX: 0, filter: "blur(0px)" };
   const offerExit = reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96, rotateX: 8, filter: "blur(10px)" };
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   useEffect(() => {
     document.body.classList.add("is-cinematic-ready");
@@ -266,13 +282,13 @@ export function CinematicRuntime() {
             className="video-modal"
             role="dialog"
             aria-modal="true"
-            aria-label="Film Domaine Limoune"
+            aria-label={offer.videoModalLabel}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
           >
-            <button className="video-modal-close" type="button" aria-label="Fermer la vidéo" onClick={() => setVideoOpen(false)}>
+            <button className="video-modal-close" type="button" aria-label={offer.videoCloseLabel} onClick={() => setVideoOpen(false)}>
               <X aria-hidden="true" className="size-5" />
             </button>
             <motion.div

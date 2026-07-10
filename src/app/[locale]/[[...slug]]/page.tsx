@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
       title: page.seoTitle,
       description: page.seoDescription,
       url: getPageUrl(locale, page),
-      siteName: "Domaine Limoune",
+      siteName: "Le Domaine Limoune",
       images: [
         {
           url: page.heroImage,

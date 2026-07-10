@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import { TrackingScripts } from "@/components/analytics/TrackingScripts";
 import { CinematicRuntime } from "@/components/cinematic/CinematicRuntime";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { baseUrl } from "@/lib/content";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Domaine Limoune | Destination nature premium près d'Agadir",
-    template: "%s | Domaine Limoune",
+    default: "Safari Experience près d’Agadir | Le Domaine Limoune",
+    template: "%s | Le Domaine Limoune",
   },
   description:
-    "Domaine Limoune réunit hébergements, réserve africaine, parc animalier, restaurants, Canopy Spa, mariages, événements et expériences près d'Agadir.",
-  applicationName: "Domaine Limoune",
-  authors: [{ name: "Domaine Limoune" }],
-  creator: "Domaine Limoune",
-  publisher: "Domaine Limoune",
+    "Vivez Le Domaine Limoune près d’Agadir : lodges safari, réserve africaine, parc animalier, restaurants, Canopy Spa, activités, mariages et événements.",
+  applicationName: "Le Domaine Limoune",
+  authors: [{ name: "Le Domaine Limoune" }],
+  creator: "Le Domaine Limoune",
+  publisher: "Le Domaine Limoune",
   formatDetection: {
     telephone: true,
     email: true,
@@ -40,9 +41,7 @@ export default function RootLayout({
       className="h-full scroll-smooth antialiased"
     >
       <body className="min-h-full flex flex-col">
-        <a className="skip-link" href="#main-content">
-          Aller au contenu principal
-        </a>
+        <SkipLink />
         {children}
         <CinematicRuntime />
         <TrackingScripts />

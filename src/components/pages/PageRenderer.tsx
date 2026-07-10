@@ -20,6 +20,7 @@ import {
   accommodations,
   departments,
   downloads,
+  getAccommodationBySlug,
   getCollectionCards,
   heroVideos,
   images,
@@ -49,120 +50,810 @@ type StorySection = {
   facts?: DetailFact[];
 };
 
-const homeStories: StorySection[] = [
-  {
-    eyebrow: "Séjours",
-    title: "Suites et lodges ouverts sur la nature",
-    text: "Des hébergements pensés pour les escapades en couple, les séjours en famille et les nuits plus immersives face à la réserve.",
-    image: images.stays,
-    alt: "Suites et lodges du Domaine Limoune",
-    href: "/sejours",
-    cta: "Découvrir les séjours",
-    facts: [
-      { label: "Ambiance", value: "Suites, lodges, jardins" },
-      { label: "Pour", value: "Couples, familles, groupes" },
-      { label: "CTA", value: "Réserver un séjour" },
-    ],
+const homeStoriesByLocale: Record<"fr" | "en", StorySection[]> = {
+  fr: [
+    {
+      eyebrow: "Séjours & Lodges",
+      title: "Dormir au cœur de la nature",
+      text: "Suites et lodges pour les couples, les familles et les séjours face à la réserve africaine.",
+      image: images.stays,
+      alt: "Suites et lodges du Domaine Limoune",
+      href: "/sejours",
+      cta: "Découvrir les séjours",
+      facts: [
+        { label: "Ambiance", value: "Suites, lodges, jardins" },
+        { label: "Pour", value: "Couples, familles, groupes" },
+        { label: "CTA", value: "Réserver un séjour" },
+      ],
+    },
+    {
+      eyebrow: "Safari Experience",
+      title: "Dormir face à la réserve africaine",
+      text: "Une immersion privilégiée dans les lodges safari, au plus près de la nature et de l’univers animalier.",
+      image: images.reserve,
+      alt: "Réserve africaine du Domaine Limoune",
+      href: "/reserve-africaine",
+      cta: "Découvrir Safari Experience",
+      facts: [
+        { label: "Accès", value: "Clients hébergement" },
+        { label: "Esprit", value: "Observation et silence" },
+        { label: "Lien", value: "Lodges safari" },
+      ],
+    },
+    {
+      eyebrow: "Parc Animalier",
+      title: "Explorer le parc animalier",
+      text: "Une sortie familiale et pédagogique pour découvrir plus de trente espèces dans un cadre naturel.",
+      image: images.park,
+      alt: "Parc animalier familial du Domaine Limoune",
+      href: "/parc-animalier",
+      cta: "Préparer la visite",
+      facts: [
+        { label: "Espèces", value: "30+" },
+        { label: "Public", value: "Familles et enfants" },
+        { label: "Règle", value: "Ne pas nourrir" },
+      ],
+    },
+    {
+      eyebrow: "Restaurants",
+      title: "Goûter les saveurs du Domaine",
+      text: "Massa, Aman sous les Orangers, Monkey Beach et Limoune Club : quatre ambiances pour déjeuner, dîner, partager ou célébrer.",
+      image: images.restaurants,
+      alt: "Restaurants du Domaine Limoune",
+      href: "/restaurants",
+      cta: "Réserver une table",
+      facts: [
+        { label: "Signature", value: "Massa" },
+        { label: "Orangers", value: "Aman" },
+        { label: "Piscine", value: "Monkey Beach" },
+      ],
+    },
+    {
+      eyebrow: "Canopy Spa",
+      title: "Se ressourcer au Canopy Spa",
+      text: "Hammam, soins, rituels, piscine chauffée, jacuzzis et espaces de détente pour prolonger l’expérience du Domaine.",
+      image: images.spa,
+      alt: "Canopy Spa du Domaine Limoune",
+      href: "/canopy-spa",
+      cta: "Réserver un soin",
+      facts: [
+        { label: "Soins", value: "10h - 19h" },
+        { label: "Rituels", value: "Signature et duo" },
+        { label: "Mariage", value: "Rituels dédiés" },
+      ],
+    },
+    {
+      eyebrow: "Activités & Loisirs",
+      title: "Composer sa journée",
+      text: "Quad, équitation, padel, tennis, kids club, chasse au trésor, pique-nique, barbecue et dîners sous les étoiles.",
+      image: images.experiences,
+      alt: "Expériences et activités au Domaine Limoune",
+      href: "/experiences",
+      cta: "Voir les activités",
+      facts: [
+        { label: "Famille", value: "Club enfants, chasse" },
+        { label: "Plein air", value: "Cheval, quad, sports" },
+        { label: "Signature", value: "Dîner, pique-nique, barbecue" },
+      ],
+    },
+    {
+      eyebrow: "Mariages",
+      title: "Célébrer dans un décor naturel",
+      text: "Cérémonie, dîner, soirée, brunch du lendemain et hébergement invités : Le Domaine Limoune accompagne chaque moment de votre célébration.",
+      image: images.weddings,
+      alt: "Mariage au Domaine Limoune",
+      href: "/mariages",
+      cta: "Imaginer votre mariage",
+      facts: [
+        { label: "Mariages", value: "Cérémonie, dîner, brunch" },
+        { label: "Spa", value: "Rituels mariage" },
+        { label: "Invités", value: "Hébergement possible" },
+      ],
+    },
+    {
+      eyebrow: "Événements d’entreprise",
+      title: "Réunir vos équipes autrement",
+      text: "Séminaires, déjeuners, dîners, privatisations et activités de cohésion dans un cadre naturel près d’Agadir.",
+      image: images.corporate,
+      alt: "Séminaire et événement d’entreprise au Domaine Limoune",
+      href: "/evenements-entreprise",
+      cta: "Demander un devis",
+      facts: [
+        { label: "Formats", value: "Réunion, banquet, cocktail" },
+        { label: "Activités", value: "Équipe" },
+        { label: "Support", value: "Brochure entreprise" },
+      ],
+    },
+  ],
+  en: [
+    {
+      eyebrow: "Stays & Lodges",
+      title: "Sleep at the heart of nature",
+      text: "Suites and lodges for couples, families and stays facing the African reserve.",
+      image: images.stays,
+      alt: "Suites and lodges at Le Domaine Limoune",
+      href: "/sejours",
+      cta: "Discover the stays",
+      facts: [
+        { label: "Mood", value: "Suites, lodges, gardens" },
+        { label: "For", value: "Couples, families, groups" },
+        { label: "CTA", value: "Book a stay" },
+      ],
+    },
+    {
+      eyebrow: "Safari Experience",
+      title: "Sleep facing the African reserve",
+      text: "A privileged immersion in safari lodges, close to nature and the wildlife world.",
+      image: images.reserve,
+      alt: "African reserve at Le Domaine Limoune",
+      href: "/reserve-africaine",
+      cta: "Discover Safari Experience",
+      facts: [
+        { label: "Access", value: "Resident guests" },
+        { label: "Spirit", value: "Observation and silence" },
+        { label: "Link", value: "Safari lodges" },
+      ],
+    },
+    {
+      eyebrow: "Wildlife Park",
+      title: "Explore the wildlife park",
+      text: "A family-friendly and educational outing to discover more than thirty species in a natural setting.",
+      image: images.park,
+      alt: "Family wildlife park at Le Domaine Limoune",
+      href: "/parc-animalier",
+      cta: "Prepare the visit",
+      facts: [
+        { label: "Species", value: "30+" },
+        { label: "Guests", value: "Families and children" },
+        { label: "Rule", value: "Do not feed" },
+      ],
+    },
+    {
+      eyebrow: "Restaurants",
+      title: "Taste the Domaine's flavours",
+      text: "Massa, Aman sous les Orangers, Monkey Beach and Limoune Club: four atmospheres to lunch, dine, share or celebrate.",
+      image: images.restaurants,
+      alt: "Restaurants at Le Domaine Limoune",
+      href: "/restaurants",
+      cta: "Book a table",
+      facts: [
+        { label: "Signature", value: "Massa" },
+        { label: "Orange trees", value: "Aman" },
+        { label: "Pool", value: "Monkey Beach" },
+      ],
+    },
+    {
+      eyebrow: "Canopy Spa",
+      title: "Recharge at Canopy Spa",
+      text: "Hammam, treatments, rituals, heated pool, jacuzzis and relaxation spaces to extend the Domaine experience.",
+      image: images.spa,
+      alt: "Canopy Spa at Le Domaine Limoune",
+      href: "/canopy-spa",
+      cta: "Book a treatment",
+      facts: [
+        { label: "Treatments", value: "10am - 7pm" },
+        { label: "Rituals", value: "Signature and duo" },
+        { label: "Wedding", value: "Dedicated rituals" },
+      ],
+    },
+    {
+      eyebrow: "Activities & Leisure",
+      title: "Shape your day",
+      text: "Quad biking, horse riding, padel, tennis, kids club, treasure hunt, picnic, barbecue and dinners under the stars.",
+      image: images.experiences,
+      alt: "Experiences and activities at Le Domaine Limoune",
+      href: "/experiences",
+      cta: "View activities",
+      facts: [
+        { label: "Family", value: "Kids club, hunt" },
+        { label: "Outdoor", value: "Horse, quad, sports" },
+        { label: "Signature", value: "Dinner, picnic, barbecue" },
+      ],
+    },
+    {
+      eyebrow: "Weddings",
+      title: "Celebrate in a natural setting",
+      text: "Ceremony, dinner, party, next-day brunch and guest accommodation: Le Domaine Limoune accompanies every moment of your celebration.",
+      image: images.weddings,
+      alt: "Wedding at Le Domaine Limoune",
+      href: "/mariages",
+      cta: "Imagine your wedding",
+      facts: [
+        { label: "Weddings", value: "Ceremony, dinner, brunch" },
+        { label: "Spa", value: "Wedding rituals" },
+        { label: "Guests", value: "Accommodation possible" },
+      ],
+    },
+    {
+      eyebrow: "Corporate Events",
+      title: "Bring your teams together differently",
+      text: "Seminars, lunches, dinners, private events and team-building activities in a natural setting near Agadir.",
+      image: images.corporate,
+      alt: "Corporate seminar and event at Le Domaine Limoune",
+      href: "/evenements-entreprise",
+      cta: "Request a quote",
+      facts: [
+        { label: "Formats", value: "Meeting, banquet, cocktail" },
+        { label: "Activities", value: "Team" },
+        { label: "Support", value: "Corporate brochure" },
+      ],
+    },
+  ],
+};
+
+function homeStories(locale: Locale) {
+  return locale === "en" ? homeStoriesByLocale.en : homeStoriesByLocale.fr;
+}
+
+const homeCopy = {
+  fr: {
+    masthead: {
+      ariaLabel: "Le Domaine Limoune Safari Experience",
+      eyebrow: "Le Domaine Limoune",
+      title: "SAFARI EXPERIENCE",
+      quote: "Aux portes d’Agadir, Le Domaine Limoune réunit lodges safari, réserve africaine, parc animalier, restaurants, spa et expériences en pleine nature.",
+      shortline: "Séjourner. Explorer. Se ressourcer. Célébrer.",
+      bottomText: "Safari · Lodges · Réserve · Nature",
+      downLabel: "Descendre vers le Domaine",
+      actionsLabel: "Actions principales",
+      book: "Réserver votre séjour",
+      safari: "Découvrir Safari Experience",
+      videoLabel: "Voir la vidéo du Domaine",
+      film: "Voir le film",
+    },
+    intro: {
+      kicker: "Le Domaine Limoune",
+      title: "Une destination nature aux portes d’Agadir",
+      subtitle: "Vergers, jardins, lodges et espaces de vie près d’Agadir.",
+      smallAlt: "Détail chaleureux du Domaine Limoune",
+      mainAlt: "Jardins, orangers et lieux de vie du Domaine Limoune",
+      body: "Entre vergers, jardins, lodges et espaces de vie, Le Domaine Limoune propose une expérience complète : dormir face à la réserve, visiter le parc animalier, déjeuner sous les orangers, profiter du spa ou organiser un événement dans un cadre naturel unique.",
+      cta: "Découvrir Le Domaine",
+    },
+    story: {
+      title: "Une journée au Domaine Limoune",
+      visualAlt: "Lieux de vie et hospitalité du Domaine Limoune",
+      paragraphs: [
+        "Le matin, on se réveille en lodge ou en suite. La journée continue entre parc animalier, piscine, activités en plein air et moments en famille. Le soir, place au dîner, au coucher de soleil et aux instants sous les étoiles.",
+        "Le Domaine Limoune n’est pas seulement un hôtel : c’est une destination vivante, pensée pour les familles, les couples, les entreprises et les célébrations.",
+      ],
+      synopsisAlt: "Réserve africaine et nature du Domaine Limoune",
+    },
+    universes: {
+      title: "Les univers du Domaine Limoune",
+      body: "Chaque visite peut se vivre à sa manière : séjourner, explorer, déjeuner, se détendre, célébrer ou réunir ses équipes.",
+    },
+    gallery: {
+      alt: "Jardins, lumière chaude et matières naturelles du Domaine Limoune",
+      caption: "Nature, lodges, animaux, restaurants, spa et moments partagés.",
+    },
+    accommodation: {
+      kicker: "Séjours & Lodges",
+      title: "Dormir au Domaine Limoune",
+      body: "Suites, lodges côté jardin, lodges piscine ou lodges safari : chaque hébergement offre une manière différente de vivre Le Domaine Limoune, entre confort, nature et esprit d’évasion.",
+      discover: "Découvrir",
+    },
+    rituals: {
+      items: ["Piscine", "Brunch", "Kids Club", "Parc Animalier", "Dîners d’été"],
+      kicker: "Saison",
+      title: "Été au Domaine Limoune",
+      body: "Piscine, brunch familial, pause thé, activités enfants, parc animalier et dîners sous les étoiles : l’été au Domaine Limoune se vit du matin jusqu’au soir.",
+      cta: "Découvrir l’offre été",
+      mainAlt: "Été au Domaine Limoune",
+      captionLead: "Du midi à la nuit :",
+      captionStrong: "piscine, restaurants, jardins et ciel ouvert.",
+      poolAlt: "Journée piscine premium au Domaine Limoune",
+      noteTitle: "Offre Été Limoune",
+      noteBody: "Un séjour pensé pour les familles, avec hébergement, piscine, expériences et univers animalier.",
+    },
+    agenda: {
+      kicker: "Programmation",
+      title: "Ce qui se vit au Domaine Limoune",
+      body: "Brunchs, soirées, diffusions sportives, activités enfants, dîners thématiques et événements de saison : l’agenda donne chaque semaine une nouvelle raison de venir.",
+      primary: "Voir l’agenda",
+      secondary: "Réserver une expérience",
+      featuredLabel: "À vivre cette saison",
+      featuredTitle: "Été au Domaine Limoune",
+      featuredBody: "Monkey Beach, parc animalier, kids club, restaurants et moments en plein air.",
+      featuredCta: "Réserver ce moment",
+      filters: ["Brunchs", "Soirées", "Enfants", "Sport", "Saison"],
+      filtersLabel: "Univers agenda",
+    },
+    awards: {
+      title: "Le Domaine Limoune dans les médias",
+      signatures: [
+        ["Presse", "Dossier presse, visuels et informations officielles pour présenter Le Domaine Limoune.", images.corporate, "Presse et communication Domaine Limoune"],
+        ["Destination", "Une adresse unique près d’Agadir réunissant hébergement, nature, restauration, spa et événements.", images.domain, "Destination Domaine Limoune"],
+        ["Informations officielles", "Des contenus clairs pour les journalistes, partenaires et professionnels.", images.restaurants, "Informations officielles Domaine Limoune"],
+      ],
+    },
+    bookBanner: {
+      paths: [
+        { title: "Séjour", text: "Suites, lodges, offres et disponibilités.", href: "/sejours#booking", cta: "Vérifier les disponibilités" },
+        { title: "Restaurants", text: "Massa, Aman sous les Orangers, Monkey Beach et Limoune Club.", href: "/restaurants", cta: "Réserver une table" },
+        { title: "Canopy Spa", text: "Soins, hammam, rituels duo et espaces bien-être.", href: "/canopy-spa", cta: "Réserver un soin" },
+        { title: "Événements", text: "Mariages, séminaires, privatisations et activités de cohésion.", href: "/evenements-entreprise", cta: "Demander un devis" },
+      ],
+      mediaAlt: "Séjour premium au Domaine Limoune",
+      badge: "Réservation directe",
+      kicker: "Réservation & demandes",
+      title: "Préparer votre venue au Domaine Limoune",
+      body: "Séjour, restaurant, spa, mariage, événement d’entreprise ou journée en famille : choisissez votre demande, notre équipe vous oriente vers le bon service.",
+      primary: "Réserver votre séjour",
+      secondary: "Demande sur mesure",
+    },
+    offers: {
+      title: "Offres du Domaine Limoune",
+      body: "Séjour en famille, escapade bien-être ou parenthèse estivale : découvrez les offres pensées pour vivre Le Domaine Limoune autrement.",
+      firstCta: "Découvrir l’offre",
+      cta: "Découvrir",
+    },
+    available: {
+      items: [
+        { title: "Canopy Spa", text: "Soin, hammam, tisanerie, piscine chauffée et espaces de détente.", cta: "Réserver un soin", href: "/canopy-spa", image: images.spa, alt: "Canopy Spa Domaine Limoune" },
+        { title: "Table au Domaine", text: "Déjeuner sous les orangers, dîner au Massa ou moment convivial au Limoune Club.", cta: "Réserver une table", href: "/restaurants", image: images.restaurants, alt: "Restaurants Domaine Limoune" },
+        { title: "Parc animalier", text: "Une visite familiale pour découvrir les animaux et partager un moment en pleine nature.", cta: "Préparer la visite", href: "/parc-animalier", image: images.park, alt: "Parc animalier Domaine Limoune" },
+        { title: "Journée piscine", text: "Une journée autour de Monkey Beach entre baignade, détente et restauration.", cta: "Voir l’offre", href: "/offres", image: images.pool, alt: "Journée piscine Domaine Limoune" },
+      ],
+      kicker: "Expériences à la journée",
+      title: "Vivre Le Domaine Limoune sans séjourner",
+      body: "Une journée au Domaine peut se vivre autour d’un déjeuner, d’un accès piscine, d’une visite du parc animalier, d’un soin au Canopy Spa ou d’une activité en plein air.",
+      primary: "Composer ma journée",
+      secondary: "Nous contacter sur WhatsApp",
+      showcaseAlt: "Journée premium au Domaine Limoune",
+      cardLabel: "Votre parcours au Domaine",
+      cardTitle: "Spa, table, parc animalier, piscine ou activité.",
+      cardBody: "Choisissez votre moment et notre équipe vous oriente vers l’expérience la plus adaptée.",
+      cardCta: "Voir les expériences",
+    },
+    prefooter: {
+      contacts: [
+        { title: "Séjours", text: "Suites, lodges, offres et disponibilités.", href: "/sejours#booking", cta: "Réserver" },
+        { title: "Restaurants", text: "Table, groupe, brunch ou dîner privé.", href: "/restaurants", cta: "Réserver une table" },
+        { title: "Canopy Spa", text: "Soin, hammam, rituel duo ou moment bien-être.", href: "/canopy-spa", cta: "Réserver un soin" },
+        { title: "Mariages", text: "Cérémonie, dîner, brunch et hébergement invités.", href: "/mariages", cta: "Demander un devis" },
+        { title: "Entreprises", text: "Séminaire, activité de cohésion, déjeuner, dîner ou privatisation.", href: "/evenements-entreprise", cta: "Demander un devis" },
+        { title: "Parc et activités", text: "Parc animalier, enfants, plein air et journées famille.", href: "/experiences", cta: "Préparer la visite" },
+      ],
+      kicker: "Contact rapide",
+      title: "Contacter Le Domaine Limoune",
+      body: "Pour un séjour, une table, un soin, un mariage, un événement d’entreprise ou une sortie en famille, notre équipe vous accompagne avec les bonnes informations.",
+      mediaAlt: "Conciergerie Domaine Limoune",
+      location: "Région Agadir - Taroudant, Maroc",
+      cardBody: "À proximité d’Agadir et de l’aéroport, Le Domaine Limoune vous accueille pour séjourner, explorer, vous détendre ou célébrer.",
+      contactForm: "Formulaire contact",
+      whatsapp: "WhatsApp Business",
+      proof: ["Réservations", "Restaurants", "Spa", "Mariages", "Entreprises", "Parc & activités"],
+    },
   },
-  {
-    eyebrow: "Réserve Africaine",
-    title: "Dormir face à la réserve",
-    text: "Une expérience d’hébergement calme et attentive, réservée aux clients des lodges concernés, autour de l’observation et du respect animalier.",
-    image: images.reserve,
-    alt: "Réserve africaine du Domaine Limoune",
-    href: "/reserve-africaine",
-    cta: "Voir l’expérience safari",
-    facts: [
-      { label: "Accès", value: "Clients hébergement" },
-      { label: "Esprit", value: "Observation et silence" },
-      { label: "Lien", value: "Lodges safari" },
-    ],
+  en: {
+    masthead: {
+      ariaLabel: "Le Domaine Limoune Safari Experience",
+      eyebrow: "Le Domaine Limoune",
+      title: "SAFARI EXPERIENCE",
+      quote: "At the gates of Agadir, Le Domaine Limoune brings together safari lodges, an African reserve, wildlife park, restaurants, spa and nature experiences.",
+      shortline: "Stay. Explore. Recharge. Celebrate.",
+      bottomText: "Safari · Lodges · Reserve · Nature",
+      downLabel: "Scroll to the Domaine",
+      actionsLabel: "Main actions",
+      book: "Book your stay",
+      safari: "Discover Safari Experience",
+      videoLabel: "Watch the Domaine video",
+      film: "Watch the film",
+    },
+    intro: {
+      kicker: "Le Domaine Limoune",
+      title: "A nature destination at the gates of Agadir",
+      subtitle: "Orchards, gardens, lodges and living spaces near Agadir.",
+      smallAlt: "Warm detail of Le Domaine Limoune",
+      mainAlt: "Gardens, orange trees and living spaces at Le Domaine Limoune",
+      body: "Between orchards, gardens, lodges and living spaces, Le Domaine Limoune offers a complete experience: sleep facing the reserve, visit the wildlife park, lunch under the orange trees, enjoy the spa or host an event in a unique natural setting.",
+      cta: "Discover the Domaine",
+    },
+    story: {
+      title: "A day at Le Domaine Limoune",
+      visualAlt: "Living spaces and hospitality at Le Domaine Limoune",
+      paragraphs: [
+        "In the morning, you wake up in a lodge or suite. The day continues between the wildlife park, pool, outdoor activities and family moments. In the evening, it is time for dinner, sunset and moments under the stars.",
+        "Le Domaine Limoune is not only a hotel: it is a living destination designed for families, couples, companies and celebrations.",
+      ],
+      synopsisAlt: "African reserve and nature at Le Domaine Limoune",
+    },
+    universes: {
+      title: "The worlds of Le Domaine Limoune",
+      body: "Each visit can be lived in your own way: stay, explore, lunch, unwind, celebrate or bring your teams together.",
+    },
+    gallery: {
+      alt: "Gardens, warm light and natural materials at Le Domaine Limoune",
+      caption: "Nature, lodges, animals, restaurants, spa and shared moments.",
+    },
+    accommodation: {
+      kicker: "Stays & Lodges",
+      title: "Stay at Le Domaine Limoune",
+      body: "Suites, garden-side lodges, pool lodges or safari lodges: each accommodation offers a different way to experience Le Domaine Limoune, between comfort, nature and a spirit of escape.",
+      discover: "Discover",
+    },
+    rituals: {
+      items: ["Pool", "Brunch", "Kids Club", "Wildlife Park", "Summer dinners"],
+      kicker: "Season",
+      title: "Summer at Le Domaine Limoune",
+      body: "Pool, family brunch, tea break, children's activities, wildlife park and dinners under the stars: summer at Le Domaine Limoune is lived from morning to evening.",
+      cta: "Discover the summer offer",
+      mainAlt: "Summer at Le Domaine Limoune",
+      captionLead: "From midday to night:",
+      captionStrong: "pool, restaurants, gardens and open sky.",
+      poolAlt: "Premium pool day at Le Domaine Limoune",
+      noteTitle: "Limoune Summer Offer",
+      noteBody: "A stay designed for families, with accommodation, pool, experiences and wildlife world.",
+    },
+    agenda: {
+      kicker: "Programme",
+      title: "What happens at Le Domaine Limoune",
+      body: "Brunches, evenings, sports screenings, children's activities, themed dinners and seasonal events: the agenda gives you a new reason to come every week.",
+      primary: "View the agenda",
+      secondary: "Book an experience",
+      featuredLabel: "To experience this season",
+      featuredTitle: "Summer at Le Domaine Limoune",
+      featuredBody: "Monkey Beach, wildlife park, kids club, restaurants and outdoor moments.",
+      featuredCta: "Book this moment",
+      filters: ["Brunches", "Evenings", "Children", "Sport", "Season"],
+      filtersLabel: "Agenda worlds",
+    },
+    awards: {
+      title: "Le Domaine Limoune in the media",
+      signatures: [
+        ["Press", "Press kit, visuals and official information to present Le Domaine Limoune.", images.corporate, "Press and communications Le Domaine Limoune"],
+        ["Destination", "A unique address near Agadir bringing together accommodation, nature, dining, spa and events.", images.domain, "Le Domaine Limoune destination"],
+        ["Official information", "Clear content for journalists, partners and professionals.", images.restaurants, "Official information Le Domaine Limoune"],
+      ],
+    },
+    bookBanner: {
+      paths: [
+        { title: "Stay", text: "Suites, lodges, offers and availability.", href: "/sejours#booking", cta: "Check availability" },
+        { title: "Restaurants", text: "Massa, Aman sous les Orangers, Monkey Beach and Limoune Club.", href: "/restaurants", cta: "Book a table" },
+        { title: "Canopy Spa", text: "Treatments, hammam, duo rituals and wellness spaces.", href: "/canopy-spa", cta: "Book a treatment" },
+        { title: "Events", text: "Weddings, seminars, private events and team-building activities.", href: "/evenements-entreprise", cta: "Request a quote" },
+      ],
+      mediaAlt: "Premium stay at Le Domaine Limoune",
+      badge: "Direct booking",
+      kicker: "Booking & requests",
+      title: "Prepare your visit to Le Domaine Limoune",
+      body: "Stay, restaurant, spa, wedding, corporate event or family day: choose your request and our team will guide you to the right department.",
+      primary: "Book your stay",
+      secondary: "Tailored request",
+    },
+    offers: {
+      title: "Offers at Le Domaine Limoune",
+      body: "Family stay, wellness escape or summer interlude: discover offers designed to experience Le Domaine Limoune differently.",
+      firstCta: "Discover the offer",
+      cta: "Discover",
+    },
+    available: {
+      items: [
+        { title: "Canopy Spa", text: "Treatment, hammam, herbal tea room, heated pool and relaxation spaces.", cta: "Book a treatment", href: "/canopy-spa", image: images.spa, alt: "Canopy Spa Le Domaine Limoune" },
+        { title: "Table at the Domaine", text: "Lunch under the orange trees, dinner at Massa or a convivial moment at Limoune Club.", cta: "Book a table", href: "/restaurants", image: images.restaurants, alt: "Restaurants Le Domaine Limoune" },
+        { title: "Wildlife park", text: "A family visit to discover the animals and share a moment in nature.", cta: "Prepare the visit", href: "/parc-animalier", image: images.park, alt: "Wildlife park Le Domaine Limoune" },
+        { title: "Pool day", text: "A day around Monkey Beach between swimming, relaxation and dining.", cta: "View the offer", href: "/offres", image: images.pool, alt: "Pool day Le Domaine Limoune" },
+      ],
+      kicker: "Day experiences",
+      title: "Experience Le Domaine Limoune without staying overnight",
+      body: "A day at the Domaine can revolve around lunch, pool access, a wildlife park visit, a treatment at Canopy Spa or an outdoor activity.",
+      primary: "Shape my day",
+      secondary: "Contact us on WhatsApp",
+      showcaseAlt: "Premium day at Le Domaine Limoune",
+      cardLabel: "Your route at the Domaine",
+      cardTitle: "Spa, dining, wildlife park, pool or activity.",
+      cardBody: "Choose your moment and our team will guide you to the experience best suited to you.",
+      cardCta: "View the experiences",
+    },
+    prefooter: {
+      contacts: [
+        { title: "Stays", text: "Suites, lodges, offers and availability.", href: "/sejours#booking", cta: "Book" },
+        { title: "Restaurants", text: "Table, group, brunch or private dinner.", href: "/restaurants", cta: "Book a table" },
+        { title: "Canopy Spa", text: "Treatment, hammam, duo ritual or wellness moment.", href: "/canopy-spa", cta: "Book a treatment" },
+        { title: "Weddings", text: "Ceremony, dinner, brunch and guest accommodation.", href: "/mariages", cta: "Request a quote" },
+        { title: "Companies", text: "Seminar, team-building activity, lunch, dinner or private event.", href: "/evenements-entreprise", cta: "Request a quote" },
+        { title: "Park and activities", text: "Wildlife park, children, outdoor moments and family days.", href: "/experiences", cta: "Prepare the visit" },
+      ],
+      kicker: "Quick contact",
+      title: "Contact Le Domaine Limoune",
+      body: "For a stay, table, treatment, wedding, corporate event or family outing, our team helps you with the right information.",
+      mediaAlt: "Concierge Le Domaine Limoune",
+      location: "Agadir - Taroudant region, Morocco",
+      cardBody: "Close to Agadir and the airport, Le Domaine Limoune welcomes you to stay, explore, unwind or celebrate.",
+      contactForm: "Contact form",
+      whatsapp: "WhatsApp Business",
+      proof: ["Reservations", "Restaurants", "Spa", "Weddings", "Companies", "Park & activities"],
+    },
   },
-  {
-    eyebrow: "Parc Animalier",
-    title: "Une sortie familiale au contact du vivant",
-    text: "Un parcours pédagogique pour découvrir plus de trente espèces dans un cadre encadré, accessible selon horaires et conditions.",
-    image: images.park,
-    alt: "Parc animalier familial du Domaine Limoune",
-    href: "/parc-animalier",
-    cta: "Préparer la visite",
-    facts: [
-      { label: "Espèces", value: "30+" },
-      { label: "Public", value: "Familles et enfants" },
-      { label: "Règle", value: "Ne pas nourrir" },
+} as const;
+
+function getHomeCopy(locale: Locale) {
+  return locale === "en" ? homeCopy.en : homeCopy.fr;
+}
+
+const stayCopy = {
+  fr: {
+    hero: {
+      kicker: "Séjours & Lodges",
+      subtitle: "Suites, lodges et hébergements safari aux portes d’Agadir.",
+      paragraphs: [
+        "Séjourner au Domaine Limoune, c’est vivre une parenthèse en pleine nature, entre jardins, réserve africaine, parc animalier, restaurants, spa et activités en famille.",
+        "Suite élégante, lodge côté piscine, séjour en famille ou nuit face à la réserve : chaque hébergement offre une manière différente de vivre l’expérience du Domaine.",
+      ],
+      breadcrumbLabel: "Fil d'Ariane",
+      home: "Le Domaine Limoune",
+    },
+    intro: {
+      kicker: "L’expérience séjour",
+      title: "Une destination complète, pas seulement un hébergement",
+      paragraphs: [
+        "Au Domaine Limoune, le séjour ne se limite pas à la chambre. Il se prolonge au parc animalier, au bord de la piscine, au Canopy Spa, dans les restaurants du Domaine et à travers les activités proposées sur place.",
+        "Chaque catégorie d’hébergement répond à un besoin clair : une escapade en couple, un séjour famille, une immersion safari, une pause piscine ou une occasion spéciale.",
+      ],
+    },
+    overview: {
+      kicker: "Choisir son hébergement",
+      title: "Quelle expérience souhaitez-vous vivre ?",
+      body: "Pour faciliter votre choix, les hébergements sont organisés par ambiance de séjour : safari, famille, piscine, jardin ou prestige.",
+      cta: "Découvrir",
+      cards: [
+        { href: "#safari-experience", title: "Safari Experience", text: "Pour dormir face à la réserve africaine et vivre l’expérience signature du Domaine.", image: images.reserveLodge },
+        { href: "#sejours-famille", title: "Séjours Famille", text: "Pour profiter d’espaces adaptés aux parents, aux enfants et aux séjours à plusieurs.", image: images.experienceFamily },
+        { href: "#suites-chambres-lodges-jardin", title: "Suites & Chambres", text: "Pour une escapade confortable au calme, au cœur des jardins du Domaine.", image: images.stays },
+        { href: "#suites-chambres-lodges-jardin", title: "Lodges Piscine & Jardin", text: "Pour un séjour simple à vivre, proche des espaces de détente, de restauration et de piscine.", image: images.pool },
+        { href: "#prestige-occasions-speciales", title: "Prestige & Occasions spéciales", text: "Pour les séjours plus exclusifs, les longues pauses ou les moments à célébrer.", image: images.stays },
+      ],
+    },
+    services: {
+      title: "Pendant votre séjour",
+      body: "Selon l’offre réservée, votre séjour peut inclure plusieurs accès et services pour profiter pleinement du Domaine.",
+      items: [
+        "Petit-déjeuner selon l’offre confirmée",
+        "Accès aux espaces du Domaine selon conditions de séjour",
+        "Accès au parc animalier selon l’offre réservée",
+        "Accès piscine selon horaires et saison",
+        "Accès au Kids Club selon âge, horaires et disponibilité",
+        "Accès à la salle de sport selon horaires",
+        "Wi-Fi dans les espaces prévus",
+        "Stationnement selon disponibilité",
+        "Assistance pour réserver restaurants, spa et activités",
+        "Lit bébé et équipements famille sur demande",
+        "Transferts privés disponibles sur demande",
+        "Accompagnement pour occasions spéciales, familles et longs séjours",
+      ],
+    },
+    conditions: {
+      kicker: "Avant de réserver",
+      title: "Informations utiles avant de réserver",
+      items: [
+        ["Arrivée et départ", "Check-in à partir de 15h00 et check-out jusqu’à 12h00. Un départ tardif peut être proposé selon disponibilité."],
+        ["Capacités", "Les capacités varient selon la catégorie et la configuration attribuée. Tout couchage additionnel doit être confirmé par l’équipe réservation."],
+        ["Séjour avec enfants", "Lit bébé, couchage enfant et équipements famille sont proposés sur demande, selon l’âge, la catégorie réservée et la disponibilité."],
+        ["Accès aux expériences", "Piscine, parc animalier, spa, restaurants, Kids Club et activités peuvent être soumis à des horaires, à la saison, à la disponibilité ou à une réservation préalable."],
+        ["Conditions de réservation", "Les conditions d’annulation, de modification et de paiement dépendent de l’offre confirmée au moment de la réservation."],
+      ],
+    },
+    relatedOffers: {
+      kicker: "Offres liées",
+      title: "Prolonger l’expérience du séjour",
+      body: "Découvrez les offres associées aux séjours du Domaine Limoune : famille, bien-être, safari ou saison estivale.",
+      cta: "Voir l’offre",
+      items: [
+        ["Séjour Famille", "Une offre pensée pour les parents et les enfants, avec hébergement adapté, activités et moments de partage au Domaine."],
+        ["Escapade Canopy Spa", "Une parenthèse bien-être autour de l’hébergement, du hammam, des soins et des espaces de détente du Canopy Spa."],
+        ["Safari Lodge Experience", "Une invitation à choisir un lodge face à la réserve africaine pour vivre l’expérience signature du Domaine."],
+        ["Offre Été Limoune", "Un séjour saisonnier pour profiter de la piscine, du parc animalier, des restaurants et des expériences famille."],
+      ],
+    },
+    booking: {
+      title: "Réserver votre séjour",
+      body: "Indiquez vos dates, le nombre de personnes et vos préférences. Notre équipe peut également vous accompagner pour choisir la catégorie la plus adaptée à votre séjour.",
+      moduleKicker: "Module de réservation hébergement",
+      moduleTitle: "Vérifier les disponibilités",
+      fields: [
+        { label: "Date d’arrivée", name: "arrival", type: "date" },
+        { label: "Date de départ", name: "departure", type: "date" },
+        { label: "Chambres", name: "rooms", type: "number", min: "1" },
+        { label: "Adultes", name: "adults", type: "number", min: "1" },
+        { label: "Enfants", name: "children", type: "number", min: "0" },
+        { label: "Code promotionnel", name: "promo", type: "text" },
+      ],
+      adviceCta: "Demander conseil à l’équipe réservation",
+    },
+    categories: [
+      { id: "safari-experience", nav: "Safari", title: "Safari Experience", subtitle: "Dormir face à la réserve africaine", copy: "Le Safari Experience est l’expérience signature du Domaine Limoune. Les lodges safari permettent de séjourner au plus près de la réserve africaine, dans un cadre naturel, calme et immersif.", slugs: ["lodge-safari-mezzanine", "lodges-communicants", "suite-lodge-premium"] },
+      { id: "sejours-famille", nav: "Famille", title: "Séjours famille", subtitle: "Des hébergements pensés pour les parents et les enfants", copy: "Le Domaine Limoune accueille les familles avec des hébergements adaptés, des espaces de vie confortables et un accès simple aux activités, au parc animalier, aux restaurants, à la piscine et au Kids Club selon horaires et disponibilité.", slugs: ["suite-familiale"] },
+      { id: "suites-chambres-lodges-jardin", nav: "Jardin", title: "Suites, chambres & lodges côté jardin", subtitle: "Le confort au calme, au cœur du Domaine", copy: "Ces hébergements sont pensés pour les couples, les courts séjours et les escapades près d’Agadir. Ils permettent de profiter facilement des jardins, des restaurants, de la piscine, du spa et des expériences du Domaine.", slugs: ["suite-junior", "suite-executive", "lodges-cote-piscine-ou-jardin"] },
+      { id: "prestige-occasions-speciales", nav: "Prestige", title: "Prestige & occasions spéciales", subtitle: "Des hébergements plus généreux pour les moments importants", copy: "Pour une occasion spéciale, un séjour plus exclusif ou une longue pause au Domaine, certaines suites offrent plus d’espace, plus de confort et une expérience plus personnalisée.", slugs: ["suite-signature"] },
     ],
+    detail: {
+      heroSummary: "Cette fiche réunit la galerie, la description complète, les informations pratiques, les équipements, les services inclus et les expériences accessibles pendant le séjour.",
+      breadcrumbLabel: "Fil d'Ariane",
+      home: "Le Domaine Limoune",
+      stays: "Séjours",
+      descriptionKicker: "Description complète",
+      practicalTitle: "Informations pratiques",
+      facts: {
+        capacity: "Capacité",
+        surface: "Surface",
+        bed: "Type de lit",
+        view: "Vue",
+        arrival: "Arrivée",
+        departure: "Départ",
+        children: "Conditions enfants",
+        brochure: "Brochure",
+        brochureCta: "Voir la brochure hébergement",
+      },
+      practicalNote: "Les surfaces, couchages et vues peuvent varier selon l’unité attribuée et la disponibilité. L’équipe réservation confirme la configuration la plus adaptée avant votre arrivée.",
+      equipmentTitle: "Équipements",
+      includedTitle: "Services inclus",
+      experiencesKicker: "Expériences accessibles pendant le séjour",
+      experiencesTitle: "Prolonger la chambre par les univers du Domaine.",
+      discover: "Découvrir",
+      similarTitle: "Hébergements similaires",
+      viewStay: "Voir cet hébergement",
+    },
+    contact: {
+      label: "Contact",
+      title: "Le Domaine Limoune",
+      address: "Région Agadir - Taroudant, Maroc",
+      body: "Notre équipe vous accompagne pour choisir l’hébergement le plus adapté à votre séjour : couple, famille, Safari Experience, piscine, jardin ou occasion spéciale.",
+      booking: "Réserver un séjour",
+      brochure: "Voir la brochure hébergement",
+      usefulLinks: "Liens utiles",
+      links: [
+        ["Contact général", "Écrire à l’équipe", "/contact"],
+        ["Restaurants", "Réserver une table", "/restaurants"],
+        ["Canopy Spa", "Réserver un soin", "/canopy-spa"],
+        ["Mariages & événements", "Demander un devis", "/mariages"],
+        ["Activités & parc animalier", "Préparer la visite", "/experiences"],
+      ],
+    },
   },
-  {
-    eyebrow: "Restaurants",
-    title: "Quatre lieux de vie, quatre atmosphères",
-    text: "Massa Restaurant, Aman sous les Orangers, Monkey Beach et Limoune Club composent une restauration pensée pour le séjour, la journée et l’événement.",
-    image: images.restaurants,
-    alt: "Restaurants du Domaine Limoune",
-    href: "/restaurants",
-    cta: "Réserver une table",
-    facts: [
-      { label: "Signature", value: "Massa" },
-      { label: "Orangers", value: "Aman" },
-      { label: "Piscine", value: "Monkey Beach" },
+  en: {
+    hero: {
+      kicker: "Stays & Lodges",
+      subtitle: "Suites, lodges and safari accommodation at the gates of Agadir.",
+      paragraphs: [
+        "Staying at Le Domaine Limoune means living a nature-filled interlude between gardens, African reserve, wildlife park, restaurants, spa and family activities.",
+        "Elegant suite, poolside lodge, family stay or night facing the reserve: each accommodation offers a different way to experience the Domaine.",
+      ],
+      breadcrumbLabel: "Breadcrumb",
+      home: "Le Domaine Limoune",
+    },
+    intro: {
+      kicker: "The stay experience",
+      title: "A complete destination, not just accommodation",
+      paragraphs: [
+        "At Le Domaine Limoune, the stay does not stop at the room. It continues at the wildlife park, by the pool, at Canopy Spa, in the Domaine restaurants and through the activities available on site.",
+        "Each accommodation category responds to a clear need: a couple's escape, a family stay, a safari immersion, a pool pause or a special occasion.",
+      ],
+    },
+    overview: {
+      kicker: "Choose your accommodation",
+      title: "Which experience would you like to live?",
+      body: "To make your choice easier, accommodation is organised by stay atmosphere: safari, family, pool, garden or prestige.",
+      cta: "Discover",
+      cards: [
+        { href: "#safari-experience", title: "Safari Experience", text: "To sleep facing the African reserve and live the Domaine's signature experience.", image: images.reserveLodge },
+        { href: "#sejours-famille", title: "Family Stays", text: "To enjoy spaces suited to parents, children and stays with several guests.", image: images.experienceFamily },
+        { href: "#suites-chambres-lodges-jardin", title: "Suites & Rooms", text: "For a comfortable and peaceful escape in the heart of the Domaine gardens.", image: images.stays },
+        { href: "#suites-chambres-lodges-jardin", title: "Pool & Garden Lodges", text: "For an easy-to-live stay close to relaxation, dining and pool spaces.", image: images.pool },
+        { href: "#prestige-occasions-speciales", title: "Prestige & Special Occasions", text: "For more exclusive stays, longer pauses or moments to celebrate.", image: images.stays },
+      ],
+    },
+    services: {
+      title: "During your stay",
+      body: "Depending on the booked offer, your stay may include several accesses and services to fully enjoy the Domaine.",
+      items: [
+        "Breakfast according to the confirmed offer",
+        "Access to Domaine spaces according to stay conditions",
+        "Access to the wildlife park according to the booked offer",
+        "Pool access according to opening hours and season",
+        "Kids Club access according to age, schedule and availability",
+        "Fitness room access according to opening hours",
+        "Wi-Fi in designated areas",
+        "Parking subject to availability",
+        "Assistance booking restaurants, spa and activities",
+        "Baby cot and family equipment on request",
+        "Private transfers available on request",
+        "Support for special occasions, families and long stays",
+      ],
+    },
+    conditions: {
+      kicker: "Before booking",
+      title: "Useful information before booking",
+      items: [
+        ["Arrival and departure", "Check-in from 3:00 pm and check-out until 12:00 pm. Late departure may be offered subject to availability."],
+        ["Capacities", "Capacities vary according to the category and assigned configuration. Any additional bedding must be confirmed by the reservations team."],
+        ["Stays with children", "Baby cots, children's bedding and family equipment are available on request, depending on age, booked category and availability."],
+        ["Access to experiences", "Pool, wildlife park, spa, restaurants, Kids Club and activities may be subject to opening hours, season, availability or prior booking."],
+        ["Booking conditions", "Cancellation, modification and payment conditions depend on the offer confirmed at the time of booking."],
+      ],
+    },
+    relatedOffers: {
+      kicker: "Related offers",
+      title: "Extend the stay experience",
+      body: "Discover offers associated with stays at Le Domaine Limoune: family, wellness, safari or summer season.",
+      cta: "View the offer",
+      items: [
+        ["Family Stay", "An offer designed for parents and children, with suitable accommodation, activities and shared moments at the Domaine."],
+        ["Canopy Spa Escape", "A wellness interlude around accommodation, hammam, treatments and Canopy Spa relaxation spaces."],
+        ["Safari Lodge Experience", "An invitation to choose a lodge facing the African reserve and live the Domaine's signature experience."],
+        ["Limoune Summer Offer", "A seasonal stay to enjoy the pool, wildlife park, restaurants and family experiences."],
+      ],
+    },
+    booking: {
+      title: "Book your stay",
+      body: "Enter your dates, number of guests and preferences. Our team can also help you choose the category best suited to your stay.",
+      moduleKicker: "Accommodation booking module",
+      moduleTitle: "Check availability",
+      fields: [
+        { label: "Arrival date", name: "arrival", type: "date" },
+        { label: "Departure date", name: "departure", type: "date" },
+        { label: "Rooms", name: "rooms", type: "number", min: "1" },
+        { label: "Adults", name: "adults", type: "number", min: "1" },
+        { label: "Children", name: "children", type: "number", min: "0" },
+        { label: "Promotional code", name: "promo", type: "text" },
+      ],
+      adviceCta: "Ask the reservations team for advice",
+    },
+    categories: [
+      { id: "safari-experience", nav: "Safari", title: "Safari Experience", subtitle: "Sleep facing the African reserve", copy: "The Safari Experience is the signature experience of Le Domaine Limoune. Safari lodges allow you to stay close to the African reserve in a natural, calm and immersive setting.", slugs: ["lodge-safari-mezzanine", "lodges-communicants", "suite-lodge-premium"] },
+      { id: "sejours-famille", nav: "Family", title: "Family stays", subtitle: "Accommodation designed for parents and children", copy: "Le Domaine Limoune welcomes families with suitable accommodation, comfortable living spaces and easy access to activities, the wildlife park, restaurants, pool and Kids Club according to opening hours and availability.", slugs: ["suite-familiale"] },
+      { id: "suites-chambres-lodges-jardin", nav: "Garden", title: "Suites, rooms & garden-side lodges", subtitle: "Quiet comfort at the heart of the Domaine", copy: "These accommodations are designed for couples, short stays and escapes near Agadir. They make it easy to enjoy the gardens, restaurants, pool, spa and Domaine experiences.", slugs: ["suite-junior", "suite-executive", "lodges-cote-piscine-ou-jardin"] },
+      { id: "prestige-occasions-speciales", nav: "Prestige", title: "Prestige & special occasions", subtitle: "More generous accommodation for important moments", copy: "For a special occasion, a more exclusive stay or a long pause at the Domaine, selected suites offer more space, more comfort and a more personalised experience.", slugs: ["suite-signature"] },
     ],
+    detail: {
+      heroSummary: "This page brings together the gallery, full description, practical information, amenities, included services and experiences available during the stay.",
+      breadcrumbLabel: "Breadcrumb",
+      home: "Le Domaine Limoune",
+      stays: "Stays",
+      descriptionKicker: "Full description",
+      practicalTitle: "Practical information",
+      facts: {
+        capacity: "Capacity",
+        surface: "Surface area",
+        bed: "Bedding",
+        view: "View",
+        arrival: "Arrival",
+        departure: "Departure",
+        children: "Children's conditions",
+        brochure: "Brochure",
+        brochureCta: "View accommodation brochure",
+      },
+      practicalNote: "Surface areas, bedding and views may vary depending on the assigned unit and availability. The reservations team confirms the most suitable configuration before your arrival.",
+      equipmentTitle: "Amenities",
+      includedTitle: "Included services",
+      experiencesKicker: "Experiences available during the stay",
+      experiencesTitle: "Extend the room through the Domaine's worlds.",
+      discover: "Discover",
+      similarTitle: "Similar accommodation",
+      viewStay: "View this accommodation",
+    },
+    contact: {
+      label: "Contact",
+      title: "Le Domaine Limoune",
+      address: "Agadir - Taroudant region, Morocco",
+      body: "Our team helps you choose the accommodation best suited to your stay: couple, family, Safari Experience, pool, garden or special occasion.",
+      booking: "Book a stay",
+      brochure: "View accommodation brochure",
+      usefulLinks: "Useful links",
+      links: [
+        ["General contact", "Write to the team", "/contact"],
+        ["Restaurants", "Book a table", "/restaurants"],
+        ["Canopy Spa", "Book a treatment", "/canopy-spa"],
+        ["Weddings & events", "Request a quote", "/mariages"],
+        ["Activities & wildlife park", "Prepare the visit", "/experiences"],
+      ],
+    },
   },
-  {
-    eyebrow: "Canopy Spa",
-    title: "Un refuge de lumière et de calme",
-    text: "Soins, hammams, rituels, piscine chauffée, jacuzzis, tisanerie et espaces bien-être prolongent l’expérience du Domaine.",
-    image: images.spa,
-    alt: "Canopy Spa du Domaine Limoune",
-    href: "/canopy-spa",
-    cta: "Réserver un soin",
-    facts: [
-      { label: "Soins", value: "10h - 19h" },
-      { label: "Rituels", value: "Signature et duo" },
-      { label: "Mariage", value: "Rituels dédiés" },
-    ],
-  },
-  {
-    eyebrow: "Expériences",
-    title: "Des moments signature à composer",
-    text: "Safari Limoune, balade à cheval au coucher du soleil, quad, padel, tennis, club enfants, chasse au trésor, pique-nique, barbecue et dîner sous les étoiles.",
-    image: images.experiences,
-    alt: "Expériences et activités au Domaine Limoune",
-    href: "/experiences",
-    cta: "Voir les expériences",
-    facts: [
-      { label: "Famille", value: "Club enfants, chasse" },
-      { label: "Plein air", value: "Cheval, quad, sports" },
-      { label: "Signature", value: "Dîner, pique-nique, barbecue" },
-    ],
-  },
-  {
-    eyebrow: "Mariages",
-    title: "Célébrer sous les orangers",
-    text: "Cérémonie, dîner, soirée, brunch du lendemain, rituels mariage et hébergement invités se composent dans un décor naturel et élégant.",
-    image: images.weddings,
-    alt: "Mariage au Domaine Limoune",
-    href: "/mariages",
-    cta: "Imaginer votre mariage",
-    facts: [
-      { label: "Mariages", value: "Cérémonie, dîner, brunch" },
-      { label: "Spa", value: "Rituels mariage" },
-      { label: "Invités", value: "Hébergement possible" },
-    ],
-  },
-  {
-    eyebrow: "Événements d’entreprise",
-    title: "Réunir vos équipes dans un domaine vivant",
-    text: "Séminaires, réunions, déjeuners, dîners d’entreprise, privatisations et activités d’équipe associent espaces, restauration, hébergement et activités.",
-    image: images.corporate,
-    alt: "Séminaire et événement d’entreprise au Domaine Limoune",
-    href: "/evenements-entreprise",
-    cta: "Demander un devis",
-    facts: [
-      { label: "Formats", value: "Réunion, banquet, cocktail" },
-      { label: "Activités", value: "Équipe" },
-      { label: "Support", value: "Brochure entreprise" },
-    ],
-  },
-];
+} as const;
+
+function getStayCopy(locale: Locale) {
+  return locale === "en" ? stayCopy.en : stayCopy.fr;
+}
 
 const diningVenueProfiles = [
   {
@@ -363,7 +1054,7 @@ function calendarHref(title: string, details: string) {
 const agendaProgrammes = [
   {
     slug: "brunch-familial-orangers",
-    title: "Brunch familial sous les orangers",
+    title: "Brunch familial",
     category: "Brunchs",
     date: "Chaque dimanche selon saison",
     place: "Aman sous les Orangers",
@@ -390,12 +1081,12 @@ const agendaProgrammes = [
   },
   {
     slug: "activations-ete",
-    title: "Activations été",
+    title: "Été au Domaine Limoune",
     category: "Saison",
-    date: "Saison estivale",
-    place: "Monkey Beach, parc animalier et jardins",
+    date: "Pendant l’été",
+    place: "Piscine, parc animalier et activités",
     image: images.pool,
-    description: "Piscine, parc animalier, offres famille, food and drinks et expériences de journée réunis dans une programmation d’été lisible.",
+    description: "Monkey Beach, parc animalier, kids club, restaurants et moments en plein air.",
   },
   {
     slug: "kids-events",
@@ -426,12 +1117,12 @@ const agendaProgrammes = [
   },
   {
     slug: "wild-summer",
-    title: "Wild Summer",
+    title: "Été au Domaine Limoune",
     category: "Saison",
-    date: "Été Limoune",
-    place: "Piscine, parc et expériences",
+    date: "Pendant l’été",
+    place: "Piscine, parc animalier et activités",
     image: images.offers,
-    description: "L’univers estival du Domaine : pool day, famille, parc animalier, brunch, spa et offres saisonnières sans logique promotionnelle agressive.",
+    description: "Piscine, brunch familial, kids club, parc animalier et dîners d’été à vivre du matin jusqu’au soir.",
   },
   {
     slug: "coupe-du-monde",
@@ -541,7 +1232,7 @@ const weddingBridalRituals = [
 const weddingPlanningNeeds = [
   ["Hébergement invités", "Suites, lodges et catégories familiales selon disponibilité, composition du groupe et durée du séjour."],
   ["Prestataires", "Coordination avec wedding planners, décorateurs, photographie, animation, technique et fournisseurs validés."],
-  ["Brief & moodboard", "Upload d’un document d’inspiration, budget indicatif, date souhaitée et date alternative pour qualifier la demande."],
+  ["Brief & moodboard", "Upload d’un document d’inspiration, budget indicatif, date souhaitée et date alternative pour préciser la demande."],
   ["Restauration", "Cérémonie, cocktail, dîner, after party et brunch du lendemain reliés aux tables et équipes du Domaine."],
 ] as const;
 
@@ -887,19 +1578,19 @@ const offerFilters = ["Toutes les offres", "Séjours", "Famille", "Spa", "Restau
 
 const limouneOffers = [
   {
-    name: "Wild Summer Stay",
+    name: "Offre Été Limoune",
     category: "Saison",
     image: images.offers,
-    description: "Séjour saisonnier avec expériences famille, piscine et univers animalier.",
+    description: "Une offre saisonnière pour profiter des lodges, de la piscine, du parc animalier et des expériences famille.",
     inclusions: ["Hébergement selon catégorie", "Piscine selon conditions", "Expériences famille selon calendrier", "Accès aux univers du Domaine selon offre"],
     validity: "Saison été, selon calendrier commercial",
     conditions: "Sous réserve de disponibilité, dates éligibles et conditions de réservation confirmées par l’équipe.",
   },
   {
-    name: "Séjour Famille",
+    name: "Offre Famille",
     category: "Famille",
     image: images.offerFamily,
-    description: "Une offre pensée pour chambres, activités enfants et moments de partage.",
+    description: "Un séjour pensé pour les parents et les enfants, avec hébergement confortable, activités et moments de partage.",
     inclusions: ["Hébergement familial", "Activités enfants selon programmation", "Conseil avant arrivée", "Options parc animalier ou piscine"],
     validity: "Selon périodes famille et vacances",
     conditions: "Capacité, âge des enfants, couchages et activités à confirmer avant réservation.",
@@ -908,7 +1599,7 @@ const limouneOffers = [
     name: "Escapade Canopy Spa",
     category: "Spa",
     image: images.offerSpa,
-    description: "Séjour ou journée associant calme, soin et rituel bien-être.",
+    description: "Une parenthèse bien-être autour du spa, du hammam, des soins et des espaces de détente du Canopy.",
     inclusions: ["Soin ou rituel selon carte spa", "Accès wellness selon offre", "Créneau conseillé", "Option table ou séjour"],
     validity: "Selon disponibilités spa",
     conditions: "Réservation du soin obligatoire, horaires soins 10h - 19h selon calendrier.",
@@ -929,7 +1620,7 @@ const limouneOffers = [
     description: "Accès piscine, cuisine, boissons et détente autour de Monkey Beach.",
     inclusions: ["Accès piscine selon conditions", "Food and drinks", "Transat selon disponibilité", "Ambiance journée famille"],
     validity: "Saison piscine",
-    conditions: "Accès soumis aux horaires, capacité du jour et politique opérationnelle.",
+    conditions: "Accès soumis aux horaires, à la capacité du jour et aux conditions de séjour.",
   },
   {
     name: "Safari Lodge Experience",
@@ -1030,7 +1721,7 @@ function Hero({ page, locale }: PageRendererProps) {
     return <WeddingLuxuryHero page={page} locale={locale} />;
   }
 
-  const stayItem = getStayItemFromPage(page);
+  const stayItem = getStayItemFromPage(page, locale);
 
   if (page.slug === "sejours") {
     return <StayListingHero page={page} locale={locale} />;
@@ -1305,6 +1996,8 @@ function WeddingLuxuryHero({ page, locale }: PageRendererProps) {
 }
 
 function HomeMasthead({ page, locale }: PageRendererProps) {
+  const copy = getHomeCopy(locale).masthead;
+
   return (
     <section className="masthead-capella capella-stop-section" aria-label={page.title}>
       <div className="masthead-panel">
@@ -1315,18 +2008,23 @@ function HomeMasthead({ page, locale }: PageRendererProps) {
         </video>
         <div className="masthead-shade" />
         <div className="masthead-textpanel">
-          <div className="masthead-hero-copy" aria-label="Domaine Limoune destination premium">
-            <h1 className="masthead-main-title">Domaine Limoune</h1>
-            <p className="masthead-cinematic-quote">« Là où les orangers respirent, chaque séjour devient un rituel de lumière. »</p>
+          <div className="masthead-hero-copy" aria-label={copy.ariaLabel}>
+            <p className="masthead-eyebrow">{copy.eyebrow}</p>
+            <h1 className="masthead-main-title">{copy.title}</h1>
+            <p className="masthead-cinematic-quote">{copy.quote}</p>
+            <p className="masthead-shortline">{copy.shortline}</p>
           </div>
-          <p className="masthead-bottomtext">Destination nature près d’Agadir<br />Séjours, réserve, table et bien-être</p>
-          <a className="masthead-downarrow" href="#domaine-limoune-story" aria-label="Descendre vers le Domaine" />
+          <p className="masthead-bottomtext">{copy.bottomText}</p>
+          <a className="masthead-downarrow" href="#domaine-limoune-story" aria-label={copy.downLabel} />
         </div>
-        <button className="hp-popup-button" type="button" data-video-trigger aria-label="Voir la vidéo du Domaine">
-          <Play aria-hidden="true" className="size-4 fill-current" />
-          <span>voir le film</span>
-        </button>
-        <Link className="masthead-book-link" href={localizedHref(locale, "/sejours#booking")}>Réserver votre séjour</Link>
+        <div className="masthead-actionbar" aria-label={copy.actionsLabel}>
+          <Link className="masthead-book-link" href={localizedHref(locale, "/sejours#booking")}>{copy.book}</Link>
+          <Link className="masthead-safari-link" href={localizedHref(locale, "/reserve-africaine")}>{copy.safari}</Link>
+          <button className="hp-popup-button" type="button" data-video-trigger aria-label={copy.videoLabel}>
+            <Play aria-hidden="true" className="size-4 fill-current" />
+            <span>{copy.film}</span>
+          </button>
+        </div>
       </div>
     </section>
   );
@@ -1336,15 +2034,15 @@ function HomePage({ locale }: { locale: Locale }) {
   return (
     <>
       <CapellaCloneIntro locale={locale} />
-      <CapellaCloneStory />
-      <CapellaCloneGallery />
+      <CapellaCloneStory locale={locale} />
+      <CapellaCloneGallery locale={locale} />
       <CapellaCloneUniverses locale={locale} />
       <CapellaCloneAccommodation locale={locale} />
       <CapellaCloneRituals locale={locale} />
       <CapellaCloneAvailable locale={locale} />
       <CapellaCloneOffers locale={locale} />
       <CapellaCloneAgenda locale={locale} />
-      <CapellaCloneAwards />
+      <CapellaCloneAwards locale={locale} />
       <CapellaCloneBookBanner locale={locale} />
       <CapellaClonePrefooter locale={locale} />
     </>
@@ -1352,24 +2050,28 @@ function HomePage({ locale }: { locale: Locale }) {
 }
 
 function CapellaCloneIntro({ locale }: { locale: Locale }) {
+  const copy = getHomeCopy(locale).intro;
+
   return (
     <section id="domaine-limoune-story" className="capella-award-intro capella-stop-section">
       <div className="capella-template-wrapper">
         <Reveal>
-          <h2 className="capella-award-title">Le Domaine où la nature devient séjour</h2>
+          <p className="luxury-kicker text-center">{copy.kicker}</p>
+          <h2 className="capella-award-title">{copy.title}</h2>
         </Reveal>
         <div className="capella-award-layout">
           <Reveal>
             <div className="capella-award-left">
-              <p className="capella-award-subtitle">Une retraite d’orangers, de lodges et d’hospitalité marocaine contemporaine près d’Agadir</p>
-              <EditorialMedia src={images.restaurants} alt="Détail chaleureux du Domaine Limoune" className="capella-award-small-image" />
+              <p className="capella-award-subtitle">{copy.subtitle}</p>
+              <EditorialMedia src={images.restaurants} alt={copy.smallAlt} className="capella-award-small-image" />
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="capella-award-main">
-              <EditorialMedia src={images.domain} alt="Jardins, orangers et lieux de vie du Domaine Limoune" className="capella-award-main-image" />
+              <EditorialMedia src={images.domain} alt={copy.mainAlt} className="capella-award-main-image" />
               <div className="capella-award-copy">
-                <p>Au cœur d’un paysage de jardins et de lumière, Domaine Limoune réunit séjour, table, réserve africaine, parc animalier, spa et célébrations dans une seule adresse.</p>
+                <p>{copy.body}</p>
+                <Link className="luxury-primary-link" href={localizedHref(locale, "/le-domaine")}>{copy.cta}</Link>
               </div>
             </div>
           </Reveal>
@@ -1379,22 +2081,23 @@ function CapellaCloneIntro({ locale }: { locale: Locale }) {
   );
 }
 
-function CapellaCloneStory() {
+function CapellaCloneStory({ locale }: { locale: Locale }) {
+  const copy = getHomeCopy(locale).story;
+
   return (
     <section className="section-titlesypnosis capella-stop-section">
       <div className="capella-template-wrapper">
         <div className="inner-wrapper clear-end">
           <Reveal>
             <div className="section-title srv story-title-stack">
-              <h2>Un domaine vivant, réimaginé</h2>
-              <EditorialMedia src={images.restaurants} alt="Lieux de vie et hospitalité du Domaine Limoune" className="story-side-visual" />
+              <h2>{copy.title}</h2>
+              <EditorialMedia src={images.restaurants} alt={copy.visualAlt} className="story-side-visual" />
             </div>
           </Reveal>
           <Reveal delay={0.08}>
             <div className="section-synopsis srv indent">
-              <p>La journée commence dans la douceur des orangers, se prolonge au parc animalier ou au bord de l’eau, puis glisse vers un dîner, un soin ou un moment sous les étoiles.</p>
-              <p>L’expérience n’est pas une collection de services : c’est une destination complète, construite pour les familles, les couples, les entreprises et les célébrations.</p>
-              <EditorialMedia src={images.reserve} alt="Réserve africaine et nature du Domaine Limoune" className="synopsis-visual" />
+              {copy.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <EditorialMedia src={images.reserve} alt={copy.synopsisAlt} className="synopsis-visual" />
             </div>
           </Reveal>
         </div>
@@ -1404,15 +2107,16 @@ function CapellaCloneStory() {
 }
 
 function CapellaCloneUniverses({ locale }: { locale: Locale }) {
-  const universes = homeStories;
+  const universes = homeStories(locale);
+  const copy = getHomeCopy(locale).universes;
 
   return (
     <section className="section-scrollgrid section-universes capella-stop-section">
       <div className="capella-template-wrapper">
         <Reveal>
           <div className="section_title split-title">
-            <h2>Une destination, plusieurs expériences</h2>
-            <p>Chaque univers possède son rythme, son public et son appel à l’action : séjourner, explorer, déjeuner, se ressourcer, célébrer, réunir.</p>
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
           </div>
         </Reveal>
         <div className="scroll-grid"><div className="scroll-grid-container"><div className="scroll-grid-scroll universe-grid">
@@ -1433,14 +2137,16 @@ function CapellaCloneUniverses({ locale }: { locale: Locale }) {
   );
 }
 
-function CapellaCloneGallery() {
+function CapellaCloneGallery({ locale }: { locale: Locale }) {
+  const copy = getHomeCopy(locale).gallery;
+
   return (
     <section className="section-innergallery capella-stop-section">
       <div className="capella-template-wrapper">
         <Reveal>
           <div className="innergallery-container">
-            <EditorialMedia src={images.domain} alt="Jardins, lumière chaude et matières naturelles du Domaine Limoune" className="innergallery-panel active" />
-            <div className="innergallery-caption">Lumière chaude, jardins, matières naturelles et rituels de séjour.</div>
+            <EditorialMedia src={images.domain} alt={copy.alt} className="innergallery-panel active" />
+            <div className="innergallery-caption">{copy.caption}</div>
           </div>
         </Reveal>
       </div>
@@ -1449,7 +2155,8 @@ function CapellaCloneGallery() {
 }
 
 function CapellaCloneAccommodation({ locale }: { locale: Locale }) {
-  const cards = getCollectionCards("accommodations").slice(0, 4);
+  const cards = getCollectionCards("accommodations", locale).slice(0, 4);
+  const copy = getHomeCopy(locale).accommodation;
 
   if (!cards.length) return null;
 
@@ -1459,12 +2166,12 @@ function CapellaCloneAccommodation({ locale }: { locale: Locale }) {
         <div className="luxury-section-head accommodation-head">
           <Reveal>
             <div>
-              <p className="luxury-kicker">Séjours privés</p>
-              <h2>Séjours</h2>
+              <p className="luxury-kicker">{copy.kicker}</p>
+              <h2>{copy.title}</h2>
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <p className="luxury-section-copy">Choisissez votre rythme : lodge safari face à la réserve, suite dans les jardins ou séjour famille. Chaque hébergement ouvre sur un autre visage du Domaine.</p>
+            <p className="luxury-section-copy">{copy.body}</p>
           </Reveal>
         </div>
 
@@ -1483,7 +2190,7 @@ function CapellaCloneAccommodation({ locale }: { locale: Locale }) {
                     </span>
                   ) : null}
                   <span className="home-stay-card-cta">
-                    Découvrir
+                    {copy.discover}
                     <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
                   </span>
                 </span>
@@ -1497,7 +2204,7 @@ function CapellaCloneAccommodation({ locale }: { locale: Locale }) {
 }
 
 function CapellaCloneRituals({ locale }: { locale: Locale }) {
-  const rituals = ["Journée piscine", "Brunch sous les orangers", "Pause thé", "Événements enfants", "Dîner à ciel ouvert"];
+  const copy = getHomeCopy(locale).rituals;
 
   return (
     <section className="limoune-wild-summer capella-stop-section">
@@ -1505,32 +2212,32 @@ function CapellaCloneRituals({ locale }: { locale: Locale }) {
       <div className="capella-template-wrapper wild-summer-wrapper">
         <Reveal>
           <div className="wild-summer-copy">
-            <p className="luxury-kicker">Rituel de saison</p>
-            <h2>Été Limoune</h2>
-            <p>Une saison solaire pensée comme une parenthèse de domaine : piscine, brunch familial, pause thé, événements enfants et dîners sous les étoiles.</p>
+            <p className="luxury-kicker">{copy.kicker}</p>
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
             <div className="wild-ritual-list">
-              {rituals.map((ritual) => <span key={ritual}>{ritual}</span>)}
+              {copy.items.map((ritual) => <span key={ritual}>{ritual}</span>)}
             </div>
-            <Link className="luxury-primary-link" href={localizedHref(locale, "/offres")}>Découvrir les rituels</Link>
+            <Link className="luxury-primary-link" href={localizedHref(locale, "/offres")}>{copy.cta}</Link>
           </div>
         </Reveal>
 
         <div className="wild-summer-gallery">
           <Reveal delay={0.08}>
             <div className="wild-main-card cinematic-card">
-              <EditorialMedia src={images.summer} alt="Été Limoune au Domaine Limoune" className="wild-main-image" />
+              <EditorialMedia src={images.summer} alt={copy.mainAlt} className="wild-main-image" />
               <div className="wild-main-caption">
-                <span>Du midi à la nuit</span>
-                <strong>Piscine, table, jardins et ciel ouvert</strong>
+                <span>{copy.captionLead}</span>
+                <strong>{copy.captionStrong}</strong>
               </div>
             </div>
           </Reveal>
           <Reveal delay={0.14}>
             <div className="wild-side-stack">
-              <EditorialMedia src={images.pool} alt="Journée piscine premium au Domaine Limoune" className="wild-side-image" />
+              <EditorialMedia src={images.pool} alt={copy.poolAlt} className="wild-side-image" />
               <div className="wild-side-note">
-                <span>Offre Été Limoune</span>
-                <p>Séjour saisonnier avec expériences famille, piscine et univers animalier.</p>
+                <span>{copy.noteTitle}</span>
+                <p>{copy.noteBody}</p>
               </div>
             </div>
           </Reveal>
@@ -1542,11 +2249,12 @@ function CapellaCloneRituals({ locale }: { locale: Locale }) {
 
 function CapellaCloneAgenda({ locale }: { locale: Locale }) {
   const agendaVisuals = [images.domain, images.pool, images.agenda, images.restaurants];
-  const agenda = getCollectionCards("agenda").slice(0, 4).map((item, index) => ({
+  const agenda = getCollectionCards("agenda", locale).slice(0, 4).map((item, index) => ({
     ...item,
     image: agendaVisuals[index] ?? item.image,
   }));
   const featured = agenda[1] ?? agenda[0];
+  const copy = getHomeCopy(locale).agenda;
 
   if (!featured) return null;
 
@@ -1556,16 +2264,16 @@ function CapellaCloneAgenda({ locale }: { locale: Locale }) {
         <div className="agenda-premium-head">
           <Reveal>
             <div>
-              <p className="luxury-kicker">Programmation</p>
-              <h2>Agenda du Domaine</h2>
+              <p className="luxury-kicker">{copy.kicker}</p>
+              <h2>{copy.title}</h2>
             </div>
           </Reveal>
           <Reveal delay={0.08}>
             <div className="agenda-premium-copy">
-              <p>Brunchs sous les orangers, Été Limoune, événements enfants, soirées, dîners thématiques et moments spéciaux : chaque date devient une raison de revenir.</p>
+              <p>{copy.body}</p>
               <div className="luxury-actions">
-                <Link className="luxury-primary-link" href={localizedHref(locale, "/agenda")}>Voir toute la programmation</Link>
-                <Link className="luxury-secondary-link" href={localizedHref(locale, "/contact?type=agenda")}>Réserver une date</Link>
+                <Link className="luxury-primary-link" href={localizedHref(locale, "/agenda")}>{copy.primary}</Link>
+                <Link className="luxury-secondary-link" href={localizedHref(locale, "/contact?type=agenda")}>{copy.secondary}</Link>
               </div>
             </div>
           </Reveal>
@@ -1576,17 +2284,17 @@ function CapellaCloneAgenda({ locale }: { locale: Locale }) {
             <article className="agenda-featured-card cinematic-card">
               <EditorialMedia src={featured.image} alt={featured.alt} className="agenda-featured-image" />
               <div className="agenda-featured-copy">
-                <span>{featured.eyebrow}</span>
-                <h3>{featured.title}</h3>
-                <p>{featured.text}</p>
-                <Link className="luxury-primary-link" href={localizedHref(locale, featured.href)}>Réserver ce moment</Link>
+                <span>{copy.featuredLabel}</span>
+                <h3>{copy.featuredTitle}</h3>
+                <p>{copy.featuredBody}</p>
+                <Link className="luxury-primary-link" href={localizedHref(locale, featured.href)}>{copy.featuredCta}</Link>
               </div>
             </article>
           </Reveal>
           <div className="agenda-schedule-panel">
             <Reveal delay={0.08}>
-              <div className="agenda-filter-row" aria-label="Univers agenda">
-                {['Brunchs', 'Soirées', 'Enfants', 'Sport', 'Saison'].map((item) => <span key={item}>{item}</span>)}
+              <div className="agenda-filter-row" aria-label={copy.filtersLabel}>
+                {copy.filters.map((item) => <span key={item}>{item}</span>)}
               </div>
             </Reveal>
             {agenda.map((item, index) => (
@@ -1608,19 +2316,15 @@ function CapellaCloneAgenda({ locale }: { locale: Locale }) {
   );
 }
 
-function CapellaCloneAwards() {
-  const signatures = [
-    ["Presse", "Fiche Domaine, dossier presse et contacts médias pour raconter le Domaine avec précision.", images.corporate, "Presse et communication Domaine Limoune"],
-    ["Destination", "Séjour, table, spa, réserve, parc animalier et événements dans une même adresse.", images.domain, "Destination Domaine Limoune"],
-    ["Confiance", "Une plateforme claire pour rassurer, orienter et transformer chaque demande en lead qualifié.", images.restaurants, "Hospitalité Domaine Limoune"],
-  ];
+function CapellaCloneAwards({ locale }: { locale: Locale }) {
+  const copy = getHomeCopy(locale).awards;
 
   return (
     <section className="section-basetemplate awards-grid capella-stop-section">
       <div className="capella-template-wrapper">
-        <Reveal><div className="section_title"><h2>Presse & distinctions</h2></div></Reveal>
+        <Reveal><div className="section_title"><h2>{copy.title}</h2></div></Reveal>
         <div className="scroll-grid"><div className="scroll-grid-container"><div className="scroll-grid-scroll">
-          {signatures.map(([title, text, image, alt], index) => (
+          {copy.signatures.map(([title, text, image, alt], index) => (
             <Reveal key={title} delay={index * 0.05}>
               <div className="scroll-grid-panel active ani cinematic-card">
                 <EditorialMedia src={image} alt={alt} className="section-grid-img award-image" />
@@ -1636,37 +2340,31 @@ function CapellaCloneAwards() {
 }
 
 function CapellaCloneBookBanner({ locale }: { locale: Locale }) {
-  const bookingPaths = [
-    { title: "Séjour", text: "Suites, lodges safari, familles et escapades près d’Agadir.", href: "/sejours#booking", cta: "Vérifier" },
-    { title: "Table", text: "Massa, Aman sous les Orangers, Monkey Beach et Limoune Club.", href: "/restaurants", cta: "Réserver" },
-    { title: "Spa", text: "Soins Canopy, hammam, rituels duo et mariage.", href: "/canopy-spa", cta: "Choisir" },
-    { title: "Événements", text: "Mariages, séminaires, privatisations et activités d’équipe.", href: "/evenements-entreprise", cta: "Demander" },
-  ];
+  const copy = getHomeCopy(locale).bookBanner;
 
   return (
     <section className="limoune-booking-atelier capella-stop-section">
       <div className="capella-template-wrapper booking-atelier-wrapper">
         <Reveal>
           <div className="booking-atelier-media cinematic-card">
-            <EditorialMedia src={images.stays} alt="Séjour premium au Domaine Limoune" className="booking-atelier-image" />
+            <EditorialMedia src={images.stays} alt={copy.mediaAlt} className="booking-atelier-image" />
             <div className="booking-atelier-badge">
-              <span>Réservation directe</span>
-              <strong>Le meilleur parcours commence ici.</strong>
+              <span>{copy.badge}</span>
             </div>
           </div>
         </Reveal>
         <div className="booking-atelier-content">
           <Reveal>
-            <p className="luxury-kicker">Réservation & demandes</p>
-            <h2>Composez votre moment au Domaine.</h2>
-            <p>Une nuit face à la nature, une table sous les orangers, un soin Canopy ou un événement à privatiser : choisissez le bon parcours, nous orientons votre demande vers le bon service.</p>
+            <p className="luxury-kicker">{copy.kicker}</p>
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
             <div className="luxury-actions">
-              <Link className="luxury-primary-link" href={localizedHref(locale, "/sejours#booking")}>Réserver votre séjour</Link>
-              <Link className="luxury-secondary-link" href={localizedHref(locale, "/contact")}>Demande sur mesure</Link>
+              <Link className="luxury-primary-link" href={localizedHref(locale, "/sejours#booking")}>{copy.primary}</Link>
+              <Link className="luxury-secondary-link" href={localizedHref(locale, "/contact")}>{copy.secondary}</Link>
             </div>
           </Reveal>
           <div className="booking-path-grid">
-            {bookingPaths.map((item, index) => (
+            {copy.paths.map((item, index) => (
               <Reveal key={item.title} delay={0.08 + index * 0.035}>
                 <Link className="booking-path-card cinematic-card" href={localizedHref(locale, item.href)}>
                   <small>{String(index + 1).padStart(2, "0")}</small>
@@ -1684,12 +2382,18 @@ function CapellaCloneBookBanner({ locale }: { locale: Locale }) {
 }
 
 function CapellaCloneOffers({ locale }: { locale: Locale }) {
-  const offers = getCollectionCards("offers").slice(0, 3);
+  const offers = getCollectionCards("offers", locale).slice(0, 3);
+  const copy = getHomeCopy(locale).offers;
 
   return (
     <section className="section-scrollgrid limoune-offers-section capella-stop-section">
       <div className="capella-template-wrapper">
-        <Reveal><div className="section_title"><h2>Offres</h2></div></Reveal>
+        <Reveal>
+          <div className="section_title split-title">
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
+          </div>
+        </Reveal>
         <div className="scroll-grid"><div className="scroll-grid-container"><div className="scroll-grid-scroll limoune-offers-grid">
           {offers.map((offer, index) => (
             <Reveal key={offer.title} delay={index * 0.05}>
@@ -1697,7 +2401,7 @@ function CapellaCloneOffers({ locale }: { locale: Locale }) {
                 <EditorialMedia src={offer.image} alt={offer.alt} className="section-grid-img" />
                 <div className="section-grid-title"><h4>{offer.title}</h4></div>
                 <div className="section-grid-synopsis"><p>{offer.text}</p></div>
-                <div className="section-grid-link"><span className="text-button">Découvrir</span></div>
+                <div className="section-grid-link"><span className="text-button">{index === 0 ? copy.firstCta : copy.cta}</span></div>
               </Link>
             </Reveal>
           ))}
@@ -1708,12 +2412,7 @@ function CapellaCloneOffers({ locale }: { locale: Locale }) {
 }
 
 function CapellaCloneAvailable({ locale }: { locale: Locale }) {
-  const available = [
-    { title: "Canopy Spa", text: "Soin, hammam, tisanerie et piscine chauffée.", cta: "Réserver un soin", href: "/canopy-spa", image: images.spa, alt: "Canopy Spa Domaine Limoune" },
-    { title: "Table au Domaine", text: "Déjeuner sous les orangers ou dîner signature.", cta: "Réserver une table", href: "/restaurants", image: images.restaurants, alt: "Restaurants Domaine Limoune" },
-    { title: "Parc animalier", text: "Visite familiale, nature et découverte du vivant.", cta: "Préparer la visite", href: "/parc-animalier", image: images.park, alt: "Parc animalier Domaine Limoune" },
-    { title: "Journée piscine", text: "Une journée solaire autour de Monkey Beach.", cta: "Voir l’offre", href: "/offres", image: images.pool, alt: "Journée piscine Domaine Limoune" },
-  ];
+  const copy = getHomeCopy(locale).available;
 
   return (
     <section className="limoune-available-now capella-stop-section">
@@ -1722,31 +2421,31 @@ function CapellaCloneAvailable({ locale }: { locale: Locale }) {
         <div className="available-editorial-grid">
           <Reveal>
             <div className="available-now-copy">
-              <p className="luxury-kicker">Expériences journée</p>
-              <h2>À vivre maintenant</h2>
-              <p className="available-lead">Une parenthèse à vivre sans séjour : spa, table, piscine, parc animalier ou dîner sous les étoiles. Une journée simple à réserver, précise dans son parcours, mémorable dans son ressenti.</p>
+              <p className="luxury-kicker">{copy.kicker}</p>
+              <h2>{copy.title}</h2>
+              <p className="available-lead">{copy.body}</p>
               <div className="luxury-actions">
-                <Link className="luxury-primary-link" href={localizedHref(locale, "/experiences")}>Composer ma journée</Link>
-                <Link className="luxury-secondary-link" href={localizedHref(locale, "/contact")}>Contacter la conciergerie</Link>
+                <Link className="luxury-primary-link" href={localizedHref(locale, "/experiences")}>{copy.primary}</Link>
+                <a className="luxury-secondary-link" href="https://wa.me/212667796817" data-track="whatsapp_click">{copy.secondary}</a>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={0.08}>
             <div className="available-showcase cinematic-card">
-              <EditorialMedia src={images.pool} alt="Journée premium au Domaine Limoune" className="available-showcase-image" />
+              <EditorialMedia src={images.pool} alt={copy.showcaseAlt} className="available-showcase-image" />
               <div className="available-reservation-card">
-                <span>Parcours du jour</span>
-                <strong>Spa, table, parc ou piscine</strong>
-                <p>Un parcours journée pour transformer une visite en expérience Domaine Limoune.</p>
-                <Link href={localizedHref(locale, "/experiences")}>Voir les expériences</Link>
+                <span>{copy.cardLabel}</span>
+                <strong>{copy.cardTitle}</strong>
+                <p>{copy.cardBody}</p>
+                <Link href={localizedHref(locale, "/experiences")}>{copy.cardCta}</Link>
               </div>
             </div>
           </Reveal>
         </div>
 
         <div className="available-service-grid">
-          {available.map((item, index) => (
+          {copy.items.map((item, index) => (
             <Reveal key={item.title} delay={0.08 + index * 0.04}>
               <Link href={localizedHref(locale, item.href)} className="available-service-card cinematic-card">
                 <EditorialMedia src={item.image} alt={item.alt} className="available-service-image" />
@@ -1766,14 +2465,7 @@ function CapellaCloneAvailable({ locale }: { locale: Locale }) {
 }
 
 function CapellaClonePrefooter({ locale }: { locale: Locale }) {
-  const contacts = [
-    { title: "Séjours", text: "Suites, lodges, offres et disponibilités.", href: "/sejours#booking", cta: "Réserver" },
-    { title: "Restaurants", text: "Table, groupe, brunch ou dîner privé.", href: "/restaurants", cta: "Réserver une table" },
-    { title: "Canopy Spa", text: "Soin, hammam, rituel duo ou mariage.", href: "/canopy-spa", cta: "Réserver un soin" },
-    { title: "Mariages", text: "Cérémonie, dîner, brunch et hébergement invités.", href: "/mariages", cta: "Demander un devis" },
-    { title: "Entreprises", text: "Séminaire, demande entreprise, activité d’équipe et privatisation.", href: "/evenements-entreprise", cta: "Demander un devis" },
-    { title: "Parc et activités", text: "Parc animalier, enfants, plein air et journées famille.", href: "/experiences", cta: "Préparer la visite" },
-  ];
+  const copy = getHomeCopy(locale).prefooter;
 
   return (
     <section className="limoune-contact-hub capella-stop-section">
@@ -1781,33 +2473,33 @@ function CapellaClonePrefooter({ locale }: { locale: Locale }) {
         <div className="contact-hub-head">
           <Reveal>
             <div>
-              <p className="luxury-kicker">Contact rapide</p>
-              <h2>Une demande, le bon service.</h2>
+              <p className="luxury-kicker">{copy.kicker}</p>
+              <h2>{copy.title}</h2>
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <p>Séjour, restaurant, spa, mariage, entreprise, parc animalier, activités ou presse : chaque intention est orientée vers un parcours clair pour accélérer la réponse et qualifier la demande.</p>
+            <p>{copy.body}</p>
           </Reveal>
         </div>
 
         <div className="contact-hub-stage">
           <Reveal>
             <article className="contact-concierge-card cinematic-card">
-              <EditorialMedia src={images.domain} alt="Conciergerie Domaine Limoune" className="contact-hub-image" />
+              <EditorialMedia src={images.domain} alt={copy.mediaAlt} className="contact-hub-image" />
               <div className="contact-concierge-copy">
-                <span>Domaine Limoune</span>
-                <strong>Région Agadir - Taroudant</strong>
-                <p>Notre équipe vous guide vers le séjour, la table, le soin ou l’événement qui correspond à votre moment.</p>
+                <span>Le Domaine Limoune</span>
+                <strong>{copy.location}</strong>
+                <p>{copy.cardBody}</p>
                 <div className="contact-concierge-actions">
-                  <Link href={localizedHref(locale, "/contact")}>Formulaire contact</Link>
-                  <a href="https://wa.me/212000000000" data-track="whatsapp_click">WhatsApp Business</a>
+                  <Link href={localizedHref(locale, "/contact")}>{copy.contactForm}</Link>
+                  <a href="https://wa.me/212667796817" data-track="whatsapp_click">{copy.whatsapp}</a>
                 </div>
               </div>
             </article>
           </Reveal>
 
           <div className="contact-route-grid">
-            {contacts.map((item, index) => (
+            {copy.contacts.map((item, index) => (
               <Reveal key={item.title} delay={0.08 + index * 0.035}>
                 <Link className="contact-route-card cinematic-card" href={localizedHref(locale, item.href)}>
                   <small>{String(index + 1).padStart(2, "0")}</small>
@@ -1821,10 +2513,7 @@ function CapellaClonePrefooter({ locale }: { locale: Locale }) {
 
           <Reveal className="contact-proof-strip-wrap" delay={0.16}>
             <div className="contact-proof-strip">
-              <span>Réponse par service</span>
-              <span>Demandes segmentées</span>
-              <span>Brochures & PDF</span>
-              <span>Presse & événements</span>
+              {copy.proof.map((item) => <span key={item}>{item}</span>)}
             </div>
           </Reveal>
         </div>
@@ -1834,7 +2523,7 @@ function CapellaClonePrefooter({ locale }: { locale: Locale }) {
 }
 
 function InnerPage({ page, locale }: PageRendererProps) {
-  const collectionCards = page.collection ? getCollectionCards(page.collection) : [];
+  const collectionCards = page.collection ? getCollectionCards(page.collection, locale) : [];
   const collectionIntro = getCollectionIntro(page);
   const contentSections = page.sections;
   const hasServiceBlock = Boolean(page.downloads?.length || page.form || page.faqs?.length);
@@ -1844,7 +2533,7 @@ function InnerPage({ page, locale }: PageRendererProps) {
     return <StayLandingPage page={page} locale={locale} />;
   }
 
-  const stayItem = getStayItemFromPage(page);
+  const stayItem = getStayItemFromPage(page, locale);
 
   if (stayItem) {
     return <StayRoomDetailPage page={page} locale={locale} item={stayItem} />;
@@ -1923,20 +2612,18 @@ type StayCategory = {
 };
 
 function StayListingHero({ page, locale }: PageRendererProps) {
+  const copy = getStayCopy(locale).hero;
+
   return (
     <section className="stay-capella-hero stay-capella-hero-listing capella-stop-section">
       <div className="capella-template-wrapper stay-capella-hero-inner">
         <Reveal>
           <div className="stay-capella-hero-copy stay-capella-hero-copy-grid">
             <div>
+              <p className="section-kicker">{copy.kicker}</p>
               <h1>{page.title}</h1>
-              <p className="stay-capella-subtitle">Suites et lodges au cœur du Domaine Limoune</p>
-              <p>
-                Séjourner au Domaine Limoune, c’est choisir une adresse où nature, hospitalité marocaine contemporaine et expériences familiales se rencontrent à quelques minutes d’Agadir.
-              </p>
-              <p>
-                Suites dans les jardins, lodges côté piscine, hébergements familiaux ou nuit face à la réserve : chaque catégorie répond à une manière différente de vivre le Domaine.
-              </p>
+              <p className="stay-capella-subtitle">{copy.subtitle}</p>
+              {copy.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
               <div className="stay-hero-actions">
                 <ButtonLink cta={page.primaryCta} locale={locale} />
                 {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
@@ -1946,8 +2633,8 @@ function StayListingHero({ page, locale }: PageRendererProps) {
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <nav className="stay-capella-breadcrumb" aria-label="Fil d'Ariane">
-            <Link href={localizedHref(locale, "/")}>Domaine Limoune</Link>
+          <nav className="stay-capella-breadcrumb" aria-label={copy.breadcrumbLabel}>
+            <Link href={localizedHref(locale, "/")}>{copy.home}</Link>
             <span>{page.title}</span>
           </nav>
         </Reveal>
@@ -1957,6 +2644,8 @@ function StayListingHero({ page, locale }: PageRendererProps) {
 }
 
 function StayDetailHero({ page, locale, item }: { page: SitePage; locale: Locale; item: Accommodation }) {
+  const copy = getStayCopy(locale).detail;
+
   return (
     <section className="stay-capella-hero stay-capella-hero-detail capella-stop-section">
       <div className="capella-template-wrapper stay-capella-hero-inner">
@@ -1966,9 +2655,7 @@ function StayDetailHero({ page, locale, item }: { page: SitePage; locale: Locale
               <h1>{page.title}</h1>
               <p className="stay-capella-subtitle">{item.position}</p>
               <p>{item.emotionalText}</p>
-              <p>
-                Cette fiche réunit la galerie, la description complète, les informations pratiques, les équipements, les services inclus et les expériences accessibles pendant le séjour.
-              </p>
+              <p>{copy.heroSummary}</p>
               <div className="stay-hero-actions">
                 <ButtonLink cta={page.primaryCta} locale={locale} />
                 {page.secondaryCta ? <ButtonLink cta={page.secondaryCta} locale={locale} /> : null}
@@ -1978,9 +2665,9 @@ function StayDetailHero({ page, locale, item }: { page: SitePage; locale: Locale
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <nav className="stay-capella-breadcrumb" aria-label="Fil d'Ariane">
-            <Link href={localizedHref(locale, "/")}>Domaine Limoune</Link>
-            <Link href={localizedHref(locale, "/sejours")}>Séjours</Link>
+          <nav className="stay-capella-breadcrumb" aria-label={copy.breadcrumbLabel}>
+            <Link href={localizedHref(locale, "/")}>{copy.home}</Link>
+            <Link href={localizedHref(locale, "/sejours")}>{copy.stays}</Link>
             <span>{item.name.toUpperCase()}</span>
           </nav>
         </Reveal>
@@ -1990,36 +2677,37 @@ function StayDetailHero({ page, locale, item }: { page: SitePage; locale: Locale
 }
 
 function StayLandingPage({ page, locale }: { page: SitePage; locale: Locale }) {
-  const categories = getStayCategories();
+  const categories = getStayCategories(locale);
 
   return (
     <>
-      <StayEmotionalIntro />
-      <StayCategoryOverview categories={categories} />
+      <StayEmotionalIntro locale={locale} />
+      <StayCategoryOverview locale={locale} />
       <StayCatalog categories={categories} locale={locale} />
       <StayBookStayBand locale={locale} cta={page.primaryCta} secondaryCta={page.secondaryCta} />
-      <StayGuestServices />
-      <StayConditions />
+      <StayGuestServices locale={locale} />
+      <StayConditions locale={locale} />
       <StayRelatedOffers locale={locale} />
       <StayContactBlock locale={locale} />
     </>
   );
 }
 
-function StayEmotionalIntro() {
+function StayEmotionalIntro({ locale }: { locale: Locale }) {
+  const copy = getStayCopy(locale).intro;
+
   return (
     <section className="stay-pdf-section stay-emotional-intro capella-stop-section">
       <div className="capella-template-wrapper stay-pdf-two-col">
         <Reveal>
           <div>
-            <p className="section-kicker">Introduction émotionnelle</p>
-            <h2>Séjours au Domaine.</h2>
+            <p className="section-kicker">{copy.kicker}</p>
+            <h2>{copy.title}</h2>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
           <div className="stay-pdf-copy">
-            <p>Le Domaine Limoune réunit hébergement, réserve africaine, parc animalier, restaurants, spa, activités et lieux de vie dans une destination complète.</p>
-            <p>La page Séjours doit aider chaque visiteur à comprendre rapidement quelle catégorie correspond à son rythme : couple, famille, séjour piscine, lodge face à la réserve ou suite plus exclusive.</p>
+            {copy.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           </div>
         </Reveal>
       </div>
@@ -2027,26 +2715,29 @@ function StayEmotionalIntro() {
   );
 }
 
-function StayCategoryOverview({ categories }: { categories: StayCategory[] }) {
+function StayCategoryOverview({ locale }: { locale: Locale }) {
+  const copy = getStayCopy(locale).overview;
+
   return (
     <section className="stay-pdf-section stay-category-overview capella-stop-section">
       <div className="capella-template-wrapper">
         <Reveal>
           <div className="stay-pdf-head">
-            <p className="section-kicker">Présentation des grandes catégories</p>
-            <h2>Choisir par ambiance, besoin et moment du séjour.</h2>
+            <p className="section-kicker">{copy.kicker}</p>
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
           </div>
         </Reveal>
         <div className="stay-category-overview-grid">
-          {categories.map((category, index) => (
-            <Reveal key={category.id} delay={Math.min(index * 0.04, 0.12)}>
-              <a href={`#${category.id}`} className="stay-category-overview-card group">
-                {category.items[0] ? <EditorialMedia src={category.items[0].image} alt={`${category.title} au Domaine Limoune`} className="stay-category-overview-image" /> : null}
+          {copy.cards.map((card, index) => (
+            <Reveal key={card.title} delay={Math.min(index * 0.04, 0.12)}>
+              <a href={card.href} className="stay-category-overview-card group">
+                <EditorialMedia src={card.image} alt={locale === "en" ? `${card.title} at Le Domaine Limoune` : `${card.title} au Domaine Limoune`} className="stay-category-overview-image" />
                 <small>{String(index + 1).padStart(2, "0")}</small>
-                <strong>{category.title}</strong>
-                <span>{category.subtitle}</span>
+                <strong>{card.title}</strong>
+                <span>{card.text}</span>
                 <em>
-                  Découvrir
+                  {copy.cta}
                   <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
                 </em>
               </a>
@@ -2058,30 +2749,20 @@ function StayCategoryOverview({ categories }: { categories: StayCategory[] }) {
   );
 }
 
-function StayGuestServices() {
-  const services = [
-    "Wi-Fi haut débit dans les espaces prévus du Domaine",
-    "Accueil personnalisé selon la catégorie réservée",
-    "Petit-déjeuner selon l’offre confirmée à la réservation",
-    "Accès piscine selon horaires, saison et conditions opérationnelles",
-    "Assistance conciergerie avant et pendant le séjour",
-    "Réservation des restaurants, du Canopy Spa et des activités sur demande",
-    "Stationnement selon disponibilité",
-    "Lit bébé et équipements famille sur demande",
-    "Accès au parc animalier selon conditions et offre réservée",
-    "Accès à certaines expériences saisonnières selon disponibilité",
-    "Transferts privés disponibles sur demande",
-    "Accompagnement pour occasions spéciales, familles et longs séjours",
-  ];
+function StayGuestServices({ locale }: { locale: Locale }) {
+  const copy = getStayCopy(locale).services;
 
   return (
     <section className="stay-guest-services capella-stop-section">
       <div className="capella-template-wrapper stay-guest-services-inner">
         <Reveal>
-          <h2>Services inclus</h2>
+          <div>
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
+          </div>
         </Reveal>
         <div className="stay-guest-services-list">
-          {services.map((service, index) => (
+          {copy.items.map((service, index) => (
             <Reveal key={service} delay={Math.min(index * 0.018, 0.12)}>
               <p>{service}</p>
             </Reveal>
@@ -2092,25 +2773,20 @@ function StayGuestServices() {
   );
 }
 
-function StayConditions() {
-  const conditions = [
-    ["Arrivée et départ", "Check-in à partir de 15h00 et check-out jusqu’à 12h00, avec ajustements possibles selon disponibilité et politique opérationnelle."],
-    ["Capacités", "Les capacités indiquées dépendent de la configuration attribuée. Tout couchage additionnel doit être confirmé par l’équipe réservation."],
-    ["Enfants", "Lit bébé, couchage enfant et équipements famille sont proposés sur demande, selon âge, catégorie et disponibilité."],
-    ["Accès aux univers", "Piscine, parc animalier, réserve, spa, restaurants et activités peuvent être soumis à horaires, saison, conditions d’accès ou réservation préalable."],
-  ];
+function StayConditions({ locale }: { locale: Locale }) {
+  const copy = getStayCopy(locale).conditions;
 
   return (
     <section className="stay-conditions-section capella-stop-section">
       <div className="capella-template-wrapper stay-pdf-two-col">
         <Reveal>
           <div>
-            <p className="section-kicker">Conditions générales</p>
-            <h2>Des informations claires avant de confirmer.</h2>
+            <p className="section-kicker">{copy.kicker}</p>
+            <h2>{copy.title}</h2>
           </div>
         </Reveal>
         <div className="stay-conditions-list">
-          {conditions.map(([title, text], index) => (
+          {copy.items.map(([title, text], index) => (
             <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
               <article>
                 <small>{String(index + 1).padStart(2, "0")}</small>
@@ -2126,30 +2802,27 @@ function StayConditions() {
 }
 
 function StayRelatedOffers({ locale }: { locale: Locale }) {
-  const offers = [
-    ["Séjour Famille", "Une proposition pensée pour les familles, les couchages adaptés et les expériences enfants selon calendrier."],
-    ["Escapade Canopy Spa", "Un séjour ou une journée associant hébergement, calme, soin et rituels bien-être."],
-    ["Safari Lodge Experience", "Une invitation à choisir un lodge lié à la réserve pour une expérience plus immersive."],
-  ];
+  const copy = getStayCopy(locale).relatedOffers;
 
   return (
     <section className="stay-related-offers capella-stop-section">
       <div className="capella-template-wrapper">
         <Reveal>
           <div className="stay-pdf-head">
-            <p className="section-kicker">Offres liées</p>
-            <h2>Des séjours à composer selon la saison.</h2>
+            <p className="section-kicker">{copy.kicker}</p>
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
           </div>
         </Reveal>
         <div className="stay-related-offers-grid">
-          {offers.map(([title, text], index) => (
+          {copy.items.map(([title, text], index) => (
             <Reveal key={title} delay={Math.min(index * 0.04, 0.12)}>
               <Link href={localizedHref(locale, "/offres")} className="stay-related-offer-card group">
                 <small>{String(index + 1).padStart(2, "0")}</small>
                 <strong>{title}</strong>
                 <span>{text}</span>
                 <em>
-                  Voir les offres
+                  {copy.cta}
                   <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
                 </em>
               </Link>
@@ -2162,13 +2835,15 @@ function StayRelatedOffers({ locale }: { locale: Locale }) {
 }
 
 function StayBookStayBand({ locale, cta, secondaryCta }: { locale: Locale; cta: SitePage["primaryCta"]; secondaryCta?: SitePage["secondaryCta"] }) {
+  const copy = getStayCopy(locale).booking;
+
   return (
     <section id="booking" className="stay-book-band capella-stop-section">
       <div className="capella-template-wrapper stay-book-band-inner">
         <Reveal>
           <div>
-            <h2>Réserver votre séjour</h2>
-            <p>Choisissez vos dates ou demandez conseil à l’équipe réservation pour confirmer la meilleure catégorie selon votre rythme, votre vue souhaitée et la composition du séjour.</p>
+            <h2>{copy.title}</h2>
+            <p>{copy.body}</p>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
@@ -2176,31 +2851,21 @@ function StayBookStayBand({ locale, cta, secondaryCta }: { locale: Locale; cta: 
             <div className="booking-card stay-booking-card">
               <div className="booking-card-head">
                 <div>
-                  <p className="section-kicker">Module de réservation hébergement</p>
-                  <h3 className="booking-title">Vérifier les disponibilités</h3>
+                  <p className="section-kicker">{copy.moduleKicker}</p>
+                  <h3 className="booking-title">{copy.moduleTitle}</h3>
                 </div>
-                <Link href={localizedHref(locale, "/contact?type=modification")} className="booking-modify">
-                  Modifier ma réservation
-                </Link>
               </div>
               <form className="booking-grid" action={localizedHref(locale, "/contact")} method="get">
                 <input type="hidden" name="type" value="sejour" />
-                <BookingField label="Date d’arrivée" name="arrival" type="date" />
-                <BookingField label="Date de départ" name="departure" type="date" />
-                <BookingField label="Chambres" name="rooms" type="number" min="1" />
-                <BookingField label="Adultes" name="adults" type="number" min="1" />
-                <BookingField label="Enfants" name="children" type="number" min="0" />
-                <BookingField label="Code promotionnel" name="promo" type="text" />
+                {copy.fields.map((field) => <BookingField key={field.name} {...field} />)}
                 <button type="submit" data-track={cta.track} className="booking-submit">
                   {cta.label}
                 </button>
               </form>
             </div>
             <div className="stay-booking-secondary-actions">
+              <ButtonLink cta={{ label: copy.adviceCta, href: "/contact?type=sejour", variant: "secondary" }} locale={locale} />
               {secondaryCta ? <ButtonLink cta={secondaryCta} locale={locale} /> : null}
-              {secondaryCta?.label.toLowerCase().includes("demander plus") ? null : (
-                <ButtonLink cta={{ label: "Demander plus d'informations", href: "/contact?type=sejour", variant: "secondary" }} locale={locale} />
-              )}
             </div>
           </div>
         </Reveal>
@@ -2424,7 +3089,7 @@ function ParcAnimalierPage({ page, locale }: { page: SitePage; locale: Locale })
               { label: "Tarif adulte", value: "À confirmer selon saison" },
               { label: "Tarif enfant", value: "À confirmer selon âge et saison" },
               { label: "Horaires", value: "Calendrier d’ouverture à confirmer" },
-              { label: "Accès", value: "Libre ou encadré selon politique opérationnelle" },
+              { label: "Accès", value: "Selon horaires, capacité et conditions de visite" },
               { label: "Règle clé", value: "Non-nourrissage des animaux" },
               { label: "Public", value: "Familles, enfants, clients journée et groupes" },
               { label: "Durée", value: "Temps de visite à confirmer" },
@@ -2743,7 +3408,7 @@ function WildlifeContactBlock({ locale, page }: { locale: Locale; page: SitePage
             <div className="wildlife-contact-actions">
               <ButtonLink cta={page.primaryCta} locale={locale} />
               <ButtonLink cta={{ label: "Contact", href: "/contact", variant: "secondary", track: "quick_contact" }} locale={locale} />
-              <a href="https://wa.me/212000000000" data-track="whatsapp_click">WhatsApp Business</a>
+              <a href="https://wa.me/212667796817" data-track="whatsapp_click">WhatsApp Business</a>
             </div>
             <div className="wildlife-contact-meta">
               <span><Clock aria-hidden="true" className="size-4" /> Réponse par service</span>
@@ -2757,33 +3422,28 @@ function WildlifeContactBlock({ locale, page }: { locale: Locale; page: SitePage
 }
 
 function StayContactBlock({ locale }: { locale: Locale }) {
+  const copy = getStayCopy(locale).contact;
+
   return (
     <section className="stay-capella-contact capella-stop-section">
       <div className="capella-template-wrapper stay-capella-contact-grid">
         <Reveal>
           <div className="stay-capella-contact-address">
-            <p>Contact</p>
-            <h2>Domaine Limoune</h2>
+            <p>{copy.label}</p>
+            <h2>{copy.title}</h2>
             <address>
-              Région Agadir - Taroudant<br />
-              Maroc
+              {copy.address}
             </address>
-            <a href={downloads.factsheet.href} data-track="download_factsheet">Voir la fiche Domaine</a>
-            <a href={downloads.accommodation.href} data-track="download_accommodation_pdf">Voir la brochure hébergement</a>
+            <p className="stay-contact-copy">{copy.body}</p>
+            <Link href={localizedHref(locale, "/sejours#booking")} data-track="stay_contact_booking">{copy.booking}</Link>
+            <a href={downloads.accommodation.href} data-track="download_accommodation_pdf">{copy.brochure}</a>
           </div>
         </Reveal>
 
         <Reveal delay={0.08}>
           <div className="stay-capella-contact-list">
-            <h3>Nous contacter</h3>
-            {[
-              ["Informations générales", "Contact", "/contact"],
-              ["Réservations hébergement", "Séjour", "/contact?type=sejour"],
-              ["Restaurants", "Tables du Domaine", "/restaurants"],
-              ["Canopy Spa", "Soins et rituels", "/canopy-spa"],
-              ["Mariages et événements", "Demandes privées et corporate", "/contact?type=evenement"],
-              ["Presse", "Demandes médias", "/presse"],
-            ].map(([label, text, href]) => (
+            <h3>{copy.usefulLinks}</h3>
+            {copy.links.map(([label, text, href]) => (
               <Link key={label} href={localizedHref(locale, href)}>
                 <strong>{label}</strong>
                 <span>{text}</span>
@@ -3000,7 +3660,7 @@ function DiningReservationBlock({ page, locale }: { page: SitePage; locale: Loca
             <div className="dining-reservation-proof">
               <span><Clock aria-hidden="true" className="size-4" /> Réponse par service</span>
               <span><Download aria-hidden="true" className="size-4" /> Carte restaurants</span>
-              <span><MapPinned aria-hidden="true" className="size-4" /> Domaine Limoune</span>
+              <span><MapPinned aria-hidden="true" className="size-4" /> Le Domaine Limoune</span>
             </div>
           </aside>
         </Reveal>
@@ -3999,7 +4659,7 @@ function ContactLandingPage({ page, locale }: { page: SitePage; locale: Locale }
             <div className="reference-split-media cinematic-card">
               <EditorialMedia src={images.domain} alt="Accueil Domaine Limoune" className="contact-concierge-image" />
               <div className="reference-split-caption">
-                <span>Domaine Limoune</span>
+                <span>Le Domaine Limoune</span>
                 <strong>Une demande, le bon interlocuteur.</strong>
               </div>
             </div>
@@ -4028,7 +4688,7 @@ function ContactLandingPage({ page, locale }: { page: SitePage; locale: Locale }
             <aside className="contact-form-note cinematic-card">
               <p className="section-kicker">Formulaire dynamique</p>
               <h2>Le choix de demande adapte les champs.</h2>
-              <p>Le formulaire propose Séjour, Restaurant, Spa, Mariage, Événement corporate, Activités, Parc animalier, Presse ou Autre. Selon le choix, les champs utiles apparaissent pour qualifier la demande.</p>
+              <p>Le formulaire propose Séjour, Restaurant, Spa, Mariage, Événement corporate, Activités, Parc animalier, Presse ou Autre. Selon le choix, les champs utiles apparaissent pour préciser la demande.</p>
               <div>
                 <span>Réponse par service</span>
                 <span>Suivi formulaires</span>
@@ -4055,8 +4715,8 @@ function ContactLandingPage({ page, locale }: { page: SitePage; locale: Locale }
           </Reveal>
           <Reveal delay={0.08}>
             <div className="contact-access-actions">
-              <a href="https://wa.me/212000000000" data-track="whatsapp_click">WhatsApp Business</a>
-              <a href="tel:+212000000000" data-track="phone_click">Appeler le Domaine</a>
+              <a href="https://wa.me/212667796817" data-track="whatsapp_click">WhatsApp Business</a>
+              <a href="tel:+212528526964" data-track="phone_click">Appeler le Domaine</a>
               <ButtonLink cta={{ label: "Télécharger la fiche Domaine", href: downloads.factsheet.href, variant: "secondary" }} locale={locale} />
             </div>
           </Reveal>
@@ -4071,11 +4731,11 @@ function ContactLandingPage({ page, locale }: { page: SitePage; locale: Locale }
 function StayRoomDetailPage({ page, locale, item }: { page: SitePage; locale: Locale; item: Accommodation }) {
   return (
     <>
-      <StayDetailGallery item={item} />
-      <StayDetailDescription item={item} />
-      <StayPracticalInfo item={item} />
-      <StayEquipment item={item} />
-      <StayIncludedServices item={item} />
+      <StayDetailGallery item={item} locale={locale} />
+      <StayDetailDescription item={item} locale={locale} />
+      <StayPracticalInfo item={item} locale={locale} />
+      <StayEquipment item={item} locale={locale} />
+      <StayIncludedServices item={item} locale={locale} />
       <StayAccessibleExperiences item={item} locale={locale} />
       <StayBookStayBand locale={locale} cta={page.primaryCta} secondaryCta={page.secondaryCta} />
       <StayOtherSuggestions item={item} locale={locale} />
@@ -4084,13 +4744,15 @@ function StayRoomDetailPage({ page, locale, item }: { page: SitePage; locale: Lo
   );
 }
 
-function StayDetailDescription({ item }: { item: Accommodation }) {
+function StayDetailDescription({ item, locale }: { item: Accommodation; locale: Locale }) {
+  const copy = getStayCopy(locale).detail;
+
   return (
     <section className="stay-detail-description capella-stop-section">
       <div className="capella-template-wrapper stay-pdf-two-col">
         <Reveal>
           <div>
-            <p className="section-kicker">Description complète</p>
+            <p className="section-kicker">{copy.descriptionKicker}</p>
             <h2>{item.name}</h2>
           </div>
         </Reveal>
@@ -4106,22 +4768,23 @@ function StayDetailDescription({ item }: { item: Accommodation }) {
   );
 }
 
-function StayPracticalInfo({ item }: { item: Accommodation }) {
+function StayPracticalInfo({ item, locale }: { item: Accommodation; locale: Locale }) {
+  const copy = getStayCopy(locale).detail;
   const facts = [
-    ["Capacité", item.capacity],
-    ["Surface", item.surface],
-    ["Type de lit", item.bed],
-    ["Vue", item.view],
-    ["Arrivée", item.checkIn],
-    ["Départ", item.checkOut],
-    ["Conditions enfants", item.childConditions],
+    [copy.facts.capacity, item.capacity],
+    [copy.facts.surface, item.surface],
+    [copy.facts.bed, item.bed],
+    [copy.facts.view, item.view],
+    [copy.facts.arrival, item.checkIn],
+    [copy.facts.departure, item.checkOut],
+    [copy.facts.children, item.childConditions],
   ];
 
   return (
     <section className="stay-detail-amenities stay-practical-info capella-stop-section">
       <div className="capella-template-wrapper stay-detail-amenities-grid">
         <Reveal>
-          <h2>Informations pratiques</h2>
+          <h2>{copy.practicalTitle}</h2>
         </Reveal>
         <Reveal delay={0.08}>
           <div className="stay-detail-facts">
@@ -4132,14 +4795,14 @@ function StayPracticalInfo({ item }: { item: Accommodation }) {
               </div>
             ))}
             <div>
-              <h3>Brochure</h3>
-              <a href={downloads.accommodation.href}>Voir la brochure hébergement</a>
+              <h3>{copy.facts.brochure}</h3>
+              <a href={downloads.accommodation.href}>{copy.facts.brochureCta}</a>
             </div>
           </div>
         </Reveal>
         <Reveal delay={0.12}>
           <div className="stay-detail-practical-note">
-            <p>Les surfaces, couchages et vues peuvent varier selon l’unité attribuée et la disponibilité. L’équipe réservation confirme la configuration la plus adaptée avant votre arrivée.</p>
+            <p>{copy.practicalNote}</p>
           </div>
         </Reveal>
       </div>
@@ -4147,12 +4810,14 @@ function StayPracticalInfo({ item }: { item: Accommodation }) {
   );
 }
 
-function StayEquipment({ item }: { item: Accommodation }) {
+function StayEquipment({ item, locale }: { item: Accommodation; locale: Locale }) {
+  const copy = getStayCopy(locale).detail;
+
   return (
     <section className="stay-detail-list-section capella-stop-section">
       <div className="capella-template-wrapper stay-detail-list-grid">
         <Reveal>
-          <h2>Équipements</h2>
+          <h2>{copy.equipmentTitle}</h2>
         </Reveal>
         <div className="stay-detail-amenity-list">
           {item.amenities.map((amenity, index) => (
@@ -4166,12 +4831,14 @@ function StayEquipment({ item }: { item: Accommodation }) {
   );
 }
 
-function StayIncludedServices({ item }: { item: Accommodation }) {
+function StayIncludedServices({ item, locale }: { item: Accommodation; locale: Locale }) {
+  const copy = getStayCopy(locale).detail;
+
   return (
     <section className="stay-detail-list-section stay-included-services capella-stop-section">
       <div className="capella-template-wrapper stay-detail-list-grid">
         <Reveal>
-          <h2>Services inclus</h2>
+          <h2>{copy.includedTitle}</h2>
         </Reveal>
         <div className="stay-detail-amenity-list">
           {item.servicesIncluded.map((service, index) => (
@@ -4186,15 +4853,16 @@ function StayIncludedServices({ item }: { item: Accommodation }) {
 }
 
 function StayAccessibleExperiences({ item, locale }: { item: Accommodation; locale: Locale }) {
-  const experiences = getStayExperiences(item);
+  const experiences = getStayExperiences(item, locale);
+  const copy = getStayCopy(locale).detail;
 
   return (
     <section className="stay-detail-experiences capella-stop-section">
       <div className="capella-template-wrapper">
         <Reveal>
           <div className="stay-pdf-head">
-            <p className="section-kicker">Expériences accessibles pendant le séjour</p>
-            <h2>Prolonger la chambre par les univers du Domaine.</h2>
+            <p className="section-kicker">{copy.experiencesKicker}</p>
+            <h2>{copy.experiencesTitle}</h2>
           </div>
         </Reveal>
         <div className="stay-detail-experience-grid">
@@ -4205,7 +4873,7 @@ function StayAccessibleExperiences({ item, locale }: { item: Accommodation; loca
                 <strong>{title}</strong>
                 <span>{text}</span>
                 <em>
-                  Découvrir
+                  {copy.discover}
                   <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
                 </em>
               </Link>
@@ -4218,7 +4886,8 @@ function StayAccessibleExperiences({ item, locale }: { item: Accommodation; loca
 }
 
 function StayOtherSuggestions({ item, locale }: { item: Accommodation; locale: Locale }) {
-  const suggestions = getStaySuggestions(item);
+  const suggestions = getStaySuggestions(item, locale);
+  const copy = getStayCopy(locale).detail;
 
   if (!suggestions.length) return null;
 
@@ -4226,7 +4895,7 @@ function StayOtherSuggestions({ item, locale }: { item: Accommodation; locale: L
     <section className="stay-other-suggestions capella-stop-section">
       <div className="capella-template-wrapper">
         <Reveal>
-          <h2>Hébergements similaires</h2>
+          <h2>{copy.similarTitle}</h2>
         </Reveal>
         <div className="stay-other-suggestions-grid">
           {suggestions.map((suggestion, index) => (
@@ -4235,7 +4904,7 @@ function StayOtherSuggestions({ item, locale }: { item: Accommodation; locale: L
                 <strong>{suggestion.name}</strong>
                 <span>{suggestion.position}</span>
                 <em>
-                  Voir cet hébergement
+                  {copy.viewStay}
                   <ArrowRight aria-hidden="true" className="size-3 transition group-hover:translate-x-1" />
                 </em>
               </Link>
@@ -4247,70 +4916,62 @@ function StayOtherSuggestions({ item, locale }: { item: Accommodation; locale: L
   );
 }
 
-function getStayItemFromPage(page: SitePage) {
+function getStayItemFromPage(page: SitePage, locale: Locale) {
   if (!page.slug.startsWith("sejours/")) return null;
 
   const slug = page.slug.replace("sejours/", "");
-  return accommodations.find((item) => item.slug === slug) ?? null;
+  return getAccommodationBySlug(locale, slug);
 }
 
-function getStayCategories(): StayCategory[] {
-  return [
-    {
-      id: "rooms",
-      nav: "Chambres",
-      title: "Chambres et lodges jardin",
-      subtitle: "Un confort calme au cœur du Domaine Limoune",
-      copy: "Les suites junior, suites exécutives et lodges côté piscine ou jardin offrent un point d’ancrage élégant pour alterner repos, table, piscine et découverte du Domaine.",
-      items: getAccommodationsBySlug(["suite-junior", "suite-executive", "lodges-cote-piscine-ou-jardin"]),
-    },
-    {
-      id: "accessible-rooms",
-      nav: "Familles",
-      title: "Familles et lodges communicants",
-      subtitle: "Des configurations pensées pour partager sans perdre en confort",
-      copy: "Suites familiales et lodges communicants facilitent les séjours avec enfants, familles nombreuses ou groupes qui souhaitent garder de l’intimité.",
-      items: getAccommodationsBySlug(["suite-familiale", "lodges-communicants"]),
-    },
-    {
-      id: "suites",
-      nav: "Suites",
-      title: "Suites",
-      subtitle: "Des suites et lodges pour vivre le Domaine avec plus d’espace",
-      copy: "Les suites et le lodge safari avec mezzanine répondent aux séjours qui demandent plus de générosité, de calme ou une relation plus directe avec la réserve.",
-      items: getAccommodationsBySlug(["suites", "lodge-safari-mezzanine"]),
-    },
-    {
-      id: "prestige-suites",
-      nav: "Prestige",
-      title: "Séjours prestige",
-      subtitle: "Les hébergements les plus généreux pour les occasions spéciales",
-      copy: "Suites signature, suites ou lodges premium permettent de construire un séjour plus exclusif, plus spacieux et plus personnalisé.",
-      items: getAccommodationsBySlug(["suite-signature", "suite-lodge-premium"]),
-    },
-  ];
+function getStayCategories(locale: Locale): StayCategory[] {
+  return getStayCopy(locale).categories.map((category) => ({
+    id: category.id,
+    nav: category.nav,
+    title: category.title,
+    subtitle: category.subtitle,
+    copy: category.copy,
+    items: getAccommodationsBySlug([...category.slugs], locale),
+  }));
 }
 
-function getAccommodationsBySlug(slugs: string[]) {
+function getAccommodationsBySlug(slugs: string[], locale: Locale) {
   return slugs
-    .map((slug) => accommodations.find((item) => item.slug === slug))
+    .map((slug) => getAccommodationBySlug(locale, slug))
     .filter((item): item is Accommodation => Boolean(item));
 }
 
-function getStaySuggestions(item: Accommodation) {
-  const sameCategory = accommodations.filter((candidate) => candidate.slug !== item.slug && candidate.category === item.category);
-  const fallback = accommodations.filter((candidate) => candidate.slug !== item.slug && candidate.category !== item.category);
+function getStaySuggestions(item: Accommodation, locale: Locale) {
+  const localized = accommodations
+    .map((candidate) => getAccommodationBySlug(locale, candidate.slug))
+    .filter((candidate): candidate is Accommodation => candidate !== null && candidate.slug !== item.slug);
+  const sameCategory = localized.filter((candidate) => candidate.category === item.category);
+  const fallback = localized.filter((candidate) => candidate.category !== item.category);
   return [...sameCategory, ...fallback].slice(0, 2);
 }
 
-function getStayExperiences(item: Accommodation): [string, string, string][] {
-  const base: [string, string, string][] = [
-    ["Restaurants du Domaine", "Massa, Aman sous les Orangers, Monkey Beach et Limoune Club prolongent le séjour par plusieurs atmosphères de table.", "/restaurants"],
-    ["Canopy Spa", "Soins, hammams, piscine chauffée, jacuzzis et rituels bien-être peuvent compléter la pause.", "/canopy-spa"],
-    ["Expériences en plein air", "Balade à cheval, quad, padel, tennis, pique-nique ou dîner sous les étoiles selon saison et disponibilité.", "/experiences"],
-  ];
+function getStayExperiences(item: Accommodation, locale: Locale): [string, string, string][] {
+  const base: [string, string, string][] = locale === "en"
+    ? [
+        ["Domaine restaurants", "Massa, Aman sous les Orangers, Monkey Beach and Limoune Club extend the stay through several dining atmospheres.", "/restaurants"],
+        ["Canopy Spa", "Treatments, hammams, heated pool, jacuzzis and wellness rituals can complete the pause.", "/canopy-spa"],
+        ["Outdoor experiences", "Horse riding, quad biking, padel, tennis, picnic or dinner under the stars depending on season and availability.", "/experiences"],
+      ]
+    : [
+        ["Restaurants du Domaine", "Massa, Aman sous les Orangers, Monkey Beach et Limoune Club prolongent le séjour par plusieurs atmosphères de table.", "/restaurants"],
+        ["Canopy Spa", "Soins, hammams, piscine chauffée, jacuzzis et rituels bien-être peuvent compléter la pause.", "/canopy-spa"],
+        ["Expériences en plein air", "Balade à cheval, quad, padel, tennis, pique-nique ou dîner sous les étoiles selon saison et disponibilité.", "/experiences"],
+      ];
+  const featuredTerms = locale === "en" ? ["Reserve", "Family", "Wildlife park"] : ["Réserve", "Famille", "Parc animalier"];
 
-  if (item.meta.some((meta) => ["Réserve", "Famille", "Parc animalier"].includes(meta))) {
+  if (item.meta.some((meta) => featuredTerms.includes(meta))) {
+    if (locale === "en") {
+      return [
+        ["African Reserve", "An immersive accommodation experience built around observation, calm and respect for wildlife.", "/reserve-africaine"],
+        ["Wildlife park", "A family-friendly educational route to discover the Domaine animals subject to access conditions.", "/parc-animalier"],
+        ...base.slice(0, 2),
+      ];
+    }
+
     return [
       ["Réserve africaine", "Une expérience d’hébergement immersive autour de l’observation, du calme et du respect animalier.", "/reserve-africaine"],
       ["Parc animalier", "Un parcours familial et pédagogique pour découvrir les animaux du Domaine selon conditions d’accès.", "/parc-animalier"],
@@ -4396,7 +5057,7 @@ function getInnerIntro(page: SitePage) {
       copy: "Brunchs, soirées, événements enfants, dîners thématiques, diffusions sportives et activations saisonnières donnent une raison de revenir au bon moment.",
     },
     contact: {
-      title: "Une demande, le bon service.",
+      title: "Contacter Le Domaine Limoune.",
       copy: "Le contact n’est pas un formulaire générique : chaque demande doit être orientée vers l’équipe concernée pour accélérer la réponse.",
     },
     journal: {
@@ -4638,7 +5299,7 @@ function AwardsAndContact({ locale, page }: { locale: Locale; page?: SitePage })
         <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
         <Reveal>
           <article className="cinematic-card h-full bg-[var(--limoune-brown)] p-6 text-[var(--limoune-ivory)] md:p-8">
-            <p className="text-xs font-bold tracking-[0.3em] text-[var(--limoune-orange)] uppercase">Presse & distinctions</p>
+            <p className="text-xs font-bold tracking-[0.3em] text-[var(--limoune-orange)] uppercase">Le Domaine Limoune dans les médias</p>
             <h2 className="mt-4 font-serif text-4xl leading-none tracking-[-0.045em] text-white md:text-5xl">Une adresse à raconter</h2>
             <p className="mt-7 max-w-2xl text-base leading-8 text-white/62">
               {"Dossier presse, fiche Domaine, visuels officiels, contacts médias et actualités accompagnent l’image du Domaine comme destination vivante."}
@@ -4669,7 +5330,7 @@ function AwardsAndContact({ locale, page }: { locale: Locale; page?: SitePage })
             <div className="grid gap-3">
               <ButtonLink cta={page?.primaryCta ?? { label: "Contacter l’équipe", href: "/contact" }} locale={locale} />
               <ButtonLink cta={{ label: "Contact", href: "/contact", variant: "secondary", track: "quick_contact" }} locale={locale} />
-              <a href="https://wa.me/212000000000" data-track="whatsapp_click" className="inline-flex min-h-11 items-center justify-center border border-[var(--limoune-brown)]/18 bg-white px-5 py-3 text-sm font-bold tracking-[0.16em] text-[var(--limoune-brown)] uppercase transition hover:border-[var(--limoune-orange)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)]">
+              <a href="https://wa.me/212667796817" data-track="whatsapp_click" className="inline-flex min-h-11 items-center justify-center border border-[var(--limoune-brown)]/18 bg-white px-5 py-3 text-sm font-bold tracking-[0.16em] text-[var(--limoune-brown)] uppercase transition hover:border-[var(--limoune-orange)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--limoune-orange)]">
                 WhatsApp Business
               </a>
             </div>

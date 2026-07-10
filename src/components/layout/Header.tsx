@@ -10,7 +10,7 @@ import {
   localeLabels,
   locales,
   localizedHref,
-  navItems,
+  getNavItems,
   type Locale,
 } from "@/lib/content";
 
@@ -23,6 +23,31 @@ export function Header() {
   const pathname = usePathname();
   const locale = localeFromPath(pathname);
   const [open, setOpen] = useState(false);
+  const navItems = getNavItems(locale);
+  const copy = locale === "en"
+    ? {
+        homeLabel: "Le Domaine Limoune home",
+        book: "Book",
+        closeMenu: "Close menu",
+        openMenu: "Open menu",
+        navLabel: "Le Domaine Limoune navigation",
+        languagesLabel: "Languages",
+      }
+    : {
+        homeLabel: "Le Domaine Limoune accueil",
+        book: "Réserver",
+        closeMenu: "Fermer le menu",
+        openMenu: "Ouvrir le menu",
+        navLabel: "Navigation Le Domaine Limoune",
+        languagesLabel: "Langues",
+      };
+
+  const localeHref = (targetLocale: Locale) => {
+    const segments = pathname.split("/").filter(Boolean);
+    if (isLocale(segments[0])) segments[0] = targetLocale;
+    else segments.unshift(targetLocale);
+    return `/${segments.join("/")}`;
+  };
 
   return (
     <header className="capella-header">
@@ -30,22 +55,19 @@ export function Header() {
         <div className="capella-topbar-inner">
           <div className="capella-top-left" />
 
-          <Link className="capella-mark" href={`/${locale}`} aria-label="Domaine Limoune accueil">
-            <span>Domaine</span>
+          <Link className="capella-mark" href={`/${locale}`} aria-label={copy.homeLabel}>
+            <span>Le Domaine</span>
             <span>Limoune</span>
           </Link>
 
           <div className="capella-top-right">
-            <Link className="capella-top-link capella-line" href={localizedHref(locale, "/experiences")}>
-              Expériences
-            </Link>
             <Link className="capella-top-link" href={localizedHref(locale, "/sejours#booking")} data-track="top_book_stay">
-              Réserver <ChevronDown aria-hidden="true" className="size-3" />
+              {copy.book} <ChevronDown aria-hidden="true" className="size-3" />
             </Link>
             <button
               className="capella-mobile-menu"
               type="button"
-              aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+              aria-label={open ? copy.closeMenu : copy.openMenu}
               aria-expanded={open}
               onClick={() => setOpen((value) => !value)}
             >
@@ -57,16 +79,16 @@ export function Header() {
 
       <div className="capella-hotelnav">
         <div className="capella-hotelnav-inner">
-          <nav className="capella-hotel-links" aria-label="Navigation Domaine Limoune">
+          <nav className="capella-hotel-links" aria-label={copy.navLabel}>
             {navItems.map((item) => (
               <Link key={item.href} className="capella-hotel-link" href={localizedHref(locale, item.href)}>
                 {item.label}
               </Link>
             ))}
           </nav>
-          <div className="capella-languages" aria-label="Langues">
+          <div className="capella-languages" aria-label={copy.languagesLabel}>
             {locales.slice(0, 2).map((item) => (
-              <Link key={item} className={locale === item ? "active" : ""} href={`/${item}`}>
+              <Link key={item} className={locale === item ? "active" : ""} href={localeHref(item)}>
                 {localeLabels[item]}
               </Link>
             ))}
@@ -82,7 +104,7 @@ export function Header() {
             </Link>
           ))}
           <Link href={localizedHref(locale, "/sejours#booking")} onClick={() => setOpen(false)}>
-            Réserver
+            {copy.book}
           </Link>
         </div>
       ) : null}
